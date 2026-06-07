@@ -1,139 +1,245 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Marcus Foo | Marketing Analytics Portfolio</title>
-<style>
-@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=DM+Mono:wght@400;500&display=swap');
-*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
-:root{
-  --bg:#DBE2EA;--card:#FFFFFF;--ink:#0B2230;--soft:#5C6B76;--line:rgba(3,45,66,.11);
-  --green:#62D84E;--green-d:#3FA72F;--blue:#032D42;--blue-2:#0A4D68;
-  --font:'Outfit',system-ui,sans-serif;--mono:'DM Mono',monospace;
-  --nav:58px;--maxw:1240px;--shadow:0 2px 10px rgba(11,34,48,.07);--shadow-lg:0 16px 38px rgba(11,34,48,.14);
-  --hero-grad: linear-gradient(135deg,#07111a,#0a2540,#0f4c75,#1a6fa8);
+--green:#62D84E;--green-d:#3FA72F;--blue:#032D42;--blue-2:#0A4D68;
+--t-strat:#1B6FB0;--t-work:#2E9E4F;--t-web:#9B4DCA;--t-abm:#C4820E;
+--font:'Outfit',system-ui,sans-serif;--mono:'DM Mono',monospace;
+  --ann:40px;--nav:58px;--maxw:1240px;
+  --nav:58px;--maxw:1240px;
+--shadow:0 2px 10px rgba(11,34,48,.07);--shadow-lg:0 16px 38px rgba(11,34,48,.14);--z:.9;
+  
+  /* Gradients for slides */
+  --g1: linear-gradient(135deg,#07111a,#0a2540,#0f4c75,#1a6fa8);
+  --g3: linear-gradient(135deg,#0a1a0f,#0d3320,#1a5c3a,#2d8653);
 }
 html,body{height:100%;font-family:var(--font);background:var(--bg);color:var(--ink)}
-.topbar{position:fixed;top:0;left:0;right:0;z-index:300;background:var(--blue);border-bottom:1px solid rgba(255,255,255,.08)}
-.topnav{height:var(--nav);display:flex;align-items:center;padding:0 1.75rem;max-width:var(--maxw);margin:0 auto}
-.tn-logo{color:#fff;font-weight:800;font-size:1.2rem;}
-.tn-tabs{display:flex;gap:1.5rem;margin-left:2rem;}
-.tn-tab{background:none;border:none;color:rgba(255,255,255,.7);font-weight:500;cursor:pointer;font-family:var(--font);font-size:.9rem;transition:color .2s}
+html{zoom:var(--z)}
+body{overflow:hidden}
+.topbar{position:fixed;top:0;left:0;right:0;z-index:300}
+.ann{height:var(--ann);display:flex;align-items:center;justify-content:center;gap:1rem;padding:0 1.25rem;background:linear-gradient(90deg,#0A4D68 0%,#1E8A6E 55%,#3FA72F 100%);color:#fff;font-size:.8rem;font-weight:500;overflow:hidden;transition:height .3s ease}
+.ann.hide{height:0}
+.ann-tag{font-family:var(--mono);font-size:.575rem;text-transform:uppercase;letter-spacing:.12em;background:rgba(255,255,255,.2);padding:.2rem .6rem;border-radius:9999px;font-weight:600;white-space:nowrap}
+.ann-msg{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:70vw}
+.ann-x{position:absolute;right:1rem;background:none;border:none;color:rgba(255,255,255,.85);font-size:1.05rem;cursor:pointer;line-height:1;padding:.2rem .35rem;border-radius:6px;transition:background .2s}
+.ann-x:hover{background:rgba(255,255,255,.2)}
+.topnav{height:var(--nav);background:var(--blue);display:flex;align-items:center;gap:1.5rem;padding:0 1.75rem;border-bottom:1px solid rgba(255,255,255,.08)}
+.tn-logo{flex-shrink:0;display:flex;align-items:center;gap:.7rem;color:#fff;font-weight:800;font-size:1.2rem;letter-spacing:-0.5px;}
+.tn-pill{font-family:var(--mono);font-size:.5rem;text-transform:uppercase;letter-spacing:.12em;background:var(--green);color:var(--blue);padding:.2rem .55rem;border-radius:9999px;font-weight:700}
+@@ -33,7 +31,7 @@
+.tn-tab:hover{color:#fff}
 .tn-tab.active{color:var(--green)}
-.content{margin-top:var(--nav);height:calc(100vh - var(--nav));overflow-y:auto;scroll-behavior:smooth}
-.pg{max-width:var(--maxw);margin:0 auto;padding:4rem 2rem}
-.pg-h{font-size:2.5rem;font-weight:800;margin-bottom:1.5rem;}
+.tn-tab.active::after{content:'';position:absolute;bottom:0;left:1rem;right:1rem;height:3px;background:var(--green);border-radius:3px 3px 0 0}
+.content{margin-top:calc(var(--ann) + var(--nav));height:calc(100vh / var(--z) - var(--ann) - var(--nav));overflow-y:auto;scroll-behavior:smooth;scroll-snap-type:y proximity;transition:margin-top .3s ease,height .3s ease}
+.content{margin-top:var(--nav);height:calc(100vh / var(--z) - var(--nav));overflow-y:auto;scroll-behavior:smooth;scroll-snap-type:y proximity;transition:margin-top .3s ease,height .3s ease}
+.pg{max-width:var(--maxw);margin:0 auto;padding:3rem 2.75rem 3.5rem}
+.pg-eye{font-family:var(--mono);font-size:.625rem;text-transform:uppercase;letter-spacing:.16em;color:var(--green-d);margin-bottom:.5rem;display:flex;align-items:center;gap:.6rem}
+.pg-eye::before{content:'';width:22px;height:2px;background:var(--green-d);border-radius:2px}
+@@ -43,25 +41,27 @@
+.band-light{background:#E7ECF3;border-top:1px solid var(--line)}
+.band-base{border-top:1px solid var(--line)}
 
-/* HERO - STATIC */
-.hero{background:var(--hero-grad);color:#fff;padding:6rem 2rem;display:flex;align-items:center;}
-.profile-layout{display:flex;gap:4rem;max-width:1000px;margin:0 auto;align-items:center;}
-.profile-pic{width:240px;height:240px;border-radius:12px;background:#ccc;flex-shrink:0;box-shadow:var(--shadow-lg);}
-.c-title{font-size:4rem;font-weight:900;margin-bottom:1rem;}
-.c-desc{font-size:1.1rem;color:rgba(255,255,255,.8);line-height:1.7;margin-bottom:2rem;max-width:600px;}
-.contact-links{display:flex;gap:1rem;}
-.contact-links a{color:#fff;background:rgba(255,255,255,.1);padding:0.7rem 1.2rem;border-radius:8px;text-decoration:none;font-size:0.9rem;border:1px solid rgba(255,255,255,.1)}
+/* HERO */
+/* HERO & SLIDER */
+.hero{position:relative;height:66vh;min-height:460px;overflow:hidden;scroll-snap-align:start}
+.c-wrap{position:relative;width:100%;height:100%;overflow:hidden}
+.c-slide{position:absolute;top:0;left:0;width:100%;height:100%;display:flex;align-items:flex-end;transition:transform .72s cubic-bezier(.4,0,.2,1);will-change:transform}
+.c-bg{position:absolute;inset:0;background-size:cover;background-position:center;transform:scale(1.05);transition:transform 7s ease}
+.c-slide{position:absolute;top:0;left:0;width:100%;height:100%;display:flex;align-items:center;transition:transform .72s cubic-bezier(.4,0,.2,1);will-change:transform}
+.c-bg{position:absolute;inset:0;background-size:cover;background-position:center;transform:scale(1.05);transition:transform 30s ease}
+.c-slide.cur .c-bg{transform:scale(1)}
+.c-overlay{position:absolute;inset:0;background:linear-gradient(105deg,rgba(3,28,42,.94) 0%,rgba(3,28,42,.7) 40%,rgba(3,28,42,.15) 72%,rgba(3,28,42,.02) 100%)}
+.c-body{position:relative;z-index:1;padding:2.75rem 3.5rem;max-width:900px;color:#fff;width:100%}
+.c-ticker{display:inline-flex;align-items:center;gap:.5rem;background:rgba(98,216,78,.18);border:1px solid rgba(98,216,78,.45);color:#c6f7ba;font-family:var(--mono);font-size:.62rem;text-transform:uppercase;letter-spacing:.1em;padding:.32rem .9rem;border-radius:9999px;margin-bottom:1rem}
+.c-tdot{width:5px;height:5px;border-radius:50%;background:var(--green);animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
+.c-label{font-family:var(--mono);font-size:.6rem;text-transform:uppercase;letter-spacing:.15em;color:rgba(255,255,255,.65);margin-bottom:.8rem;display:flex;align-items:center;gap:.75rem;flex-wrap:wrap}
+.c-label::before{content:'';width:18px;height:1px;background:rgba(255,255,255,.4)}
+.c-badge{font-family:var(--mono);font-size:.525rem;text-transform:uppercase;letter-spacing:.06em;padding:.22rem .6rem;border-radius:9999px}
+.c-title{font-size:clamp(2.4rem,4.4vw,3.8rem);font-weight:800;line-height:.96;letter-spacing:-.035em;margin-bottom:1.1rem;text-shadow:0 2px 24px rgba(0,0,0,.3)}
+.c-meta{display:flex;gap:1.75rem;margin-bottom:1.3rem;flex-wrap:wrap}
+.c-mi{font-size:.95rem;color:rgba(255,255,255,.8);font-weight:300;display:flex;align-items:center;gap:.5rem}
+.c-mi strong{color:#fff;font-weight:600}
+.c-desc{color:rgba(255,255,255,.74);font-size:.95rem;font-weight:300;max-width:580px;line-height:1.6;margin-bottom:1.6rem}
+.c-overlay{position:absolute;inset:0;background:linear-gradient(105deg,rgba(3,28,42,.94) 0%,rgba(3,28,42,.7) 40%,rgba(3,28,42,.25) 72%,rgba(3,28,42,.05) 100%)}
+.c-body{position:relative;z-index:1;padding:2.75rem 4.5rem;max-width:1100px;color:#fff;width:100%}
 
-/* STORYTELLING EXPERIENCE */
-.exp-container{max-width:900px;margin:3rem auto;padding:0 2rem;}
-.exp-module{background:var(--card);border-radius:16px;padding:3rem;margin-bottom:2rem;box-shadow:var(--shadow);border:1px solid var(--line);}
-.exp-hero-header{display:flex;align-items:center;gap:1.5rem;margin-bottom:2rem;}
-.company-logo{width:64px;height:64px;border-radius:12px;object-fit:contain;background:#f8f9fa;padding:8px;}
-.role-title{font-size:1.8rem;font-weight:800;color:var(--ink);}
-.role-meta{font-family:var(--mono);font-size:0.85rem;color:var(--soft);text-transform:uppercase;margin-top:0.3rem;}
-.story-text{font-size:1.1rem;line-height:1.7;color:var(--ink);margin-bottom:2rem;font-weight:300;}
-.media-placeholder{width:100%;height:300px;background:#f1f5f9;border-radius:12px;display:flex;align-items:center;justify-content:center;color:var(--soft);margin-bottom:2rem;border:2px dashed var(--line);font-family:var(--mono)}
-.expertise-tags{display:flex;gap:0.75rem;}
-.tag{background:#eff6ff;color:#1e40af;padding:0.4rem 1rem;border-radius:6px;font-size:0.85rem;font-weight:600;}
+/* Custom Slide Content */
+.profile-layout { display: flex; align-items: center; gap: 3.5rem; flex-wrap: wrap; }
+.profile-pic { width: 220px; height: 220px; border-radius: 50%; background: #ccc url('https://via.placeholder.com/220') center/cover; border: 4px solid rgba(255,255,255,0.15); flex-shrink: 0; box-shadow: var(--shadow-lg); }
+.c-title {font-size:clamp(3rem,5vw,4.5rem);font-weight:800;line-height:.96;letter-spacing:-.035em;margin-bottom:1.1rem;text-shadow:0 2px 24px rgba(0,0,0,.3)}
+.c-desc {color:rgba(255,255,255,.8);font-size:1.1rem;font-weight:300;max-width:600px;line-height:1.6;margin-bottom:1.6rem}
 
-/* ABOUT ME */
-.about-grid{display:grid;grid-template-columns:1fr 1fr;gap:3rem;padding:4rem 2rem;max-width:var(--maxw);margin:0 auto;}
-.interest-title{font-size:1.3rem;font-weight:800;margin-bottom:0.5rem;}
-.interest-desc{margin-bottom:2rem;color:var(--soft);line-height:1.6;}
-.collage-placeholder{background:#f1f5f9;border:2px dashed var(--line);border-radius:12px;display:flex;align-items:center;justify-content:center;font-family:var(--mono);color:var(--soft);}
+/* Contact Links */
+.contact-links { display: flex; gap: 1rem; flex-wrap: wrap; }
+.contact-links a { color: #fff; text-decoration: none; display: flex; align-items: center; gap: 0.5rem; font-size: 0.9rem; font-weight: 500; background: rgba(255,255,255,0.1); padding: 0.6rem 1.2rem; border-radius: 9999px; transition: background 0.2s, color 0.2s; border: 1px solid rgba(255,255,255,0.1); }
+.contact-links a:hover { background: var(--green); color: var(--blue); border-color: var(--green); }
+.ic { font-size: 1.1rem; }
 
-@media(max-width:900px){.profile-layout{flex-direction:column;text-align:center}.about-grid{grid-template-columns:1fr}}
+.c-arrow{position:absolute;top:calc(50% - 12px);transform:translateY(-50%);width:44px;height:44px;border-radius:50%;border:1px solid rgba(255,255,255,.25);background:rgba(0,0,0,.3);backdrop-filter:blur(10px);color:#fff;font-size:1.35rem;cursor:pointer;display:flex;align-items:center;justify-content:center;z-index:20;transition:all .2s}
+.c-arrow:hover{background:var(--green);border-color:var(--green);color:var(--blue)}
+.c-arrow.prev{left:1.6rem}.c-arrow.next{right:1.6rem}
+@@ -81,7 +81,7 @@
+.lift{transition:transform .25s ease,box-shadow .25s ease,border-color .25s ease}
+.lift:hover{transform:translateY(-3px);box-shadow:var(--shadow-lg);border-color:rgba(3,45,66,.16)}
+
+/* NEW TABBED EXPERIENCE SECTION */
+/* TABBED EXPERIENCE SECTION */
+.exp-layout { display: grid; grid-template-columns: 260px 1fr; gap: 2.5rem; margin-top: 2rem; align-items: start; }
+.exp-tabs { display: flex; flex-direction: column; gap: 0.6rem; }
+.exp-tab { display: flex; align-items: center; gap: 1rem; padding: 1rem 1.25rem; background: var(--card); border: 1px solid var(--line); border-radius: 0.85rem; cursor: pointer; transition: all 0.25s; box-shadow: var(--shadow); font-weight: 600; color: var(--soft); text-align: left; font-family: var(--font); font-size: 0.95rem; }
+@@ -157,21 +157,17 @@
+@media(max-width:900px){
+.exp-layout{grid-template-columns:1fr;} 
+.exp-tab.active{transform:translateY(-4px);}
+  .profile-layout{justify-content:center; text-align:center; gap: 2rem;}
+  .contact-links{justify-content:center;}
+.photo-grid{grid-template-columns:repeat(2,1fr)}
+.c-body{padding:2rem 1.5rem}
+.pg{padding:2.25rem 1.5rem 2.5rem}
+  .ann-msg{max-width:55vw}
+}
 </style>
 </head>
 <body>
 
 <header class="topbar">
-  <nav class="topnav">
-    <div class="tn-logo">MF.</div>
-    <div class="tn-tabs">
-      <button class="tn-tab active" onclick="document.getElementById('home').scrollIntoView()">Home</button>
-      <button class="tn-tab" onclick="document.getElementById('about').scrollIntoView()">About</button>
-      <button class="tn-tab" onclick="document.getElementById('experience').scrollIntoView()">Experience</button>
-    </div>
-  </nav>
-</header>
+  <div class="ann" id="ann">
+    <span class="ann-tag">Availability</span>
+    <span class="ann-msg">Currently seeking B2C digital marketing opportunities &middot; May to Aug 2026.</span>
+    <button class="ann-x" id="annX" aria-label="Dismiss">&times;</button>
+  </div>
+<nav class="topnav">
+<div class="tn-logo">
+<strong>MF.</strong>
+@@ -193,11 +189,40 @@
+<div class="c-wrap" id="cWrap">
+<button class="c-arrow prev" id="cPrev">&lsaquo;</button>
+<button class="c-arrow next" id="cNext">&rsaquo;</button>
+      <div class="c-timer" id="cTimer"><span class="c-timer-ring"></span><span>Auto 10s</span></div>
+      <div class="c-timer" id="cTimer"><span class="c-timer-ring"></span><span>Auto 30s</span></div>
+<div class="c-count" id="cCount"></div>
+<div class="c-dots" id="cDots"></div>
+<div class="scroll-hint">Scroll for experience<span>&darr;</span></div>
+<div class="c-prog"><div class="c-pfill" id="cPfill"></div></div>
 
-<main class="content">
-
-  <section class="hero" id="home">
-    <div class="profile-layout">
-      <div class="profile-pic"></div>
-      <div class="profile-text">
-        <h1 class="c-title">Hi, I'm Marcus.</h1>
-        <p class="c-desc">Tech-Marketing Specialist focused on scaling digital pipelines. Bridging the gap between enterprise software capabilities and real-world outcomes through data-driven storytelling.</p>
-        <div class="contact-links">
-          <a href="mailto:marcusfjh01@gmail.com">📧 Email</a>
-          <a href="tel:+6586178325">📱 Call</a>
-          <a href="https://www.linkedin.com/in/marcusfjh">💼 LinkedIn</a>
+      <div class="c-slide cur">
+        <div class="c-bg" style="background-image: var(--g1)"></div>
+        <div class="c-overlay"></div>
+        <div class="c-body">
+          <div class="profile-layout">
+            <div class="profile-pic"></div>
+            <div class="profile-text">
+              <h1 class="c-title">Hi, I'm Marcus.</h1>
+              <p class="c-desc">[Placeholder Introduction: I am a Year 3 Business student at Singapore Management University, majoring in Marketing Analytics. I blend analytical insights with creativity to build meaningful Direct-to-Consumer experiences.]</p>
+              <div class="contact-links">
+                <a href="mailto:marcusfjh01@gmail.com"><span class="ic">📧</span> marcusfjh01@gmail.com</a>
+                <a href="tel:+6586178325"><span class="ic">📱</span> (65) 86178325</a>
+                <a href="https://www.linkedin.com/in/marcusfjh" target="_blank"><span class="ic">💼</span> linkedin.com/in/marcusfjh</a>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
-    </div>
-  </section>
 
-  <section id="about" class="about-grid">
-    <div class="about-content">
-      <h2 class="pg-h">About Me</h2>
-      <div class="interest-item">
-        <div class="interest-title">Authentic Travel</div>
-        <div class="interest-desc">I seek out non-touristy locations and specialized local culinary items. My recent self-guided trips include navigating the markets of Marrakech and the streets of Chefchaouen.</div>
-      </div>
-      <div class="interest-item">
-        <div class="interest-title">Cultural Immersion</div>
-        <div class="interest-desc">A deep academic and personal interest in understanding local histories and systems, from exploring the Anne Frank House in Amsterdam to studying international relations.</div>
-      </div>
-      <div class="interest-item">
-        <div class="interest-title">Outdoor Adventures</div>
-        <div class="interest-desc">Active hiker and outdoor photographer, frequently planning routes to specific natural landscapes across the Basque Country and Meteora.</div>
-      </div>
-    </div>
-    <div class="collage-placeholder">Photo Collage Placeholder</div>
-  </section>
-
-  <section id="experience" class="exp-container">
-    <h2 class="pg-h" style="text-align:center;">Professional Experience</h2>
-    
-    <div class="exp-module">
-      <div class="exp-hero-header">
-        <img src="https://logo.clearbit.com/servicenow.com" class="company-logo" alt="ServiceNow">
-        <div>
-          <h3 class="role-title">Regional Digital Marketing Intern</h3>
-          <div class="role-meta">March 2026 - Present</div>
+      <div class="c-slide">
+        <div class="c-bg" style="background-image: var(--g3)"></div>
+        <div class="c-overlay"></div>
+        <div class="c-body">
+          <h1 class="c-title">My Interests</h1>
+          <p class="c-desc">[Placeholder Introduction for your interests. You can provide the text and the specific layout design you want for this pane, and I will implement it here.]</p>
         </div>
       </div>
-      <p class="story-text">Focusing on regional GTM strategies. I scale demand generation by ensuring our digital marketing pipelines align perfectly with enterprise-level product roadmaps, ensuring every campaign is measured for maximum conversion.</p>
-      <div class="media-placeholder">Place Photo/Deck Link Here</div>
-      <div class="expertise-tags"><span class="tag">Demand Gen</span><span class="tag">Digital Pipelines</span><span class="tag">Regional GTM</span></div>
-    </div>
 
-    <div class="exp-module">
-      <div class="exp-hero-header">
-        <img src="https://logo.clearbit.com/freewheel.com" class="company-logo" alt="FreeWheel">
-        <div>
-          <h3 class="role-title">APAC Marketing Intern</h3>
-          <div class="role-meta">June 2025 - Jan 2026</div>
-        </div>
-      </div>
-      <p class="story-text">Bridging the gap in ad-tech. I transformed complex SSP and Power BI analytics into actionable narratives, helping stakeholders visualize market opportunities across seven APAC countries.</p>
-      <div class="media-placeholder">Place Photo/Deck Link Here</div>
-      <div class="expertise-tags"><span class="tag">Ad-Tech</span><span class="tag">Market Research</span><span class="tag">Data Storytelling</span></div>
-    </div>
-  </section>
+</div>
+</section>
 
+@@ -334,9 +359,6 @@ <h2>Strategic <span>Projects</span></h2>
 </main>
+
+<script>
+// Keep original colors and gradients intact
+const TC={'Experience':'#1B6FB0','Education':'#B0457B','Projects':'#2E9E4F'};
+const tc=t=>TC[t]||'#1B6FB0';
+const GRAD={g1:'linear-gradient(135deg,#07111a,#0a2540,#0f4c75,#1a6fa8)',g2:'linear-gradient(135deg,#0f0c29,#1a1060,#4a1a8c,#7b2d8b)',g3:'linear-gradient(135deg,#0a1a0f,#0d3320,#1a5c3a,#2d8653)',g4:'linear-gradient(135deg,#1a0a0a,#3d1515,#7b2020,#a83030)',g5:'linear-gradient(135deg,#0a1520,#0f2a3d,#1a5070,#2090b0)',g6:'linear-gradient(135deg,#1a0f00,#3d2800,#7b5500,#b08020)',g7:'linear-gradient(135deg,#0f0f1a,#1a1060,#2d20a0,#4040cc)',g8:'linear-gradient(135deg,#00151a,#003d3d,#007b7b,#00b0b0)'};
+function gradOnly(g){return GRAD[g]||GRAD.g1;}
+
+@@ -371,31 +393,48 @@ <h2>Strategic <span>Projects</span></h2>
+const revObs=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');revObs.unobserve(e.target);}});},{root:document.getElementById('content'),threshold:.12});
+function observeReveals(){document.querySelectorAll('.reveal:not(.in)').forEach(el=>revObs.observe(el));}
+
+document.getElementById('annX').addEventListener('click',()=>{document.getElementById('ann').classList.add('hide');document.documentElement.style.setProperty('--ann','0px');});
+
+// Hero Slider Variables & Logic
+let cur=0, autoT=null, inView=true;
+const INTERVAL=10000;
+const SLIDES=[
+  {type:'hero', title:'Marcus Foo', badge:'Marketing Analytics', meta:'BSc Business Management &middot; SMU', desc:'Specializing in B2C digital marketing, I aim to blend analytical insights with creativity to build seamless Direct-to-Consumer experiences.', g:'g1'},
+  {type:'hero', title:'Strategic Experience', badge:'Internships', meta:'FreeWheel &middot; CapitaLand', desc:'From B2B ad-tech sales enablement to regional digital marketing and Gen-Z acquisition, I turn data into actionable audience insights.', g:'g2'},
+  {type:'hero', title:'Data & Culture', badge:'Academics', meta:'Diploma in Tourism &middot; Ngee Ann Poly', desc:'A foundation in business and events management, fostering a deep appreciation for authentic experiences and community engagement.', g:'g3'}
+];
+let cur=0, autoT=null;
+const INTERVAL = 30000; // 30 seconds
+
+function slideHTML(s){
+  return '<div class="c-bg" style="background-image:'+gradOnly(s.g)+'"></div><div class="c-overlay"></div><div class="c-body"><div class="c-ticker"><span class="c-tdot"></span>Portfolio</div><div class="c-label">Introduction<span class="c-badge" style="background:var(--green);color:var(--blue)">'+s.badge+'</span></div><div class="c-title">'+s.title+'</div><div class="c-meta"><div class="c-mi"><strong>'+s.meta+'</strong></div></div><p class="c-desc">'+s.desc+'</p></div>';
+}
+function buildSlides(){
+  const wrap=document.getElementById('cWrap'),firstBtn=document.getElementById('cPrev');
+  SLIDES.forEach((s,i)=>{const slide=document.createElement('div');slide.className='c-slide'+(i===0?' cur':'');slide.style.transform='translateX('+(i*100)+'%)';slide.innerHTML=slideHTML(s); wrap.insertBefore(slide,firstBtn);});
+  document.getElementById('cDots').innerHTML=SLIDES.map((_,i)=>'<div class="c-dot'+(i===0?' on':'')+'" data-i="'+i+'"></div>').join('');
+const slides = document.querySelectorAll('.c-slide');
+function setupSlider(){
+  const dotsWrap = document.getElementById('cDots');
+  dotsWrap.innerHTML = Array.from(slides).map((_,i) => `<div class="c-dot${i===0?' on':''}" data-i="${i}"></div>`).join('');
+document.querySelectorAll('.c-dot').forEach(d=>d.addEventListener('click',()=>go(+d.dataset.i)));
+  document.getElementById('cPrev').addEventListener('click',()=>go(cur-1));document.getElementById('cNext').addEventListener('click',()=>go(cur+1));
+  update();startTimer();
+  document.getElementById('cPrev').addEventListener('click',()=>go(cur-1));
+  document.getElementById('cNext').addEventListener('click',()=>go(cur+1));
+  update();
+  startTimer();
+}
+
+function go(n){
+  cur=(n+slides.length)%slides.length;
+  update();
+  clearTimeout(autoT);
+  startTimer();
+}
+
+function update(){
+  slides.forEach((s,i)=>{
+    s.style.transform='translateX('+((i-cur)*100)+'%)';
+    s.classList.toggle('cur',i===cur);
+  });
+  document.querySelectorAll('.c-dot').forEach((d,i)=>d.classList.toggle('on',i===cur));
+  document.getElementById('cCount').textContent=(cur+1)+' / '+slides.length;
+}
+
+function startTimer(){
+  clearTimeout(autoT);
+  const f=document.getElementById('cPfill');
+  f.style.transition='none';
+  f.style.width='0%';
+  requestAnimationFrame(()=>requestAnimationFrame(()=>{
+    f.style.transition='width '+INTERVAL+'ms linear';
+    f.style.width='100%';
+  }));
+  autoT=setTimeout(()=>go(cur+1),INTERVAL);
+}
+function go(n){cur=(n+SLIDES.length)%SLIDES.length;update();clearTimeout(autoT);startTimer();}
+function update(){document.querySelectorAll('.c-slide').forEach((s,i)=>{s.style.transform='translateX('+((i-cur)*100)+'%)';s.classList.toggle('cur',i===cur);});document.querySelectorAll('.c-dot').forEach((d,i)=>d.classList.toggle('on',i===cur));document.getElementById('cCount').textContent=(cur+1)+' / '+SLIDES.length;}
+function startTimer(){clearTimeout(autoT);const f=document.getElementById('cPfill');f.style.transition='none';f.style.width='0%';requestAnimationFrame(()=>requestAnimationFrame(()=>{f.style.transition='width '+INTERVAL+'ms linear';f.style.width='100%';}));autoT=setTimeout(()=>go(cur+1),INTERVAL);}
+
+// Navigation Scrolling
+function gotoSection(id){document.getElementById(id).scrollIntoView({behavior:'smooth',block:'start'});}
+@@ -425,7 +464,11 @@ <h2>Strategic <span>Projects</span></h2>
+function buildResources(){document.getElementById('resGrid').innerHTML=resources.map((r,i)=>'<div class="res-card reveal"><span class="res-ic">'+r.ic+'</span><div class="res-tit">'+r.tit+'</div><div class="res-dsc">'+r.dsc+'</div></div>').join('');}
+
+// Initialize Everything
+buildSlides();renderGoLives();buildPhotos();buildResources();observeReveals();
+setupSlider();
+renderGoLives();
+buildPhotos();
+buildResources();
+observeReveals();
+</script>
 </body>
 </html>
