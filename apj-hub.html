@@ -1,0 +1,887 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>APJ Programs &amp; Events Hub</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=DM+Mono:wght@400;500&display=swap');
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#DBE2EA;--card:#FFFFFF;--ink:#0B2230;--soft:#5C6B76;--line:rgba(3,45,66,.11);
+  --green:#62D84E;--green-d:#3FA72F;--blue:#032D42;--blue-2:#0A4D68;
+  --t-strat:#1B6FB0;--t-work:#2E9E4F;--t-web:#9B4DCA;--t-abm:#C4820E;
+  --font:'Outfit',system-ui,sans-serif;--mono:'DM Mono',monospace;
+  --ann:40px;--nav:58px;--maxw:1240px;
+  --shadow:0 2px 10px rgba(11,34,48,.07);--shadow-lg:0 16px 38px rgba(11,34,48,.14);--z:.9;
+}
+html,body{height:100%;font-family:var(--font);background:var(--bg);color:var(--ink)}
+html{zoom:var(--z)}
+body{overflow:hidden}
+.topbar{position:fixed;top:0;left:0;right:0;z-index:300}
+.ann{height:var(--ann);display:flex;align-items:center;justify-content:center;gap:1rem;padding:0 1.25rem;background:linear-gradient(90deg,#0A4D68 0%,#1E8A6E 55%,#3FA72F 100%);color:#fff;font-size:.8rem;font-weight:500;overflow:hidden;transition:height .3s ease}
+.ann.hide{height:0}
+.ann-tag{font-family:var(--mono);font-size:.575rem;text-transform:uppercase;letter-spacing:.12em;background:rgba(255,255,255,.2);padding:.2rem .6rem;border-radius:9999px;font-weight:600;white-space:nowrap}
+.ann-msg{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:70vw}
+.ann-msg a{color:#fff;text-decoration:underline;text-underline-offset:2px;font-weight:600}
+.ann-x{position:absolute;right:1rem;background:none;border:none;color:rgba(255,255,255,.85);font-size:1.05rem;cursor:pointer;line-height:1;padding:.2rem .35rem;border-radius:6px;transition:background .2s}
+.ann-x:hover{background:rgba(255,255,255,.2)}
+.topnav{height:var(--nav);background:var(--blue);display:flex;align-items:center;gap:1.5rem;padding:0 1.75rem;border-bottom:1px solid rgba(255,255,255,.08)}
+.tn-logo{flex-shrink:0;display:flex;align-items:center;gap:.7rem}
+.tn-pill{font-family:var(--mono);font-size:.5rem;text-transform:uppercase;letter-spacing:.12em;background:var(--green);color:var(--blue);padding:.2rem .55rem;border-radius:9999px;font-weight:700}
+.tn-tabs{display:flex;gap:.1rem;height:100%;margin-left:.5rem;flex:1}
+.tn-tab{height:100%;display:flex;align-items:center;gap:.3rem;padding:0 1rem;border:none;background:transparent;color:rgba(255,255,255,.7);font-family:var(--font);font-size:.85rem;font-weight:500;cursor:pointer;position:relative;white-space:nowrap;transition:color .18s}
+.tn-tab:hover{color:#fff}
+.tn-tab.active{color:var(--green)}
+.tn-tab.active::after{content:'';position:absolute;bottom:0;left:1rem;right:1rem;height:3px;background:var(--green);border-radius:3px 3px 0 0}
+.tn-caret{font-size:.6rem;opacity:.7;transition:transform .2s}
+.tn-drop-wrap{position:relative;height:100%;display:flex;align-items:center}
+.tn-drop-wrap:hover .tn-caret{transform:rotate(180deg)}
+.tn-drop{position:absolute;top:100%;left:0;min-width:270px;background:var(--card);border:1px solid var(--line);border-radius:.7rem;box-shadow:var(--shadow-lg);padding:.4rem;opacity:0;visibility:hidden;transform:translateY(10px);transition:opacity .2s,transform .2s,visibility .2s;z-index:60}
+.tn-drop-wrap:hover .tn-drop{opacity:1;visibility:visible;transform:translateY(6px)}
+.tn-drop-i{display:block;padding:.6rem .7rem;border-radius:.5rem;font-size:.84rem;font-weight:600;color:var(--ink);text-decoration:none;cursor:pointer;transition:background .15s,color .15s,padding-left .15s}
+.tn-drop-i:hover{background:rgba(3,45,66,.06);color:var(--green-d);padding-left:1rem}
+.tn-drop-i small{display:block;font-size:.62rem;font-weight:400;color:var(--soft);margin-top:2px;text-transform:none;letter-spacing:0}
+.tn-drop-i.muted{opacity:.55;cursor:default}
+.tn-drop-i.muted:hover{background:transparent;color:var(--ink);padding-left:.7rem}
+.tn-drop-row{display:flex;align-items:center;gap:.3rem}
+.tn-drop-row .tn-drop-i{flex:1}
+.tn-drop-va{flex-shrink:0;align-self:center;font-family:var(--mono);font-size:.55rem;font-weight:600;text-transform:uppercase;letter-spacing:.06em;color:var(--green-d);text-decoration:none;padding:.35rem .55rem;border:1px solid var(--line);border-radius:9999px;transition:all .15s;margin-right:.3rem}
+.tn-drop-va:hover{background:var(--green);color:var(--blue);border-color:var(--green)}
+.tn-right{font-family:var(--mono);font-size:.55rem;text-transform:uppercase;letter-spacing:.1em;color:rgba(255,255,255,.45);white-space:nowrap}
+.content{margin-top:calc(var(--ann) + var(--nav));height:calc(100vh / var(--z) - var(--ann) - var(--nav));overflow-y:auto;scroll-behavior:smooth;scroll-snap-type:y proximity;transition:margin-top .3s ease,height .3s ease}
+.pg{max-width:var(--maxw);margin:0 auto;padding:3rem 2.75rem 3.5rem}
+.pg-eye{font-family:var(--mono);font-size:.625rem;text-transform:uppercase;letter-spacing:.16em;color:var(--green-d);margin-bottom:.5rem;display:flex;align-items:center;gap:.6rem}
+.pg-eye::before{content:'';width:22px;height:2px;background:var(--green-d);border-radius:2px}
+.pg-h{font-size:2.1rem;font-weight:800;letter-spacing:-.025em;margin-bottom:.4rem;color:var(--ink)}
+.pg-sub{font-size:.9375rem;font-weight:400;color:var(--soft);margin-bottom:1.5rem;max-width:640px}
+.sec-head{display:flex;align-items:flex-end;justify-content:space-between;gap:1rem;margin-bottom:1.5rem;flex-wrap:wrap}
+.see-all{font-size:.8125rem;font-weight:700;color:var(--green-d);text-decoration:none;white-space:nowrap;transition:gap .2s;display:inline-flex;align-items:center;gap:.3rem}
+.see-all:hover{gap:.6rem}
+.band-light{background:#E7ECF3;border-top:1px solid var(--line)}
+.band-base{border-top:1px solid var(--line)}
+.viewall-wrap{text-align:center;margin-top:1.75rem}
+.viewall-btn{display:inline-flex;align-items:center;gap:.5rem;background:#fff;border:1px solid var(--line);color:var(--ink);font-family:var(--font);font-size:.875rem;font-weight:600;padding:.7rem 1.6rem;border-radius:9999px;text-decoration:none;transition:all .2s;box-shadow:var(--shadow)}
+.viewall-btn:hover{border-color:var(--green);color:var(--green-d);transform:translateY(-2px)}
+
+/* HERO */
+.hero{position:relative;height:66vh;min-height:460px;overflow:hidden;scroll-snap-align:start}
+.c-wrap{position:relative;width:100%;height:100%;overflow:hidden}
+.c-slide{position:absolute;top:0;left:0;width:100%;height:100%;display:flex;align-items:flex-end;transition:transform .72s cubic-bezier(.4,0,.2,1);will-change:transform}
+.c-bg{position:absolute;inset:0;background-size:cover;background-position:center;transform:scale(1.05);transition:transform 7s ease}
+.c-slide.cur .c-bg{transform:scale(1)}
+.c-overlay{position:absolute;inset:0;background:linear-gradient(105deg,rgba(3,28,42,.94) 0%,rgba(3,28,42,.7) 40%,rgba(3,28,42,.15) 72%,rgba(3,28,42,.02) 100%)}
+.c-body{position:relative;z-index:1;padding:2.75rem 3.5rem;max-width:900px;color:#fff;width:100%}
+.c-ticker{display:inline-flex;align-items:center;gap:.5rem;background:rgba(98,216,78,.18);border:1px solid rgba(98,216,78,.45);color:#c6f7ba;font-family:var(--mono);font-size:.62rem;text-transform:uppercase;letter-spacing:.1em;padding:.32rem .9rem;border-radius:9999px;margin-bottom:1rem}
+.c-tdot{width:5px;height:5px;border-radius:50%;background:var(--green);animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
+.c-label{font-family:var(--mono);font-size:.6rem;text-transform:uppercase;letter-spacing:.15em;color:rgba(255,255,255,.65);margin-bottom:.8rem;display:flex;align-items:center;gap:.75rem;flex-wrap:wrap}
+.c-label::before{content:'';width:18px;height:1px;background:rgba(255,255,255,.4)}
+.c-badge{font-family:var(--mono);font-size:.525rem;text-transform:uppercase;letter-spacing:.06em;padding:.22rem .6rem;border-radius:9999px}
+.c-title{font-size:clamp(2.4rem,4.4vw,3.8rem);font-weight:800;line-height:.96;letter-spacing:-.035em;margin-bottom:1.1rem;text-shadow:0 2px 24px rgba(0,0,0,.3)}
+.c-meta{display:flex;gap:1.75rem;margin-bottom:1.3rem;flex-wrap:wrap}
+.c-mi{font-size:.95rem;color:rgba(255,255,255,.8);font-weight:300;display:flex;align-items:center;gap:.5rem}
+.c-mi strong{color:#fff;font-weight:600}
+.c-desc{color:rgba(255,255,255,.74);font-size:.95rem;font-weight:300;max-width:580px;line-height:1.6;margin-bottom:1.6rem}
+.c-cta{display:inline-flex;align-items:center;gap:.5rem;background:var(--green);color:var(--blue);font-family:var(--font);font-size:.95rem;font-weight:700;padding:.72rem 1.7rem;border-radius:9999px;border:none;cursor:pointer;text-decoration:none;transition:transform .2s,box-shadow .2s,background .2s}
+.c-cta:hover{background:#7BEA67;transform:translateY(-2px);box-shadow:0 12px 28px rgba(98,216,78,.4)}
+.c-arrow{position:absolute;top:calc(50% - 12px);transform:translateY(-50%);width:44px;height:44px;border-radius:50%;border:1px solid rgba(255,255,255,.25);background:rgba(0,0,0,.3);backdrop-filter:blur(10px);color:#fff;font-size:1.35rem;cursor:pointer;display:flex;align-items:center;justify-content:center;z-index:20;transition:all .2s}
+.c-arrow:hover{background:var(--green);border-color:var(--green);color:var(--blue)}
+.c-arrow.prev{left:1.6rem}.c-arrow.next{right:1.6rem}
+.c-prog{position:absolute;bottom:0;left:0;right:0;height:3px;background:rgba(255,255,255,.16);z-index:20}
+.c-pfill{height:100%;background:var(--green);width:0%}
+.c-dots{position:absolute;bottom:1.5rem;right:2.4rem;display:flex;gap:6px;z-index:20;align-items:center}
+.c-dot{width:7px;height:7px;border-radius:50%;background:rgba(255,255,255,.4);cursor:pointer;transition:all .3s}
+.c-dot.on{background:var(--green);width:22px;border-radius:4px}
+.c-count{position:absolute;top:1.4rem;right:1.6rem;font-family:var(--mono);font-size:.7rem;color:rgba(255,255,255,.6);z-index:20}
+.c-timer{position:absolute;top:1.4rem;left:1.8rem;z-index:20;font-family:var(--mono);font-size:.6rem;text-transform:uppercase;letter-spacing:.1em;color:rgba(255,255,255,.65);display:flex;align-items:center;gap:.45rem}
+.c-timer-ring{width:13px;height:13px;border-radius:50%;border:2px solid rgba(255,255,255,.3);border-top-color:var(--green);animation:spin 1.05s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.scroll-hint{position:absolute;bottom:1.3rem;left:50%;transform:translateX(-50%);z-index:20;font-family:var(--mono);font-size:.55rem;text-transform:uppercase;letter-spacing:.12em;color:rgba(255,255,255,.7);display:flex;flex-direction:column;align-items:center;gap:.3rem;pointer-events:none;animation:bob 2.4s infinite}
+@keyframes bob{0%,100%{transform:translate(-50%,0)}50%{transform:translate(-50%,6px)}}
+
+.reveal{opacity:0;transform:translateY(18px);transition:opacity .55s ease,transform .55s cubic-bezier(.2,.8,.2,1)}
+.reveal.in{opacity:1;transform:none}
+.lift{transition:transform .25s ease,box-shadow .25s ease,border-color .25s ease}
+.lift:hover{transform:translateY(-3px);box-shadow:var(--shadow-lg);border-color:rgba(3,45,66,.16)}
+
+/* CALENDAR */
+.cal-bar{display:flex;align-items:center;justify-content:space-between;gap:1rem;margin-bottom:1.25rem;flex-wrap:wrap}
+.viewtog{display:inline-flex;background:#fff;border:1px solid var(--line);border-radius:9999px;padding:3px}
+.viewtog button{font-family:var(--font);font-size:.8125rem;font-weight:600;padding:.4rem 1rem;border-radius:9999px;border:none;background:transparent;color:var(--soft);cursor:pointer;transition:all .2s}
+.viewtog button.on{background:var(--blue);color:#fff}
+.viewtog button:not(.on):hover{color:var(--ink)}
+.cal-nav{display:flex;align-items:center;gap:.6rem}
+.cal-nav-btn{width:34px;height:34px;border-radius:50%;border:1px solid var(--line);background:#fff;color:var(--ink);cursor:pointer;font-size:1.1rem;display:flex;align-items:center;justify-content:center;transition:all .2s}
+.cal-nav-btn:hover{background:var(--blue);color:#fff;border-color:var(--blue)}
+.cal-month{font-size:1.05rem;font-weight:700;min-width:160px;text-align:center}
+.cal-today{font-family:var(--font);font-size:.75rem;font-weight:600;padding:.4rem .9rem;border-radius:9999px;border:1px solid var(--line);background:#fff;color:var(--soft);cursor:pointer;transition:all .2s}
+.cal-today:hover{border-color:var(--green);color:var(--green-d)}
+.cal-layout{display:grid;grid-template-columns:1fr 340px;gap:1.25rem;align-items:stretch}
+#calendar .pg{max-width:1380px}
+.cal-grid-wrap{background:#fff;border:1px solid var(--line);border-radius:1rem;padding:1.25rem;box-shadow:var(--shadow)}
+.cal-dow{display:grid;grid-template-columns:repeat(7,1fr);margin-bottom:.5rem}
+.cal-dow span{text-align:left;padding-left:.35rem;font-family:var(--mono);font-size:.55rem;text-transform:uppercase;letter-spacing:.06em;color:var(--soft)}
+.cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:6px}
+.cal-cell{min-height:128px;border-radius:.6rem;border:1px solid var(--line);background:#fff;padding:.5rem .5rem;display:flex;flex-direction:column;gap:.3rem;position:relative;overflow:hidden;transition:all .18s}
+.cal-cell.blank{background:transparent;border:none}
+.cal-cell.has{cursor:pointer}
+.cal-cell.has:hover{border-color:var(--green);box-shadow:0 6px 16px rgba(11,34,48,.1);transform:translateY(-2px)}
+.cal-cell.today{box-shadow:inset 0 0 0 2px rgba(98,216,78,.55)}
+.cal-cell.sel{border-color:var(--blue);box-shadow:0 0 0 2px var(--blue)}
+.cal-num{font-size:.85rem;font-weight:700;color:var(--ink);line-height:1}
+.cal-cell.today .cal-num{color:var(--green-d);font-weight:800}
+.cal-chip{font-size:.575rem;font-weight:700;padding:.2rem .4rem;border-radius:5px;line-height:1.1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;display:flex;align-items:center;gap:.28rem}
+.cal-chip .cdot{width:5px;height:5px;border-radius:50%;flex-shrink:0}
+.cal-ev{display:flex;flex-direction:column;gap:2px}
+.cal-titlemini{font-size:.6rem;color:var(--ink);font-weight:600;line-height:1.22;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;word-break:break-word}
+.cal-more{font-size:.55rem;color:var(--green-d);font-weight:700;margin-top:1px}
+.cal-detail{background:#fff;border:1px solid var(--line);border-radius:1rem;padding:1.25rem;box-shadow:var(--shadow);display:flex;flex-direction:column;min-height:0}
+.cd-morelist{flex:1;min-height:0;overflow-y:auto;margin-right:-.5rem;padding-right:.5rem}
+.cd-morelist::-webkit-scrollbar{width:6px}
+.cd-morelist::-webkit-scrollbar-thumb{background:var(--line);border-radius:3px}
+.cd-empty{color:var(--soft);font-size:.875rem;font-weight:300;line-height:1.5;padding:.5rem 0 1rem}
+.cd-active{border:1px solid var(--line);border-radius:.85rem;padding:1.25rem;position:relative;overflow:hidden;box-shadow:0 8px 22px rgba(11,34,48,.1);margin-bottom:1.25rem;animation:cdpop .35s ease}
+@keyframes cdpop{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.cd-acc{position:absolute;left:0;top:0;bottom:0;width:4px}
+.cd-date{font-family:var(--mono);font-size:.55rem;text-transform:uppercase;letter-spacing:.08em;color:var(--soft);margin-bottom:.45rem}
+.cd-meta{display:flex;gap:.5rem;align-items:center;flex-wrap:wrap;margin:.55rem 0 .7rem}
+.cd-bdg{font-family:var(--mono);font-size:.5rem;text-transform:uppercase;letter-spacing:.05em;padding:.2rem .55rem;border-radius:9999px}
+.cd-loc{font-size:.78rem;color:var(--soft)}
+.cd-tit{font-size:1.2rem;font-weight:800;line-height:1.15;letter-spacing:-.02em}
+.cd-desc{font-size:.85rem;color:var(--soft);line-height:1.55;font-weight:300;margin-bottom:1rem}
+.cd-cta{display:inline-flex;align-items:center;gap:.4rem;background:var(--blue);color:#fff;font-size:.8125rem;font-weight:600;padding:.5rem 1.1rem;border-radius:9999px;text-decoration:none;cursor:pointer;transition:all .2s}
+.cd-cta:hover{background:var(--blue-2)}
+.cd-listh{font-family:var(--mono);font-size:.55rem;text-transform:uppercase;letter-spacing:.1em;color:var(--soft);margin-bottom:.6rem}
+.cd-mini{display:grid;grid-template-columns:auto 1fr;gap:.7rem;align-items:center;padding:.6rem;border-radius:.6rem;cursor:pointer;opacity:.5;filter:blur(.4px);transition:all .25s;margin-bottom:.35rem}
+.cd-mini:hover{opacity:1;filter:none;background:#F4F8FB;transform:translateX(3px)}
+.cd-mdot{width:8px;height:8px;border-radius:50%}
+.cd-mtit{font-size:.82rem;font-weight:600;line-height:1.2}
+.cd-msub{font-size:.65rem;color:var(--soft);font-family:var(--mono);text-transform:uppercase;letter-spacing:.05em;margin-top:2px}
+.filters{display:flex;flex-direction:column;gap:.7rem;margin-bottom:1.5rem;background:#fff;border:1px solid var(--line);border-radius:.9rem;padding:1.05rem 1.2rem;box-shadow:var(--shadow)}
+.fg{display:flex;align-items:center;gap:.5rem}
+.filters .fg{display:grid;grid-template-columns:76px 1fr;align-items:center;gap:1rem}
+.filters .fl{padding-top:1px}
+.fl{font-family:var(--mono);font-size:.525rem;text-transform:uppercase;letter-spacing:.1em;color:var(--soft)}
+.chips{display:flex;gap:.375rem;flex-wrap:wrap}
+.chip{font-size:.75rem;padding:.32rem .8rem;border-radius:9999px;border:1px solid var(--line);color:var(--soft);cursor:pointer;background:#fff;font-family:var(--font);transition:all .18s}
+.chip:hover{border-color:var(--blue);color:var(--ink);transform:translateY(-1px)}
+.chip.on{background:var(--blue);color:#fff;border-color:var(--blue);font-weight:600}
+.ev-list{display:flex;flex-direction:column;gap:.7rem}
+.mhd{font-family:var(--mono);font-size:.6rem;text-transform:uppercase;letter-spacing:.12em;color:var(--soft);padding:1.1rem 0 .55rem;border-bottom:1px solid var(--line);margin-bottom:.7rem}
+.ev-row{background:#fff;border:1px solid var(--line);border-radius:.875rem;padding:1.1rem 1.5rem 1.1rem 1.4rem;display:grid;grid-template-columns:60px 1fr auto;gap:1.5rem;align-items:center;cursor:pointer;transition:all .22s;position:relative;overflow:hidden;box-shadow:var(--shadow)}
+.ev-row:hover{transform:translateX(4px);box-shadow:var(--shadow-lg)}
+.ev-acc{position:absolute;left:0;top:0;bottom:0;width:3px;transition:width .22s}
+.ev-row:hover .ev-acc{width:5px}
+.ev-date{text-align:center}
+.ev-day{font-size:1.7rem;font-weight:800;line-height:1;letter-spacing:-.03em}
+.ev-mon{font-family:var(--mono);font-size:.5rem;text-transform:uppercase;letter-spacing:.1em;color:var(--soft);margin-top:2px}
+.ev-info{display:flex;flex-direction:column;gap:.35rem}
+.ev-tit{font-size:1rem;font-weight:700}
+.ev-sub{display:flex;gap:.875rem;align-items:center;flex-wrap:wrap}
+.ev-loc{font-size:.8125rem;color:var(--soft)}
+.ev-bdg{font-family:var(--mono);font-size:.5rem;text-transform:uppercase;letter-spacing:.06em;padding:.2rem .5rem;border-radius:9999px}
+.ev-btn{font-family:var(--font);font-size:.8125rem;font-weight:600;padding:.5rem 1.1rem;border-radius:9999px;border:1px solid var(--line);background:#fff;color:var(--ink);cursor:pointer;transition:all .18s;white-space:nowrap}
+.ev-btn:hover{background:var(--green);color:var(--blue);border-color:var(--green)}
+
+/* GO LIVES */
+.golive-sec{min-height:100vh;scroll-snap-align:start;background:linear-gradient(180deg,#EFF3F8 0%,#E1E8F0 100%);display:flex;flex-direction:column;justify-content:center;border-top:1px solid var(--line)}
+.gl-intro{text-align:center;max-width:660px;margin:0 auto 2.25rem;padding-top:1rem}
+.gl-intro .pg-eye{margin-bottom:.5rem;justify-content:center}
+.gl-intro h2{font-size:clamp(2rem,3.5vw,2.85rem);font-weight:800;letter-spacing:-.03em;line-height:1.02;margin-bottom:.75rem}
+.gl-intro h2 span{color:var(--green-d)}
+.gl-intro p{font-size:1rem;color:var(--soft);font-weight:300;line-height:1.55}
+.gl-filters{display:flex;gap:1.75rem;flex-wrap:wrap;justify-content:center;margin-bottom:1.75rem}
+.gl-sel{font-family:var(--font);font-size:.8125rem;font-weight:500;padding:.45rem 2rem .45rem .9rem;border-radius:9999px;border:1px solid var(--line);background:#fff;color:var(--ink);cursor:pointer;appearance:none;background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%235C6B76' stroke-width='2'><polyline points='6 9 12 15 18 9'/></svg>");background-repeat:no-repeat;background-position:right .7rem center;transition:all .2s}
+.gl-sel:hover{border-color:var(--blue)}
+.gl-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:1rem;max-width:var(--maxw);margin:0 auto;width:100%}
+.gl-card{background:#fff;border:1px solid var(--line);border-radius:1rem;overflow:hidden;cursor:pointer;box-shadow:var(--shadow)}
+.gl-top{height:108px;position:relative;overflow:hidden}
+.gl-top::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,rgba(3,28,42,.05),rgba(3,28,42,.5))}
+.gl-topimg{position:absolute;inset:0;background-size:cover;background-position:center;transition:transform .5s ease}
+.gl-card:hover .gl-topimg{transform:scale(1.06)}
+.gl-lb{position:absolute;top:.7rem;left:.8rem;z-index:1;background:rgba(255,255,255,.94);color:var(--green-d);font-family:var(--mono);font-size:.5rem;text-transform:uppercase;letter-spacing:.1em;padding:.2rem .6rem .2rem .5rem;border-radius:9999px;display:flex;align-items:center;gap:.4rem;font-weight:700}
+.gl-ldot{width:5px;height:5px;border-radius:50%;background:var(--green-d);animation:pulse 2s infinite}
+.gl-sect{position:absolute;bottom:.6rem;left:.8rem;z-index:1;font-family:var(--mono);font-size:.5rem;text-transform:uppercase;letter-spacing:.08em;color:#fff;background:rgba(3,45,66,.6);padding:.2rem .55rem;border-radius:9999px}
+.gl-body{padding:1.2rem}
+.gl-mkt{font-family:var(--mono);font-size:.5rem;text-transform:uppercase;letter-spacing:.1em;color:var(--soft);margin-bottom:.35rem}
+.gl-co{font-size:1.125rem;font-weight:700;margin-bottom:.2rem}
+.gl-prod{font-size:.8125rem;color:var(--t-strat);margin-bottom:.875rem;font-weight:500}
+.gl-num{font-size:2.15rem;font-weight:800;color:var(--green-d);letter-spacing:-.04em;line-height:1;margin-bottom:.2rem;transition:transform .25s}
+.gl-card:hover .gl-num{transform:scale(1.05)}
+.gl-lbl{font-size:.8125rem;color:var(--soft);font-weight:400;margin-bottom:.875rem}
+.gl-date{font-family:var(--mono);font-size:.5rem;text-transform:uppercase;letter-spacing:.1em;color:rgba(11,34,48,.4);margin-top:1rem;padding-top:.875rem;border-top:1px solid var(--line)}
+.gl-empty{grid-column:1/-1;text-align:center;padding:2.5rem;color:var(--soft);font-family:var(--mono);font-size:.65rem;text-transform:uppercase;letter-spacing:.1em}
+
+/* PHOTOS */
+.photo-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:.75rem}
+.photo-tile{aspect-ratio:1;border-radius:.85rem;overflow:hidden;position:relative;cursor:pointer;box-shadow:var(--shadow);transition:transform .25s,box-shadow .25s}
+.photo-tile.wide{grid-column:span 2;aspect-ratio:2}
+.photo-tile:hover{transform:translateY(-3px);box-shadow:var(--shadow-lg)}
+.photo-fill{width:100%;height:100%;background-size:cover;background-position:center;transition:transform .45s ease}
+.photo-tile:hover .photo-fill{transform:scale(1.06)}
+.phov{position:absolute;inset:0;background:linear-gradient(to top,rgba(3,28,42,.8),rgba(3,28,42,.04) 60%);display:flex;flex-direction:column;justify-content:flex-end;padding:1rem}
+.ph-cap{font-size:.85rem;font-weight:700;color:#fff;margin-bottom:.2rem;transform:translateY(5px);transition:transform .25s}
+.photo-tile:hover .ph-cap{transform:translateY(0)}
+.ph-evt{font-family:var(--mono);font-size:.5rem;text-transform:uppercase;letter-spacing:.1em;color:rgba(255,255,255,.72)}
+
+/* RESOURCES (DARK) */
+.dark-sec{background:linear-gradient(165deg,#063043 0%,#06161E 100%);border-top:1px solid rgba(255,255,255,.08)}
+.dark-sec .pg-eye{color:var(--green)}
+.dark-sec .pg-eye::before{background:var(--green)}
+.dark-sec .pg-h{color:#fff}
+.dark-sec .pg-sub{color:rgba(255,255,255,.62)}
+.res-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:1rem}
+.res-card{background:#fff;border:1px solid rgba(255,255,255,.6);border-radius:1rem;padding:1.6rem 1.3rem;cursor:pointer;text-decoration:none;display:block;box-shadow:0 10px 30px rgba(0,0,0,.28);transition:transform .22s ease,box-shadow .22s ease}
+.res-card:hover{transform:translateY(-5px);box-shadow:0 22px 46px rgba(0,0,0,.4)}
+.res-ic{font-size:1.85rem;margin-bottom:.9rem;display:block;transition:transform .22s ease}
+.res-card:hover .res-ic{transform:translateY(-2px) scale(1.06)}
+.res-tit{font-size:.9375rem;font-weight:700;color:var(--ink);margin-bottom:.375rem}
+.res-dsc{font-size:.8125rem;font-weight:400;color:var(--soft);line-height:1.45}
+
+/* NEWSLETTERS (bottom) */
+.nl-toolbar{display:flex;align-items:center;gap:1.5rem;flex-wrap:wrap;margin-bottom:1.5rem}
+.nl-featured{display:grid;grid-template-columns:300px 1fr;background:#fff;border:1px solid var(--line);border-radius:1.1rem;overflow:hidden;box-shadow:var(--shadow);margin-bottom:1.25rem}
+.nl-cover{position:relative;min-height:210px;background-size:cover;background-position:center}
+.nl-cover::after{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(3,28,42,.15),rgba(3,28,42,.55))}
+.nl-flag{position:absolute;top:1rem;left:1rem;z-index:1;background:var(--green);color:var(--blue);font-family:var(--mono);font-size:.55rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;padding:.25rem .7rem;border-radius:9999px}
+.nl-cover .mo{position:absolute;bottom:1rem;left:1rem;z-index:1;color:#fff;font-size:1.5rem;font-weight:800;letter-spacing:-.02em;text-shadow:0 2px 12px rgba(0,0,0,.4)}
+.nl-fbody{padding:1.75rem}
+.nl-feye{font-family:var(--mono);font-size:.55rem;text-transform:uppercase;letter-spacing:.1em;color:var(--green-d);margin-bottom:.5rem}
+.nl-ftit{font-size:1.4rem;font-weight:800;letter-spacing:-.02em;margin-bottom:.6rem}
+.nl-fblurb{font-size:.9rem;color:var(--soft);line-height:1.6;font-weight:300;margin-bottom:1.2rem;max-width:560px}
+.nl-fcta{display:inline-flex;align-items:center;gap:.5rem;background:var(--blue);color:#fff;font-size:.85rem;font-weight:700;padding:.62rem 1.4rem;border-radius:9999px;text-decoration:none;transition:all .2s}
+.nl-fcta:hover{background:var(--blue-2);gap:.8rem}
+.nl-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:1rem}
+.nl-card{background:#fff;border:1px solid var(--line);border-radius:1rem;overflow:hidden;cursor:pointer;box-shadow:var(--shadow);text-decoration:none;color:inherit;display:block}
+.nl-cstrip{height:78px;position:relative;background-size:cover;background-position:center}
+.nl-cstrip::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,rgba(3,28,42,.05),rgba(3,28,42,.5))}
+.nl-cstrip .mo{position:absolute;bottom:.5rem;left:.7rem;z-index:1;color:#fff;font-weight:700;font-size:.9rem}
+.nl-cbody{padding:.95rem 1.05rem}
+.nl-cblurb{font-size:.78rem;color:var(--soft);line-height:1.5;font-weight:300}
+.nl-empty{grid-column:1/-1;text-align:center;padding:2.5rem;color:var(--soft);font-family:var(--mono);font-size:.65rem;text-transform:uppercase;letter-spacing:.1em}
+
+footer{padding:2.25rem 2rem;text-align:center;font-size:.7rem;color:rgba(11,34,48,.5);font-weight:300;border-top:1px solid var(--line)}
+footer a{color:var(--ink);text-decoration:none;font-weight:600}
+footer a:hover{color:var(--green-d)}
+
+/* DRAWER */
+.scrim{position:fixed;inset:0;background:rgba(3,20,30,.5);backdrop-filter:blur(2px);opacity:0;visibility:hidden;transition:opacity .3s,visibility .3s;z-index:400}
+.scrim.show{opacity:1;visibility:visible}
+.drawer{position:fixed;top:0;right:0;bottom:0;width:430px;max-width:92vw;background:var(--card);box-shadow:-20px 0 60px rgba(0,0,0,.3);transform:translateX(100%);transition:transform .38s cubic-bezier(.4,0,.2,1);z-index:410;display:flex;flex-direction:column;overflow-y:auto}
+.drawer.open{transform:translateX(0)}
+.drawer-hero{height:200px;position:relative;background-size:cover;background-position:center;flex-shrink:0}
+.dh-ov{position:absolute;inset:0;background:linear-gradient(to top,rgba(3,28,42,.92),rgba(3,28,42,.15))}
+.dh-txt{position:absolute;left:0;right:0;bottom:0;padding:1.4rem;z-index:1;color:#fff}
+.dh-txt h3{font-size:1.45rem;font-weight:800;letter-spacing:-.02em;line-height:1.1;margin-top:.6rem}
+.drawer-x{position:absolute;top:1rem;right:1rem;z-index:2;width:34px;height:34px;border-radius:50%;border:none;background:rgba(0,0,0,.4);backdrop-filter:blur(6px);color:#fff;font-size:1.1rem;cursor:pointer;transition:background .2s}
+.drawer-x:hover{background:rgba(0,0,0,.65)}
+.drawer-body{padding:1.5rem;flex:1}
+.dk-row{display:flex;align-items:center;gap:.6rem;font-size:.92rem;color:var(--ink);padding:.55rem 0;border-bottom:1px solid var(--line)}
+.dk-desc{font-size:.9rem;color:var(--soft);line-height:1.6;font-weight:300;margin:1.1rem 0 1.5rem}
+.dk-cta{display:inline-flex;align-items:center;gap:.5rem;background:var(--green);color:var(--blue);font-size:.875rem;font-weight:700;padding:.65rem 1.4rem;border-radius:9999px;text-decoration:none;transition:all .2s;cursor:pointer}
+.dk-cta:hover{background:#7BEA67;transform:translateY(-2px);box-shadow:0 10px 24px rgba(98,216,78,.35)}
+.dk-cta-off{background:#E2E8EE;color:var(--soft);cursor:default}
+.dk-cta-off:hover{background:#E2E8EE;transform:none;box-shadow:none}
+.dk-row-col{align-items:flex-start}
+.dk-contacts{display:flex;flex-direction:column;gap:.55rem}
+.dk-person{display:flex;flex-direction:column;line-height:1.35}
+.dk-pn{font-size:.92rem;font-weight:600;color:var(--ink)}
+.dk-pe{font-size:.8rem;color:var(--blue-2);text-decoration:none}
+.dk-pe:hover{text-decoration:underline}
+.dk-sessions{display:flex;flex-direction:column;gap:.4rem}
+.dk-sesh{font-family:var(--mono);font-size:.55rem;text-transform:uppercase;letter-spacing:.1em;color:var(--soft);margin-bottom:.15rem}
+.dk-slink{display:block;font-size:.83rem;font-weight:600;color:var(--blue-2);text-decoration:none;padding:.55rem .75rem;border:1px solid var(--line);border-radius:.55rem;transition:all .18s}
+.dk-slink:hover{background:var(--green);color:var(--blue);border-color:var(--green)}
+.drawer-body p{font-size:.92rem;line-height:1.6;color:var(--ink);margin-bottom:.8rem}
+.drawer-body p:last-child{margin-bottom:0}
+/* This Month highlights */
+.tm-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+.tm-card{background:#fff;border:1px solid var(--line);border-radius:1rem;padding:1.5rem;box-shadow:var(--shadow);cursor:pointer;display:flex;flex-direction:column;transition:transform .22s,box-shadow .22s,border-color .22s}
+.tm-card:hover{transform:translateY(-3px);box-shadow:var(--shadow-lg);border-color:rgba(98,216,78,.4)}
+.tm-eyrow{display:flex;align-items:center;gap:.5rem;margin-bottom:.55rem}
+.tm-ic{font-size:1.15rem}
+.tm-kicker{font-family:var(--mono);font-size:.55rem;text-transform:uppercase;letter-spacing:.1em;color:var(--green-d);font-weight:600}
+.tm-h{font-size:1.15rem;font-weight:800;letter-spacing:-.01em;margin-bottom:.5rem}
+.tm-prev{font-size:.875rem;color:var(--soft);line-height:1.55;font-weight:300;flex:1}
+.tm-prev ol{font-weight:500;color:var(--ink)}
+.tm-more{margin-top:1rem;font-size:.8125rem;font-weight:700;color:var(--green-d);display:inline-flex;gap:.3rem;transition:gap .2s}
+.tm-card:hover .tm-more{gap:.6rem}
+@media(max-width:760px){.tm-grid{grid-template-columns:1fr}}
+/* Go-live country tabs + logo wall */
+.gl-tabs{display:flex;gap:.5rem;justify-content:center;flex-wrap:wrap;margin-bottom:1.75rem}
+.gl-tab{display:inline-flex;align-items:center;gap:.5rem;font-family:var(--font);font-size:.875rem;font-weight:600;padding:.5rem 1.1rem;border-radius:9999px;border:1px solid var(--line);background:#fff;color:var(--soft);cursor:pointer;transition:all .18s}
+.gl-tab:hover{color:var(--ink);border-color:var(--blue);transform:translateY(-1px)}
+.gl-tab.on{background:var(--blue);color:#fff;border-color:var(--blue)}
+.gl-flag{font-size:1.05rem;line-height:1}
+.gl-note{text-align:center;max-width:620px;margin:0 auto 1.5rem;font-size:.875rem;color:var(--soft);font-weight:300;line-height:1.55}
+.gl-logos{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:1rem;max-width:var(--maxw);margin:0 auto;width:100%}
+.gl-logo{aspect-ratio:16/9;border:1.5px dashed var(--line);border-radius:.85rem;background:#fff;display:flex;align-items:center;justify-content:center;color:var(--soft);font-family:var(--mono);font-size:.6rem;text-transform:uppercase;letter-spacing:.12em;box-shadow:var(--shadow)}
+.nl-fcta{cursor:pointer}
+/* Newsletter slide-out sections */
+.nl-banner{display:flex;align-items:center;border-radius:.55rem;padding:.55rem .9rem;margin:1.7rem 0 .9rem;background:linear-gradient(100deg,#08283f,#0d3a57 55%,#123048);font-weight:800;font-size:.95rem;letter-spacing:-.01em;position:relative;overflow:hidden}
+.nl-banner:first-child{margin-top:.25rem}
+.nl-banner .g{color:var(--green)}.nl-banner .w{color:#fff}
+.nl-banner::after{content:'';position:absolute;right:-14px;top:-18px;width:62px;height:62px;border-radius:50%;background:radial-gradient(circle,rgba(98,216,78,.45),transparent 68%)}
+.nl-pipe{display:flex;align-items:baseline;gap:1rem;background:#F4F8FB;border:1px solid var(--line);border-radius:.7rem;padding:1rem 1.1rem}
+.nl-pipe-big{font-size:2rem;font-weight:800;color:var(--green-d);letter-spacing:-.03em;line-height:1}
+.nl-pipe-sub{font-size:.8rem;color:var(--soft);line-height:1.5}.nl-pipe-sub strong{color:var(--ink)}.nl-pipe-sub span{font-family:var(--mono);font-size:.6rem;text-transform:uppercase;letter-spacing:.05em}
+.nl-ev{border-left:3px solid var(--line);padding:.15rem 0 .15rem .85rem;margin-bottom:1rem}
+.nl-ev-top{display:flex;align-items:center;gap:.55rem;margin-bottom:.25rem;flex-wrap:wrap}
+.nl-ev-date{font-family:var(--mono);font-size:.6rem;text-transform:uppercase;letter-spacing:.06em;color:var(--soft);font-weight:600}
+.nl-ev-bdg{font-family:var(--mono);font-size:.5rem;text-transform:uppercase;letter-spacing:.05em;padding:.18rem .5rem;border-radius:9999px}
+.nl-ev-tit{font-size:.92rem;font-weight:700;line-height:1.25;margin-bottom:.2rem;color:var(--ink)}
+.nl-ev-loc{font-size:.75rem;color:#1B6FB0;margin-bottom:.3rem}
+.nl-ev-desc{font-size:.8rem;color:var(--soft);line-height:1.5;font-weight:300}
+.nl-asks{list-style:none;margin:0;padding:0}
+.nl-asks li{position:relative;padding:.6rem .85rem .6rem 2.1rem;background:#F4F8FB;border:1px solid var(--line);border-radius:.6rem;margin-bottom:.5rem;font-size:.84rem;line-height:1.5;color:var(--ink)}
+.nl-asks li::before{content:'✓';position:absolute;left:.75rem;top:.6rem;color:var(--green-d);font-weight:800}
+.nl-out{margin:0;padding-left:1.15rem}.nl-out li{font-size:.82rem;color:var(--ink);margin-bottom:.32rem;line-height:1.4}
+.nl-golive{font-size:.92rem;font-weight:600;color:var(--ink)}
+/* Carousel info slides (key asks / message) */
+.c-slide.c-info{align-items:center}
+.c-info .c-body{padding-top:1.5rem;padding-bottom:3rem;width:100%}
+.c-overlay.info{background:linear-gradient(105deg,rgba(3,28,42,.96) 0%,rgba(3,28,42,.88) 55%,rgba(3,28,42,.72) 100%)}
+.ks-head{display:flex;align-items:center;gap:1.1rem;margin-bottom:1.75rem}
+.ks-bubble{flex-shrink:0;width:64px;height:64px;border-radius:50% 50% 50% 6px;background:var(--green);color:var(--blue);font-size:2.1rem;font-weight:800;display:flex;align-items:center;justify-content:center;box-shadow:0 8px 22px rgba(98,216,78,.4)}
+.ks-bubble.msg{border-radius:50% 50% 6px 50%;font-family:Georgia,serif;font-size:3rem;align-items:flex-start;padding-top:.55rem}
+.ks-title{font-size:clamp(1.9rem,3.4vw,2.9rem);font-weight:800;letter-spacing:-.03em;line-height:1.02;color:#fff;margin-top:.3rem}
+.ks-list{list-style:none;margin:0 0 1.75rem;padding:0;display:flex;flex-direction:column;gap:.8rem;max-width:680px}
+.ks-list li{display:flex;gap:1rem;align-items:center;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.16);border-radius:.8rem;padding:.95rem 1.2rem;transition:background .2s,border-color .2s}
+.ks-list li:hover{background:rgba(255,255,255,.12);border-color:rgba(98,216,78,.4)}
+.ks-n{flex-shrink:0;width:30px;height:30px;border-radius:50%;background:var(--green);color:var(--blue);font-size:.9rem;font-weight:800;display:flex;align-items:center;justify-content:center;margin-top:.05rem}
+.ks-ic{flex-shrink:0;width:38px;height:38px;border-radius:50%;background:var(--green);display:flex;align-items:center;justify-content:center;color:var(--blue)}
+.ks-ic svg{width:20px;height:20px;display:block}
+.ks-art{position:absolute;right:5%;top:50%;transform:translateY(-50%);width:min(30vw,360px);height:auto;z-index:0;pointer-events:none}
+@media(max-width:1080px){.ks-art{display:none}}
+.ks-list strong{display:block;color:#fff;font-size:1.02rem;font-weight:700;line-height:1.25}
+.ks-list div span{display:block;color:rgba(255,255,255,.75);font-size:.875rem;font-weight:300;line-height:1.45;margin-top:.2rem}
+.msg-text{color:rgba(255,255,255,.88);font-size:clamp(1.1rem,1.9vw,1.5rem);font-weight:300;line-height:1.55;max-width:720px;margin-bottom:1.9rem;letter-spacing:-.01em}
+@media(max-width:760px){.ks-list li{padding:.7rem .85rem}.ks-bubble{width:50px;height:50px;font-size:1.6rem}.ks-list div span{font-size:.8rem}.ks-head{gap:.8rem;margin-bottom:1.25rem}}
+
+@media(max-width:900px){
+  .cal-layout{grid-template-columns:1fr}
+  .photo-grid{grid-template-columns:repeat(2,1fr)}
+  .nl-featured{grid-template-columns:1fr}
+  .c-body{padding:2rem 1.5rem}
+  .pg{padding:2.25rem 1.5rem 2.5rem}
+  .ann-msg{max-width:55vw}
+}
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="ann" id="ann">
+    <span class="ann-tag">Pipeline Update</span>
+    <span class="ann-msg">Q2 marketing-sourced pipeline tracking at <strong>112% of target</strong> &middot; Now Forum Singapore registrations now open &mdash; <a href="#">view the latest numbers</a>.</span>
+    <button class="ann-x" id="annX" aria-label="Dismiss">&times;</button>
+  </div>
+  <nav class="topnav">
+    <div class="tn-logo">
+      <svg xmlns="http://www.w3.org/2000/svg" width="104" height="16" viewBox="0 0 132 20"><path d="M32.022,6.391a5.626,5.626,0,0,0-3.61,1.3V6.523H25.119V19.35h3.425v-8.2a4.073,4.073,0,0,1,3.109-1.588,3.494,3.494,0,0,1,1.374.206V6.479a5.851,5.851,0,0,0-1.005-.088" fill="#fff" fill-rule="evenodd"/><path d="M2.16,15.436a5.369,5.369,0,0,0,3.5,1.269c.922,0,1.633-.45,1.633-1.084,0-1.931-6.191-1.243-6.191-5.369,0-2.459,2.371-3.993,4.9-3.993a7.9,7.9,0,0,1,4.32,1.3L8.72,10.04a4.3,4.3,0,0,0-2.45-.872c-.948,0-1.739.37-1.739,1.031,0,1.666,6.192,1.005,6.192,5.448,0,2.46-2.4,3.967-5.085,3.967A8.815,8.815,0,0,1,.5,17.9Z" fill="#fff" fill-rule="evenodd"/><path d="M23.657,12.817c0-3.57-2.5-6.558-6.034-6.558-3.794,0-6.218,3.12-6.218,6.691A6.4,6.4,0,0,0,18.1,19.614a6.919,6.919,0,0,0,5.243-2.3l-1.95-1.957a4.515,4.515,0,0,1-3.214,1.481A3.36,3.36,0,0,1,14.725,13.8h8.853A5.735,5.735,0,0,0,23.657,12.817Zm-8.774-1.533a2.775,2.775,0,0,1,2.74-2.248,2.552,2.552,0,0,1,2.53,2.248Z" fill="#fff" fill-rule="evenodd"/><polygon points="41.19 14.351 44.694 6.523 48.252 6.523 42.376 19.35 40.005 19.35 34.129 6.523 37.686 6.523 41.19 14.351" fill="#fff" fill-rule="evenodd"/><path d="M51.128.5A2.2,2.2,0,1,1,48.888,2.7,2.2,2.2,0,0,1,51.128.5" fill="#fff" fill-rule="evenodd"/><rect x="49.415" y="6.523" width="3.425" height="12.827" fill="#fff"/><path d="M67,16.731a6.766,6.766,0,0,1-5.8,2.883,6.68,6.68,0,1,1,.026-13.355,6.808,6.808,0,0,1,5.375,2.565l-2.424,2.142a3.7,3.7,0,0,0-2.951-1.534A3.433,3.433,0,0,0,57.78,12.95a3.383,3.383,0,0,0,3.531,3.49,3.741,3.741,0,0,0,3.056-1.692Z" fill="#fff" fill-rule="evenodd"/><path d="M79.442,17.313a6.918,6.918,0,0,1-5.243,2.3,6.4,6.4,0,0,1-6.692-6.664c0-3.571,2.424-6.691,6.218-6.691,3.53,0,6.033,2.988,6.033,6.558a5.635,5.635,0,0,1-.079.979H70.826a3.36,3.36,0,0,0,3.452,3.041,4.52,4.52,0,0,0,3.215-1.481Zm-3.188-6.029a2.551,2.551,0,0,0-2.529-2.248,2.774,2.774,0,0,0-2.74,2.248Z" fill="#fff" fill-rule="evenodd"/><path d="M81.12,19.35V6.523h3.293V7.554a5.625,5.625,0,0,1,3.609-1.295,5.747,5.747,0,0,1,4.427,2.063,6.482,6.482,0,0,1,1.317,4.5V19.35H90.341v-6.8a3.11,3.11,0,0,0-.764-2.407,2.69,2.69,0,0,0-1.923-.714,4.076,4.076,0,0,0-3.109,1.587V19.35Z" fill="#fff" fill-rule="evenodd"/><path d="M102.586,6.259A7.5,7.5,0,0,0,97.419,19.21a1.481,1.481,0,0,0,1.926.1,5.355,5.355,0,0,1,6.394,0,1.485,1.485,0,0,0,1.937-.113,7.5,7.5,0,0,0-5.09-12.94M102.542,17.5a3.637,3.637,0,0,1-3.734-3.733,3.734,3.734,0,1,1,7.468,0,3.637,3.637,0,0,1-3.734,3.733" fill="#62d84e" fill-rule="evenodd"/><polygon points="116.788 19.35 114.237 19.35 109.15 6.523 112.57 6.523 115.359 13.853 118.094 6.523 120.952 6.523 123.662 13.853 126.475 6.523 129.896 6.523 124.809 19.35 122.258 19.35 119.523 12.046 116.788 19.35" fill="#fff" fill-rule="evenodd"/></svg>
+      <span class="tn-pill">APJ Hub</span>
+    </div>
+    <div class="tn-tabs" id="tnTabs">
+      <a class="tn-tab" href="contact.html">Contact</a>
+      <button class="tn-tab active" data-go="home">What's Upcoming</button>
+      <div class="tn-drop-wrap">
+        <button class="tn-tab" data-go="calendar">Events <span class="tn-caret">&#9662;</span></button>
+        <div class="tn-drop">
+          <a class="tn-drop-i" data-go="calendar">Events Calendar<small>Live month grid &amp; list</small></a>
+          <a class="tn-drop-i" href="all-events.html">All Events<small>Every event, by year (2023–2027)</small></a>
+        </div>
+      </div>
+      <button class="tn-tab" data-go="golives">Go Lives</button>
+      <div class="tn-drop-wrap">
+        <button class="tn-tab" data-go="photos">Media Center <span class="tn-caret">&#9662;</span></button>
+        <div class="tn-drop">
+          <div class="tn-drop-row">
+            <a class="tn-drop-i" data-go="newsletters">Newsletters<small>Latest issue &amp; recent months</small></a>
+            <a class="tn-drop-va" href="newsletters-all.html">All</a>
+          </div>
+          <div class="tn-drop-row">
+            <a class="tn-drop-i" data-go="photos">Photo Gallery<small>Recent event highlights</small></a>
+            <a class="tn-drop-va" href="photos-all.html">All</a>
+          </div>
+        </div>
+      </div>
+      <div class="tn-drop-wrap">
+        <button class="tn-tab">More <span class="tn-caret">&#9662;</span></button>
+        <div class="tn-drop">
+          <a class="tn-drop-i muted" href="#">Future projects<small>New spaces will live here</small></a>
+          <a class="tn-drop-i muted" href="#">Coming soon<small>Linked when ready</small></a>
+        </div>
+      </div>
+    </div>
+    <div class="tn-right">APJ &middot; 2026</div>
+  </nav>
+</header>
+
+<main class="content" id="content">
+
+  <!-- WHAT'S UPCOMING -->
+  <section class="hero" id="home">
+    <div class="c-wrap" id="cWrap">
+      <button class="c-arrow prev" id="cPrev">&lsaquo;</button>
+      <button class="c-arrow next" id="cNext">&rsaquo;</button>
+      <div class="c-timer" id="cTimer"><span class="c-timer-ring"></span><span>Auto 10s</span></div>
+      <div class="c-count" id="cCount"></div>
+      <div class="c-dots" id="cDots"></div>
+      <div class="scroll-hint">Scroll for calendar<span>&darr;</span></div>
+      <div class="c-prog"><div class="c-pfill" id="cPfill"></div></div>
+    </div>
+  </section>
+
+  <!-- CALENDAR -->
+  <section id="calendar" class="band-base">
+    <div class="pg">
+      <div class="pg-eye">Events</div>
+      <div class="pg-h">Events Calendar 2026 – 2027</div>
+      <div class="pg-sub">Browse the month grid or switch to a list. The earliest event is in focus — pick any day or side event to bring it forward.</div>
+      <div class="cal-bar">
+        <div class="viewtog" id="viewTog">
+          <button class="on" data-v="grid">Calendar</button>
+          <button data-v="list">List</button>
+        </div>
+        <div class="cal-nav" id="calNav">
+          <button class="cal-nav-btn" id="calPrev">&lsaquo;</button>
+          <span class="cal-month" id="calMonth"></span>
+          <button class="cal-nav-btn" id="calNext">&rsaquo;</button>
+          <button class="cal-today" id="calToday">Today</button>
+        </div>
+      </div>
+      <div id="calGridView">
+        <div class="cal-layout">
+          <div class="cal-grid-wrap">
+            <div class="cal-dow"><span>Sun</span><span>Mon</span><span>Tue</span><span>Wed</span><span>Thu</span><span>Fri</span><span>Sat</span></div>
+            <div class="cal-grid" id="calGrid"></div>
+          </div>
+          <div class="cal-detail" id="calDetail"></div>
+        </div>
+      </div>
+      <div id="calListView" style="display:none">
+        <div class="filters">
+          <div class="fg"><span class="fl">Year</span><div class="chips" id="fY"></div></div>
+          <div class="fg"><span class="fl">Quarter</span><div class="chips" id="fQ"></div></div>
+          <div class="fg"><span class="fl">Country</span><div class="chips" id="fC"></div></div>
+          <div class="fg"><span class="fl">Type</span><div class="chips" id="fT"></div></div>
+        </div>
+        <div class="ev-list" id="evList"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- GO LIVES -->
+  <section class="golive-sec" id="golives">
+    <div class="pg" style="width:100%">
+      <div class="gl-intro">
+        <div class="pg-eye">Customer Success</div>
+        <h2>Live across <span>APJ</span></h2>
+        <p>Recent customer deployments now running in production. Browse by market — full impact stories live on ServiceNow.com.</p>
+      </div>
+      <div class="gl-tabs" id="glTabs"></div>
+      <div class="gl-grid" id="glGrid"></div>
+      <div class="viewall-wrap" style="display:flex;gap:.75rem;justify-content:center;flex-wrap:wrap">
+        <a class="viewall-btn" href="https://www.servicenow.com/customers.html" target="_blank" rel="noopener">Explore customer success stories →</a>
+        <a class="viewall-btn" href="golives-all.html">View all go-lives →</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- PHOTOS -->
+  <section id="photos" class="band-light">
+    <div class="pg">
+      <div class="sec-head">
+        <div>
+          <div class="pg-eye">Media Center</div>
+          <div class="pg-h">Photo Gallery</div>
+          <div class="pg-sub" style="margin-bottom:0">Highlights from recent events across the APJ markets.</div>
+        </div>
+        <a class="see-all" href="photos-all.html">See all photos →</a>
+      </div>
+      <div class="photo-grid" id="photoGrid"></div>
+      <div class="viewall-wrap"><a class="viewall-btn" href="photos-all.html">View more photos →</a></div>
+    </div>
+  </section>
+
+  <!-- RESOURCES (dark) -->
+  <section id="resources" class="dark-sec">
+    <div class="pg">
+      <div class="pg-eye">Quick Access</div>
+      <div class="pg-h">Resources</div>
+      <div class="pg-sub">Commonly used tools and templates for the team.</div>
+      <div class="res-grid" id="resGrid"></div>
+    </div>
+  </section>
+
+  <!-- NEWSLETTERS (bottom) -->
+  <section id="newsletters" class="band-base">
+    <div class="pg">
+      <div class="sec-head">
+        <div>
+          <div class="pg-eye">Media Center</div>
+          <div class="pg-h">Monthly Newsletters</div>
+          <div class="pg-sub" style="margin-bottom:0">The latest issue, plus the last few months. Filter to find older issues.</div>
+        </div>
+        <a class="see-all" href="newsletters-all.html">View all issues →</a>
+      </div>
+      <div class="nl-toolbar">
+        <div class="fg"><span class="fl">Year</span><select class="gl-sel" id="nlYear"></select></div>
+        <div class="fg"><span class="fl">Month</span><select class="gl-sel" id="nlMonth"></select></div>
+      </div>
+      <div id="nlFeatured"></div>
+      <div class="nl-grid" id="nlGrid"></div>
+    </div>
+  </section>
+
+  <footer>&copy; 2026 ServiceNow, Inc. &nbsp;&middot;&nbsp; APJ Programs &amp; Events Hub &nbsp;&middot;&nbsp; <a href="contact.html">Contact &amp; Team</a></footer>
+
+</main>
+
+<div class="scrim" id="scrim"></div>
+<aside class="drawer" id="drawer" aria-hidden="true">
+  <button class="drawer-x" id="drawerX" aria-label="Close">&times;</button>
+  <div class="drawer-hero" id="drawerHero"></div>
+  <div class="drawer-body" id="drawerBody"></div>
+</aside>
+
+<script>
+const TC={'Strategic Events':'#1B6FB0','CXO':'#B0457B','Partner':'#2E9E4F','ABM':'#C4820E','Buying Group':'#0A7E8C','Buying Group Webinar':'#7C5CCB','Industry':'#C2553C'};
+const TSHORT={'Strategic Events':'Strategic','CXO':'CXO','Partner':'Partner','ABM':'ABM','Buying Group':'Buying Grp','Buying Group Webinar':'BG Webinar','Industry':'Industry'};
+// event owner first-name → email handle (@servicenow.com)
+const CONTACTS={'Lynn':{n:'Lynn Lim',h:'lynn.lim'},'Valerie':{n:'Valerie Teo',h:'valerie.teo'},'Kristen':{n:'Kristen Foo',h:'kristen.foo'},'Shermin':{n:'Shermin Ong',h:'shermin.ong'},'Kendrick':{n:'Kendrick Leung',h:'kendrick.leung'},'Lisa':{n:'Lisa SoYeon Kim',h:'soyeon.kim'},'SoYeon':{n:'Lisa SoYeon Kim',h:'soyeon.kim'},'Jayron':{n:'Jayron Yap',h:'jayron.yap'},'Michele':{n:'Michele Chen',h:'michele.chen'},'Ophelia':{n:'Ophelia Yu',h:'ophelia.yu'},'Lexy':{n:'Lexy Leong',h:'lexy.leong'},'Melissa':{n:'Melissa Tan',h:'melissa.tan'},'Marcus':{n:'Marcus Foo',h:'jiahaomarcus.foo'}};
+function resolveOwners(str){str=str||'';const out=[];Object.keys(CONTACTS).forEach(k=>{if(new RegExp('\\b'+k+'\\b').test(str)){const c=CONTACTS[k];if(!out.some(o=>o.h===c.h))out.push(c);}});return out;}
+function contactChips(str){const o=resolveOwners(str);if(!o.length)return '<div class="dk-person"><span class="dk-pn">'+(str||'APAC Marketing')+'</span></div>';return o.map(c=>'<div class="dk-person"><span class="dk-pn">'+c.n+'</span><a class="dk-pe" href="mailto:'+c.h+'@servicenow.com">'+c.h+'@servicenow.com</a></div>').join('');}
+function ownerEmails(str){return resolveOwners(str).map(c=>c.h+'@servicenow.com').join(',');}
+const tc=t=>TC[t]||'#1B6FB0';
+const CITY={'Singapore':'https://loremflickr.com/1600/900/singapore,city?lock=11','Korea':'https://loremflickr.com/1600/900/seoul,city?lock=33','Malaysia':'https://loremflickr.com/1600/900/malaysia,city?lock=44','Philippines':'https://loremflickr.com/1600/900/manila,city?lock=55','Hong Kong':'https://loremflickr.com/1600/900/hongkong,city?lock=66','Australia':'https://loremflickr.com/1600/900/sydney,city?lock=77','Thailand':'https://loremflickr.com/1600/900/bangkok,city?lock=88','Indonesia':'https://loremflickr.com/1600/900/jakarta,city?lock=12','USA':'https://loremflickr.com/1600/900/lasvegas,city?lock=99'};
+const JAPAN_BG="radial-gradient(circle at 50% 38%, rgba(98,216,78,.92), rgba(98,216,78,0) 30%), linear-gradient(135deg,#04293B 0%,#0A4D68 55%,#032D42 100%)";
+const GRAD={g1:'linear-gradient(135deg,#07111a,#0a2540,#0f4c75,#1a6fa8)',g2:'linear-gradient(135deg,#0f0c29,#1a1060,#4a1a8c,#7b2d8b)',g3:'linear-gradient(135deg,#0a1a0f,#0d3320,#1a5c3a,#2d8653)',g4:'linear-gradient(135deg,#1a0a0a,#3d1515,#7b2020,#a83030)',g5:'linear-gradient(135deg,#0a1520,#0f2a3d,#1a5070,#2090b0)',g6:'linear-gradient(135deg,#1a0f00,#3d2800,#7b5500,#b08020)',g7:'linear-gradient(135deg,#0f0f1a,#1a1060,#2d20a0,#4040cc)',g8:'linear-gradient(135deg,#00151a,#003d3d,#007b7b,#00b0b0)'};
+function bgFor(country,g){if(country==='Japan')return JAPAN_BG;const grad=GRAD[g]||GRAD.g1;const img=CITY[country];return img?("url('"+img+"'), "+grad):grad;}
+function gradOnly(g){return GRAD[g]||GRAD.g1;}
+
+const events=[
+  // ── JUNE 2026 ──
+  {title:"From Answers to Action: How Micron built an AI Front Door",country:"Virtual",venue:"Virtual",type:"Buying Group Webinar",date:"Jun 2, 2026",dateLabel:"Jun 2",contact:"APAC Marketing",link:"https://info.servicenow.com/WBR-MA00010317_APAC-EXP-WBR-AI-Front-Door-Micron_MT00002355_LP.html",cta:"reg",g:"g7",desc:"Micron shares how an AI front door powered by Moveworks connects to ServiceNow's autonomous workflows — moving from answering employee requests to resolving them across IT, HR and Procurement."},
+  {title:"ServiceNow Executive Connect",country:"Philippines",venue:"Grand Hyatt Manila",type:"CXO",date:"Jun 3, 2026",dateLabel:"Jun 3",contact:"Kendrick or Lexy",link:"https://servicenow.sharepoint.com/:p:/s/Asia_Korea_Marketing/IQDoppceq6y7Q5mDG9o7XfrVAahHvrtq9E2f0ygn096IAik?e=dxavWE",cta:"info",g:"g2",desc:"An intimate thought-leadership roundtable for the Philippines' senior IT leaders on governing AI at scale, self-healing IT and automated compliance. Led by Jan Morgenthau and Colin Tan."},
+  {title:"DXC Connect Insurance Executive Forum",country:"Singapore",venue:"Raffles Hotel Singapore",type:"Partner",date:"Jun 3, 2026",dateLabel:"Jun 3–4",contact:"Kristen",link:"https://servicenow.sharepoint.com/:p:/s/Asia_Korea_Marketing/IQA5MvULmrrqT5QiXt3PSEjgAT8GXBEW_XliYRCyN_L9F6c?e=O2YRIH",cta:"info",g:"g3",desc:"An invitation-only forum for DXC Technology's insurance customer community, with ServiceNow as exclusive global sponsor. Adrian Johnston joins Ray August (President, DXC Insurance) on the keynote stage."},
+  {title:"EY AI Governance Event",country:"Singapore",venue:"EY Wavespace Singapore",type:"Partner",date:"Jun 9, 2026",dateLabel:"Jun 9",contact:"Kristen",link:"https://servicenow.sharepoint.com/:p:/s/Asia_Korea_Marketing/IQBBWa1XpAvKTZHUIyhKaVGnASRPJWOOkH7HWk8_AqVDEmg?e=IxU3Ft",cta:"info",g:"g3",desc:"EY deep-dives into ServiceNow AI Control Tower for connecting AI strategy, governance and management across the enterprise, sharing real implementation experience."},
+  {title:"ServiceNow AI Feature Flash",country:"Virtual",venue:"Virtual",type:"Buying Group Webinar",date:"Jun 10, 2026",dateLabel:"Jun 10 & 24",contact:"APAC Marketing",link:"https://info.servicenow.com/WBR-MA00009537_APAC-AI-Demo-Main_MT00002157_LP-Multi.html",cta:"reg",g:"g7",desc:"See how ServiceNow orchestrates knowledge, agents, data and protocols end to end. Built on live environments — no slides, just the platform working."},
+  {title:"APAC CRM AI Summit 2026",country:"Virtual",venue:"Virtual",type:"Buying Group Webinar",date:"Jun 15, 2026",dateLabel:"Jun 15–16",contact:"APAC Marketing",link:"https://info.servicenow.com/WBR-MA00013519_APAC-CRM-WBR-CRMSUMMIT-1516JUN-MAIN_MT00002959_LP.html",cta:"reg",g:"g7",desc:"A two-part virtual series with executive insights, customer stories and live AI demos showing how Autonomous CRM delivers smarter, more personalised experiences."},
+  {title:"CK Hutchison Cybersecurity and AI Conference",country:"Hong Kong",venue:"Harbour Grand Kowloon",type:"ABM",date:"Jun 16, 2026",dateLabel:"Jun 16–17",contact:"Valerie",link:"",cta:"contact",g:"g6",desc:"ServiceNow is Platinum Sponsor at CK Hutchison's Cybersecurity & AI Conference. John Aisien (SVP & GM, Security and Risk) keynotes on scaling AI agents securely with AI Control Tower, powered by Armis and Veza. ~200 CKHH attendees."},
+  {title:"AI that Works for IT and Data",country:"Virtual",venue:"Virtual",type:"Buying Group Webinar",date:"Jun 16, 2026",dateLabel:"Jun 16, 18, 23 & 25",contact:"APAC Marketing",link:"",cta:"soon",g:"g7",desc:"A four-part series on using AI to improve visibility, accelerate decisions and transform IT and business operations on a unified platform — from AI-ready data foundations to modernised service operations."},
+  {title:"Executive Dinner",country:"Hong Kong",venue:"The China Club",type:"CXO",date:"Jun 17, 2026",dateLabel:"Jun 17",contact:"Valerie or Kendrick",link:"",cta:"contact",g:"g2",desc:"An intimate evening with Hong Kong's technology leaders on closing the gap between AI velocity and operational control. Facilitated by APAC President Adrian Johnston and John Aisien."},
+  {title:"Deloitte Digital Day",country:"Hong Kong",venue:"Grand Hyatt Hong Kong",type:"Partner",date:"Jun 24, 2026",dateLabel:"Jun 24",contact:"Kristen",link:"https://servicenow.sharepoint.com/:p:/s/Asia_Korea_Marketing/IQDTukKeHUlqSrLtWmAx3TYyAf35F5_jDonzdg3YvA_9E7k?e=T0ppRu",cta:"info",g:"g3",desc:"Deloitte Digital's flagship event for 300+ C-level leaders on AI-driven innovation. ServiceNow participates as Platinum Sponsor with a CRM speaking session."},
+  // ── MAY 2026 ──
+  {title:"Knowledge 2026",country:"USA",venue:"The Venetian, Las Vegas",type:"Strategic Events",date:"May 5, 2026",dateLabel:"May 5–7",contact:"Shermin",link:"https://servicenow.sharepoint.com/sites/strategiceventsresourcecenters/SitePages/Knowledge.aspx?csf=1&web=1&e=9g1YQc&CID=318f1750-a940-4726-b2e3-7a397021d280",cta:"info",g:"g1",desc:"ServiceNow's flagship annual conference — 300+ sessions, hands-on labs, AI certifications and keynotes from Jensen Huang, Mindy Kaling and Idris Elba. Theme: Agentic Business, with deep dives into AI Agents and AI Control Tower."},
+  {title:"IQPC Shared Services & Outsourcing Week",country:"Malaysia",venue:"Sheraton Imperial KL",type:"Buying Group",date:"May 5, 2026",dateLabel:"May 5–8",contact:"Shermin or Melissa",link:"https://servicenow.sharepoint.com/sites/Asia_Korea_Marketing/_layouts/15/Event.aspx?ListGuid=244fbba0-d50c-48bf-843d-563b32f2b19c&ItemId=24",cta:"info",g:"g5",desc:"Themed 'People First, Purpose Always', this roundtable convenes finance, HR, shared services and GBS leaders placing operational efficiency, employee experience and business outcomes at the core of transformation."},
+  {title:"Accenture CIO Workshop",country:"Singapore",venue:"Raffles City Convention Centre",type:"Partner",date:"May 11, 2026",dateLabel:"May 11",contact:"Kristen or Melissa",link:"https://servicenow.sharepoint.com/:p:/s/Asia_Korea_Marketing/IQBxwLOfzZT7Q4e1kRU7ugclAc9Z5I6LGBOHHmj75D89-yk?e=FegkjO",cta:"info",g:"g3",desc:"ServiceNow is Diamond Sponsor of the Accenture CIO Workshop with ITMA, themed 'The Next Intelligence: Humans, Agents, and Machines'. The Singapore event features an AI Governance panel with MAS, Bank of Singapore and Accenture."},
+  {title:"CCAS AI Summit",country:"Singapore",venue:"ParkRoyal Beach Road",type:"Buying Group",date:"May 14, 2026",dateLabel:"May 14",contact:"Jayron or Melissa",link:"https://servicenow.sharepoint.com/:p:/s/Asia_Korea_Marketing/IQBfSsv7KWuDQbRth0UqRiHJAS91XUe6Pl8arR-DgHrR-Y0?e=EpgW9w",cta:"info",g:"g5",desc:"Themed 'Make it Real: Agentic CX Frontier'. ServiceNow has a booth, speaking slot and a panel debate at this CX-focused summit."},
+  {title:"Public Sector Enablement Webinar",country:"Singapore",venue:"Virtual",type:"Industry",date:"May 18, 2026",dateLabel:"May 18",contact:"Jayron or Melissa",link:"https://info.servicenow.com/WBR-MA00005496_SG-Public-Sector-Enablement-Webinar_MT00001105_Multi_LP.html",cta:"reg",g:"g8",desc:"Second in the Public Sector Enablement Webinar Series — how agencies can close the gap between ambition and execution and run government operations at scale with AI."},
+  {title:"AI in Action Workshop",country:"Philippines",venue:"Shangri-La Makati",type:"Buying Group",date:"May 19, 2026",dateLabel:"May 19",contact:"Kendrick or Lexy",link:"https://servicenow.sharepoint.com/:p:/s/Asia_Korea_Marketing/IQDpPuYLdww9RbvNGzQ-f4pOAWz-OjyKeV1t8vKTKPjVNgc?e=jSId3K",cta:"info",g:"g5",desc:"A full-day hands-on workshop for IT practitioners to build on the ServiceNow platform — guided labs across AI Agent creation, Knowledge Graph, Skill Kit and Now Assist for ITSM, HR, CSM and Operations."},
+  {title:"AI Executive Roundtable",country:"Malaysia",venue:"Four Seasons Hotel Kuala Lumpur",type:"Buying Group",date:"May 20, 2026",dateLabel:"May 20",contact:"Kendrick or Lexy",link:"https://servicenow.sharepoint.com/:p:/s/Asia_Korea_Marketing/IQC9SVwRW8FbRL-lskyqHmhXAQrOrpOpGIO63yUOhhudIKw?e=Trsgcm",cta:"info",g:"g5",desc:"An invitation-only roundtable for Malaysia's CHROs, CFOs and CIOs on how AI is reshaping governance, operations and employee experience. Hosted with Cxociety."},
+  {title:"CRM Executive Roundtable",country:"Singapore",venue:"Parkroyal Collection Marina Bay",type:"Buying Group",date:"May 21, 2026",dateLabel:"May 21",contact:"Shermin or Melissa",link:"https://servicenow.sharepoint.com/:p:/s/Asia_Korea_Marketing/IQDaduyxUaaQQJXoOjNsn4-QAa8rn_AGLvDvmidPv5BV7mk?e=jKcKw0",cta:"info",g:"g5",desc:"An executive roundtable, 'The CX Shift: From Investment to Impact', for COOs, CROs and CX leaders on turning CX spend into lasting loyalty."},
+  {title:"AI in Action Workshop",country:"Thailand",venue:"Renaissance Bangkok",type:"Buying Group",date:"May 26, 2026",dateLabel:"May 26",contact:"Kendrick or Lexy",link:"https://servicenow.sharepoint.com/:p:/s/Asia_Korea_Marketing/IQAWcMlvm5YBQrjPbgQJJ5ebAc3AT1viHEluqYbVAskhCJc?e=5hsBbp",cta:"info",g:"g5",desc:"A half-day hands-on workshop on Autonomous IT and AI Control Tower, co-hosted with Enable — guided labs on deploying AI Agents and managing the full AI lifecycle with built-in governance."},
+  {title:"CBS Executive Roundtable",country:"Hong Kong",venue:"Conrad Hong Kong",type:"Buying Group",date:"May 26, 2026",dateLabel:"May 26",contact:"Kendrick",link:"https://servicenow.sharepoint.com/:w:/s/Asia_Korea_Marketing/IQC_NisrTKWrTJoQCM83Icq9AUvE_nFE_TPJHFMZvOKE2dI?e=drJcOL",cta:"info",g:"g5",desc:"Themed 'People First, Purpose Always' — finance, HR, shared services and GBS leaders on redesigning operating models and building human-agentic workforces."},
+  // ── APRIL 2026 ──
+  {title:"Public Sector Roundtable with Cognizant",country:"Singapore",venue:"ParkRoyal Marina Bay",type:"Partner",date:"Apr 8, 2026",dateLabel:"Apr 8",contact:"Kristen",link:"https://servicenow.sharepoint.com/sites/Asia_Korea_Marketing/_layouts/15/Event.aspx?ListGuid=244fbba0-d50c-48bf-843d-563b32f2b19c&ItemId=13",cta:"info",g:"g3",desc:"With Cognizant and GovInsider, a half-day roundtable for public sector executives on modernising legacy infrastructure, integrating AI responsibly, and strengthening secure, citizen-centric digital services."},
+  {title:"AI in Action Workshop Series",country:"Singapore",venue:"Suntec SG (21–23) · Lee Garden One HK (29)",type:"Buying Group",date:"Apr 21, 2026",dateLabel:"Apr 21, 22, 23 & 29",contact:"Jayron (SG), Kendrick (HK), Lexy (SG & HK)",link:"",cta:"sessions",links:[{l:"21 Apr · SG — Leadership AI (info)",u:"https://servicenow.sharepoint.com/sites/Asia_Korea_Marketing/_layouts/15/Event.aspx?ListGuid=244fbba0-d50c-48bf-843d-563b32f2b19c&ItemId=14"},{l:"22 Apr · SG — ITOM AIOps (info)",u:"https://servicenow.sharepoint.com/sites/Asia_Korea_Marketing/_layouts/15/Event.aspx?ListGuid=244fbba0-d50c-48bf-843d-563b32f2b19c&ItemId=15"},{l:"23 Apr · SG — Security / USEM (info)",u:"https://servicenow.sharepoint.com/sites/Asia_Korea_Marketing/_layouts/15/Event.aspx?ListGuid=244fbba0-d50c-48bf-843d-563b32f2b19c&ItemId=16"},{l:"29 Apr · HK — Enterprise AI (info)",u:"https://servicenow.sharepoint.com/sites/Asia_Korea_Marketing/_layouts/15/Event.aspx?ListGuid=244fbba0-d50c-48bf-843d-563b32f2b19c&ItemId=20"},{l:"SG registration (closed)",u:"https://rsvp.servicenow.com/AIWorkshopSG/registration-closed"},{l:"HK registration",u:"https://info.servicenow.com/WKS-MA00009267_Q2-HK-Leadership-AI-Workshop_MT00002010_LP.html?referenceSource=sales"}],g:"g5",desc:"Post-Summit follow-up moving customers from mainstage to lab bench. Singapore runs three full-day workshops (Leadership AI, ITOM AIOps, USEM Security); Hong Kong runs a one-day Enterprise AI workshop."},
+  {title:"CBS Executive Roundtable",country:"Singapore",venue:"TBC",type:"Buying Group",date:"Apr 23, 2026",dateLabel:"Apr 23",contact:"Shermin or Melissa",link:"https://servicenow.sharepoint.com/sites/Asia_Korea_Marketing/_layouts/15/Event.aspx?ListGuid=244fbba0-d50c-48bf-843d-563b32f2b19c&ItemId=17",cta:"info",g:"g5",desc:"Themed 'People First, Purpose Always' — finance, HR, shared services and GBS leaders on placing operational efficiency, employee experience and business outcomes at the core of transformation."},
+  {title:"AIBP Enterprise Innovation Retreat Program",country:"Singapore",venue:"Pullman Singapore Hill Street",type:"Buying Group",date:"Apr 27, 2026",dateLabel:"Apr 27",contact:"Shermin",link:"https://servicenow.sharepoint.com/sites/Asia_Korea_Marketing/_layouts/15/Event.aspx?ListGuid=244fbba0-d50c-48bf-843d-563b32f2b19c&ItemId=22",cta:"info",g:"g5",desc:"ServiceNow hosts a Day 1 executive dinner at this senior gathering of Southeast Asian transformation leaders, themed 'Multi-Polar Headwinds: Building ASEAN Enterprises That Outlast and Outperform'."},
+  {title:"CrowdTour Singapore",country:"Singapore",venue:"Marina Bay Sands Convention Center",type:"Buying Group",date:"Apr 28, 2026",dateLabel:"Apr 28",contact:"Shermin or Lexy",link:"https://servicenow.sharepoint.com/sites/Asia_Korea_Marketing/_layouts/15/Event.aspx?ListGuid=244fbba0-d50c-48bf-843d-563b32f2b19c&ItemId=18",cta:"info",g:"g5",desc:"ServiceNow is a Gold Sponsor at CrowdStrike's cybersecurity roadshow — a booth and a speaking slot with James Fong on how ServiceNow and CrowdStrike unify security operations and accelerate incident response."},
+  {title:"Milipol Asia Pacific (MTX) 2026",country:"Singapore",venue:"Sands Expo and Convention Centre",type:"Industry",date:"Apr 28, 2026",dateLabel:"Apr 28–30",contact:"Jayron or Melissa",link:"https://servicenow.sharepoint.com/sites/Asia_Korea_Marketing/_layouts/15/Event.aspx?ListGuid=244fbba0-d50c-48bf-843d-563b32f2b19c&ItemId=19",cta:"info",g:"g8",desc:"APAC's leading public safety and homeland security event. ServiceNow sponsors with a booth, demo session and lightning talk — expecting 15,000 visitors including 3,000 government and industry delegates."},
+  {title:"Accenture HRSD Employee Centre Showcase",country:"Singapore",venue:"Accenture Innovation Hub",type:"Partner",date:"Apr 30, 2026",dateLabel:"Apr 30",contact:"Kristen",link:"https://servicenow.sharepoint.com/sites/Asia_Korea_Marketing/_layouts/15/Event.aspx?ListGuid=244fbba0-d50c-48bf-843d-563b32f2b19c&ItemId=21",cta:"info",g:"g3",desc:"A showcase of Employee Centre and HR Service Delivery for the public sector — practical use cases for a single digital front door, ticket deflection, operational efficiency and scalable reuse across agencies."},
+  // ── MARCH 2026 ──
+  {title:"Datapro DCS Solution Day",country:"Thailand",venue:"Eastin Grand Hotel Phayathai",type:"Partner",date:"Mar 4, 2026",dateLabel:"Mar 4",contact:"Kristen",link:"https://servicenow.sharepoint.com/:p:/s/Asia_Korea_Marketing/IQAswoBXtcikToDbxLYM4zlQARYplOcYYjvex1GNJ7jt-0c?e=DNhVS0",cta:"info",g:"g3",desc:"Datapro convenes 300+ tech leaders for a day of solution exploration. ServiceNow participates as a Silver sponsor, showcasing ITSM and AI capabilities."},
+  {title:"CAG Servis+ Roadshow",country:"Singapore",venue:"Changi Airport Terminal 2",type:"ABM",date:"Mar 6, 2026",dateLabel:"Mar 6",contact:"Valerie",link:"https://servicenow.sharepoint.com/sites/Asia_Korea_Marketing/_layouts/15/Event.aspx?ListGuid=244fbba0-d50c-48bf-843d-563b32f2b19c&ItemId=7",cta:"info",g:"g6",desc:"CAG Servis+ launch roadshow — an ABM program with the CAG Servis+ team and EY to drive account-wide awareness and adoption, targeting 300+ CAG employees."},
+  {title:"Public Sector Enablement Webinar",country:"Singapore",venue:"Virtual",type:"Industry",date:"Mar 12, 2026",dateLabel:"Mar 12",contact:"Jayron or Melissa",link:"https://servicenow.sharepoint.com/sites/Asia_Korea_Marketing/_layouts/15/Event.aspx?ListGuid=244fbba0-d50c-48bf-843d-563b32f2b19c&ItemId=12",cta:"info",g:"g8",desc:"The opening session of the Public Sector Enablement Webinar Series — how agencies can use AI-powered workflows to manage citizen needs end to end, from smarter case triage to cross-agency coordination."},
+  {title:"NTT Data x ServiceNow x GCP Event",country:"Singapore",venue:"NTT Office",type:"Partner",date:"Mar 13, 2026",dateLabel:"Mar 13",contact:"Kristen",link:"https://servicenow.sharepoint.com/:p:/s/Asia_Korea_Marketing/IQC2MEVeOZZLTqhUta_nPu2PAQoTCxTjwF5ZlLB15TT-7YE?e=pF3hgs",cta:"info",g:"g3",desc:"Themed 'The Intelligent Workflow Revolution' — NTT Data, ServiceNow and Google Cloud explore how Customer Service Management and Gemini Enterprise deliver service excellence."},
+  {title:"ServiceNow AI Summit Asia",country:"Singapore",venue:"The Mira HK (17 Mar) · Marina Bay Sands SG (24 Mar)",type:"Strategic Events",date:"Mar 17, 2026",dateLabel:"Mar 17 & 24",contact:"Shermin",link:"https://servicenow.sharepoint.com/sites/teamapj/SitePages/ServiceNow-AI-Summit-Staff-Attendance-Policy.aspx?CID=ceaee90a-b96a-4087-9f83-7f45f7464d5f",cta:"info",g:"g1",desc:"A half-day experience with mainstage keynotes, breakout tracks and an expo floor. Hong Kong features DFI, HKJC and Jardine Matheson; Singapore features A*STAR, MINDEF, NTUC and Prudential, with the Executive Circle alongside both."},
+  {title:"MFEC Inspire",country:"Thailand",venue:"Grand Centre Point Lumphini Bangkok",type:"Partner",date:"Mar 25, 2026",dateLabel:"Mar 25",contact:"Kristen",link:"https://servicenow.sharepoint.com/:p:/s/Asia_Korea_Marketing/IQDQi1MycZfKQ6ghHI2-KLMOAQ6EMT9WdV8TcEbvOTqMCsU?e=VLsVoS",cta:"info",g:"g3",desc:"Themed 'Empowering Tomorrow's Enterprise with AI' — MFEC's flagship event. As Eco-Innovator sponsor, ServiceNow presents as the AI control tower for business reinvention."},
+  // ── FEBRUARY 2026 ──
+  {title:"Standard Chartered Bank Leader 4 Leaders Program",country:"Singapore",venue:"SCB Office",type:"ABM",date:"Feb 4, 2026",dateLabel:"Feb 4–5",contact:"Valerie",link:"https://servicenow.sharepoint.com/sites/Asia_Korea_Marketing/_layouts/15/Event.aspx?ListGuid=244fbba0-d50c-48bf-843d-563b32f2b19c&ItemId=9",cta:"info",g:"g6",desc:"ServiceNow partners Standard Chartered Bank on its invite-only Leaders for Leaders program for Band 4+ leaders globally — fireside chats and a workshop to deepen strategic relationships and build mindshare."},
+  {title:"Autonomous IT & AICT Hands-on Workshop",country:"Singapore",venue:"ServiceNow Office SG · WORQ KL Sentral MY",type:"Buying Group",date:"Feb 5, 2026",dateLabel:"Feb 5 & 11",contact:"Jayron or Melissa",link:"",cta:"sessions",links:[{l:"5 Feb · SG — info",u:"https://servicenow.sharepoint.com/sites/Asia_Korea_Marketing/_layouts/15/Event.aspx?ListGuid=244fbba0-d50c-48bf-843d-563b32f2b19c&ItemId=10"},{l:"11 Feb · MY — info",u:"https://servicenow.sharepoint.com/sites/Asia_Korea_Marketing/_layouts/15/Event.aspx?ListGuid=244fbba0-d50c-48bf-843d-563b32f2b19c&ItemId=11"}],g:"g5",desc:"A hands-on workshop to explore, build and operationalise AI on the ServiceNow platform — guided labs on deploying AI Agents, Autonomous IT, and managing the AI lifecycle with AI Control Tower. Held in Singapore and Malaysia."},
+  {title:"AI in Action Summit Day 3",country:"Virtual",venue:"Virtual",type:"Strategic Events",date:"Feb 5, 2026",dateLabel:"Feb 5",contact:"Shermin or Sarah",link:"https://info.servicenow.com/WT-WBR-MW-ALLBU-AIinActionSummit-Main-22JAN26-APAC_LP.html",cta:"reg",g:"g1",desc:"Day 3 of the AI in Action leadership series — expert analysis and live demos on orchestrating intelligent agents with ServiceNow as the control tower for autonomous operations."},
+  {title:"NUHS HR Executive Briefing",country:"Singapore",venue:"National University Hospital",type:"ABM",date:"Feb 5, 2026",dateLabel:"Feb 5–10",contact:"Valerie",link:"https://servicenow.sharepoint.com/sites/Asia_Korea_Marketing/_layouts/15/Event.aspx?ListGuid=244fbba0-d50c-48bf-843d-563b32f2b19c&ItemId=8",cta:"info",g:"g6",desc:"Two by-invitation HR leadership sessions hosted by NUHS — building awareness, reinforcing the GCIO partnership, and seeding ServiceNow's vision with HR leaders."},
+  {title:"CAG Servis+ Roadshow",country:"Singapore",venue:"Changi Airport Terminal 2",type:"ABM",date:"Feb 11, 2026",dateLabel:"Feb 11",contact:"Valerie",link:"https://servicenow.sharepoint.com/sites/Asia_Korea_Marketing/_layouts/15/Event.aspx?ListGuid=244fbba0-d50c-48bf-843d-563b32f2b19c&ItemId=7",cta:"info",g:"g6",desc:"CAG Servis+ launch roadshow — an ABM program with the CAG Servis+ team and EY to drive account-wide awareness and adoption, targeting 300+ CAG employees ahead of org-wide rollout."},
+  {title:"Fujitsu Data+AI Roundtable",country:"Thailand",venue:"Grande Centre Point Terminal 21",type:"Partner",date:"Feb 12, 2026",dateLabel:"Feb 12",contact:"Kristen",link:"https://servicenow.sharepoint.com/:p:/s/Asia_Korea_Marketing/IQDsk93m_1yQQpf7meVHW0LLASYP-1x2ELAnjuc9If_Wtc0?e=ImXxfH",cta:"info",g:"g3",desc:"Themed 'From Data & AI Exploration to Realization for Thai Enterprises' — a continuation of Fujitsu ActivateNow to accelerate pipeline for Fujitsu's DI PaaS, integrated with ServiceNow."},
+  // ── JANUARY 2026 ──
+  {title:"CRM for the AI Era — Episode 3",country:"Virtual",venue:"Virtual",type:"Buying Group Webinar",date:"Jan 13, 2026",dateLabel:"Jan 13",contact:"APAC Integrated Marketing",link:"https://info.servicenow.com/WT-WBR-CW-CSM-CRMfortheAIEra-Main-25NOV25-APAC_LP.html",cta:"reg",g:"g7",desc:"Part of the CRM for the AI Era webinar series exploring Autonomous CRM and AI-driven customer experience."},
+  {title:"DFI Annual Leadership Forum (ALF 2026)",country:"Hong Kong",venue:"Ocean Park Marriott Hotel",type:"ABM",date:"Jan 14, 2026",dateLabel:"Jan 14",contact:"Valerie or Ophelia",link:"https://servicenow.sharepoint.com/sites/Asia_Korea_Marketing/_layouts/15/Event.aspx?ListGuid=244fbba0-d50c-48bf-843d-563b32f2b19c&ItemId=1",cta:"info",g:"g6",desc:"DFILink, Deloitte and ServiceNow showcase DFILink at ALF 2026, where senior leaders from all markets gather. A combined booth demonstrates how DFILink for Stores drives impact across markets."},
+  {title:"Thailand FSI Executive Connect",country:"Thailand",venue:"The Ritz Carlton Bangkok",type:"Industry",date:"Jan 16, 2026",dateLabel:"Jan 16",contact:"Kendrick or Melissa",link:"https://servicenow.sharepoint.com/sites/Asia_Korea_Marketing/_layouts/15/Event.aspx?ListGuid=244fbba0-d50c-48bf-843d-563b32f2b19c&ItemId=5",cta:"info",g:"g8",desc:"An intimate executive dinner for C-suite leaders from Thailand's top banks, exploring how banks use Agentic AI to reduce costs, improve services and strengthen risk and compliance."},
+  {title:"CRM for the AI Era — Episode 4",country:"Virtual",venue:"Virtual",type:"Buying Group Webinar",date:"Jan 20, 2026",dateLabel:"Jan 20",contact:"APAC Integrated Marketing",link:"https://info.servicenow.com/WT-WBR-CW-CSM-CRMfortheAIEra-Main-25NOV25-APAC_LP.html",cta:"reg",g:"g7",desc:"Part of the CRM for the AI Era webinar series exploring Autonomous CRM and AI-driven customer experience."},
+  {title:"AI in Action Summit — Day 1",country:"Virtual",venue:"Virtual",type:"Strategic Events",date:"Jan 22, 2026",dateLabel:"Jan 22",contact:"APAC Integrated Marketing",link:"https://event.on24.com/wcc/r/5138680/DEA106B0BB2147D4E3A8D2E6591497ED",cta:"reg",g:"g1",desc:"Leadership for Action: Balancing Cost, Speed & Risk — Day 1 of the AI in Action leadership series on scaling Agentic AI with ServiceNow as the control tower."},
+  {title:"AI in Action Summit — Day 2",country:"Virtual",venue:"Virtual",type:"Strategic Events",date:"Jan 29, 2026",dateLabel:"Jan 29",contact:"APAC Integrated Marketing",link:"https://event.on24.com/wcc/r/5138680/DEA106B0BB2147D4E3A8D2E6591497ED",cta:"reg",g:"g1",desc:"Blueprints for Action: Designing AI-Driven Operations — Day 2 of the AI in Action leadership series on operationalising autonomous operations."},
+  // ── JULY 2026 ──
+  {title:"Google Cloud Platform x ServiceNow Launch",country:"Indonesia",venue:"",type:"Partner",date:"Jul 8, 2026",dateLabel:"Jul 8",contact:"TBC",link:"",cta:"soon",g:"g3",desc:"A joint Google Cloud and ServiceNow launch event in Indonesia."},
+  {title:"NCS Impact",country:"Singapore",venue:"",type:"Partner",date:"Jul 8, 2026",dateLabel:"Jul 8–9",contact:"TBC",link:"",cta:"soon",g:"g3",desc:"ServiceNow joins NCS Impact, NCS's flagship technology event in Singapore."},
+  {title:"EY Studio+ Launch Event",country:"Singapore",venue:"",type:"Partner",date:"Jul 14, 2026",dateLabel:"Jul 14",contact:"TBC",link:"",cta:"soon",g:"g3",desc:"Launch event for EY Studio+, in partnership with ServiceNow, in Singapore."},
+  {title:"FSI Executive Connect",country:"Singapore",venue:"",type:"CXO",date:"Jul 16, 2026",dateLabel:"Jul 16",contact:"TBC",link:"",cta:"soon",g:"g2",desc:"An executive connect for financial services industry leaders in Singapore."},
+  {title:"EY Studio+ & CRM Event",country:"Thailand",venue:"",type:"Partner",date:"Jul 22, 2026",dateLabel:"Jul 22",contact:"TBC",link:"",cta:"soon",g:"g3",desc:"An EY Studio+ and CRM-focused event in Thailand."},
+  {title:"Public Sector Workshop: Australia Release AI Adoption",country:"Singapore",venue:"",type:"Industry",date:"Jul 29, 2026",dateLabel:"Jul 29–30",contact:"TBC",link:"",cta:"soon",g:"g8",desc:"A public sector workshop on AI adoption built on the ServiceNow Australia release, in Singapore."},
+];
+const goLives=[
+  {co:'DBS Bank',mkt:'Singapore',prod:'IT Service Management Pro',metric:'60%',lbl:'faster incident resolution',sector:'Financial Services',date:'2026-05',g:'g1'},
+  {co:'Singapore Airlines',mkt:'Singapore',prod:'Now Assist (AI)',metric:'3.5x',lbl:'support agent productivity',sector:'Travel & Transport',date:'2026-05',g:'g8'},
+  {co:'Tokio Marine',mkt:'Japan',prod:'HR Service Delivery',metric:'4.8/5',lbl:'employee satisfaction score',sector:'Insurance',date:'2026-04',g:'g2'},
+  {co:'Samsung SDI',mkt:'Korea',prod:'Now Platform + CSM',metric:'$2.4M',lbl:'annual cost savings',sector:'Manufacturing',date:'2026-04',g:'g7'},
+  {co:'Petronas',mkt:'Malaysia',prod:'Field Service Management',metric:'35%',lbl:'higher first-fix rate',sector:'Energy & Utilities',date:'2026-03',g:'g6'},
+  {co:'SK Telecom',mkt:'Korea',prod:'Customer Service Management',metric:'42%',lbl:'faster case handling',sector:'Telecommunications',date:'2026-03',g:'g7'},
+  {co:'BDO Unibank',mkt:'Philippines',prod:'IT Operations Management',metric:'99.9%',lbl:'platform uptime achieved',sector:'Financial Services',date:'2026-02',g:'g4'},
+  {co:'HK Electric',mkt:'Hong Kong',prod:'Asset Management',metric:'28%',lbl:'lower maintenance costs',sector:'Energy & Utilities',date:'2026-01',g:'g5'},
+];
+const photos=[
+  {cap:'Now Forum SG — Keynote',evt:'Now Forum Singapore 2026',country:'Singapore',g:'g1',wide:true},
+  {cap:'Japan Workshop — Lab',evt:'CX Innovation Workshop',country:'Japan',g:'g2'},
+  {cap:'Korea CIO Networking',evt:'Korea CIO Dinner',country:'Korea',g:'g7'},
+  {cap:'KL Executive Dinner',evt:'Malaysia ABM Dinner',country:'Malaysia',g:'g6'},
+  {cap:'Manila Partner Day',evt:'PH Partner Summit',country:'Philippines',g:'g4'},
+  {cap:'Hong Kong Panel',evt:'HK Healthcare Forum',country:'Hong Kong',g:'g5',wide:true},
+  {cap:'Singapore Expo Floor',evt:'Now Forum Singapore 2026',country:'Singapore',g:'g8'},
+  {cap:'Seoul Summit Opening',evt:'Korea Summit',country:'Korea',g:'g7'},
+];
+const resources=[
+  {ic:'📚',tit:'K26 Resource Center',dsc:'Knowledge 2026 assets, recordings & enablement',type:'link',url:'https://servicenow.sharepoint.com/sites/strategiceventsresourcecenters/SitePages/Knowledge.aspx?csf=1&web=1&e=9g1YQc&CID=318f1750-a940-4726-b2e3-7a397021d280',g:'g1'},
+  {ic:'✉️',tit:'Invite Templates',dsc:'AI Summit sales email templates (HK & SG)',type:'links',g:'g3',links:[{l:'Hong Kong invite template',u:'https://servicenow.sharepoint.com/:w:/r/sites/Asia_Korea_Marketing/_layouts/15/Doc.aspx?sourcedoc=%7BFFC4FADD-60EC-49E0-81C4-C410B5CC4611%7D&file=HK_Summit26_sales_email.docx&action=default&mobileredirect=true'},{l:'Singapore invite template',u:'https://servicenow.sharepoint.com/:w:/s/Asia_Korea_Marketing/IQDKhWkdHofrRYO6of0aIjQlAQVa9xdj3TcGztyJRqWhRP4?e=lGEr4C'}]},
+  {ic:'🎨',tit:'Brand Center',dsc:'ServiceNow brand assets & guidelines',type:'soon',g:'g7'},
+];
+// placeholder newsletters Jan–Jun 2026 (replace with real issues)
+const newsletters=[{"ym": "2026-06", "g": "g1", "blurb": "K26 recap — nine platform announcements and the shift from AI ambition to execution, plus a month of executive Connects across Singapore, Hong Kong and the Philippines.", "msg": "<p>Knowledge 2026 marked a defining moment for ServiceNow and our customers. Nine major platform announcements — from the AI Control Tower and Autonomous Workforce to ServiceNow Otto, EmployeeWorks and the Australia release — set a new bar for putting AI to work across the enterprise. The message was clear: the era of AI ambition is giving way to the era of AI execution, built on governance, trust and outcomes at scale.</p><p>That conviction is reflected in how we're showing up this month. June brings a series of exclusive executive engagements across the region, creating space for deeper conversations on AI governance, cybersecurity, transformation and business priorities — including our ServiceNow Executive Connects across Singapore, Hong Kong and the Philippines.</p><p>The strong momentum from K26 continues to build across the region. Now is the time to follow through and turn that engagement into pipeline acceleration. More to come soon on Knowledge to You @ Innovation Center.</p><p>June gives us another opportunity to keep those conversations moving forward. Let's keep showing up strong together.</p><p style='color:var(--soft)'>— Asia Marketing Team</p>", "pipeline": {"asof": "1 June 2026", "cur": "$4.2M", "target": "$15.8M", "att": "27%"}, "events": [{"d": "2 Jun", "type": "Buying Group Webinar", "title": "VIRTUAL: From Answers to Action — How Micron built an AI Front Door for the Enterprise", "loc": "Virtual", "desc": "Micron shares how they connected an AI front door powered by Moveworks to ServiceNow's autonomous workflows — moving from answering employee requests to resolving them, with instant personalised support across IT, HR, Procurement and beyond."}, {"d": "3 Jun", "type": "CXO", "title": "ServiceNow Executive Connect", "loc": "Grand Hyatt Manila, Philippines", "desc": "An intimate thought-leadership roundtable for the Philippines' senior IT leaders on governing AI at scale, self-healing IT and automated compliance. Led by Jan Morgenthau and Colin Tan in a whiteboarding style."}, {"d": "3–4 Jun", "type": "Partner", "title": "DXC Connect Insurance Executive Forum", "loc": "Raffles Hotel Singapore", "desc": "DXC's invitation-only forum for insurance executive leaders, with ServiceNow as exclusive global sponsor across all four cities. Adrian Johnston joins stage with Ray August, President of DXC Insurance."}, {"d": "9 Jun", "type": "Partner", "title": "EY AI Governance Event", "loc": "EY Wavespace Singapore", "desc": "EY deep-dives into ServiceNow AI Control Tower for connecting AI strategy, governance and management across the enterprise, sharing implementation experience."}, {"d": "10 & 24 Jun", "type": "Buying Group Webinar", "title": "VIRTUAL: ServiceNow AI Feature Flash", "loc": "Virtual", "desc": "See how ServiceNow orchestrates knowledge, agents, data and protocols end to end. Built on live environments — no slide decks, just the platform working."}, {"d": "15–16 Jun", "type": "Buying Group Webinar", "title": "VIRTUAL: APAC CRM AI Summit 2026", "loc": "Virtual", "desc": "A two-part virtual series with executive insights, customer stories and live AI demos on how Autonomous CRM delivers smarter, more personalised experiences."}, {"d": "16–17 Jun", "type": "ABM", "title": "CK Hutchison Cybersecurity and AI Conference", "loc": "Harbour Grand Kowloon, Hong Kong", "desc": "ServiceNow is Platinum Sponsor. John Aisien (SVP & GM Security and Risk) keynotes on how the AI Control Tower — powered by Armis and Veza — scales AI agents securely. ~200 CKHH attendees, closed-door."}, {"d": "16, 18, 23 & 25 Jun", "type": "Buying Group Webinar", "title": "VIRTUAL: AI that Works for IT and Data", "loc": "Virtual", "desc": "A four-part series on using AI to improve visibility, accelerate decisions and transform IT and business operations on a unified platform — from AI-ready data foundations to modernising service operations."}, {"d": "17 Jun", "type": "CXO", "title": "Executive Dinner", "loc": "The China Club, Hong Kong", "desc": "An intimate evening for Hong Kong's technology leaders on closing the gap between AI velocity and operational control. Facilitated by APAC President Adrian Johnston and John Aisien (SVP & GM Security & Risk)."}, {"d": "24 Jun", "type": "Partner", "title": "Deloitte Digital Day", "loc": "Grand Hyatt Hong Kong", "desc": "Deloitte Digital's flagship event for 300+ C-level leaders. ServiceNow participates as Platinum Sponsor with a CRM speaking session in the breakout track."}], "golives": "UB UnionBank — with Nexus", "keyasks": ["<strong>Knowledge 2026 Follow-Up:</strong> Connect with customers who attended K26 to convert conversations into pipeline. Now is the time to accelerate deals sparked in Las Vegas.", "<strong>Nominate Accounts for Knowledge to You:</strong> Details coming soon on bringing the K26 experience to Asia. Start identifying priority accounts and senior stakeholders you'd want in the room.", "<strong>Keep the momentum going:</strong> continue driving customer registrations and attendance for our Executive Connects across Singapore, Hong Kong and the Philippines."], "outlook": ["8 Jul — ID: Google Cloud Platform × ServiceNow Launch", "8–9 Jul — SG: NCS Impact", "14 Jul — SG: EY Studio+ Launch Event", "16 Jul — SG: FSI Executive Connect", "22 Jul — TH: EY Studio+ & CRM Event", "29–30 Jul — SG: Public Sector Workshop (Australia Release AI Adoption)", "TBC — SG: IT Buying Group Executive Roundtable", "TBC — SG: Accenture Executive Roundtable", "TBC — MY: ValueFlow Executive Roundtable"]}, {"ym": "2026-05", "g": "g8", "blurb": "Knowledge 2026 underway in Las Vegas, and the most active month yet in-region — Buying Group roundtables and hands-on workshops across SG, HK and RoASEAN.", "msg": "<p>Knowledge 2026 is underway — our biggest global stage, where our story comes to life in full. A clear theme is emerging: AI without workflows is just expensive advice. Customers are looking beyond experimentation to execution — how AI can sense, decide, act and operate securely at scale. For those in Las Vegas, make every conversation count and bring the momentum back to Asia.</p><p>That momentum is already carrying into the region. May is one of our most active months yet, with a strong lineup of Buying Group roundtables, hands-on workshops and executive engagements across Singapore, Hong Kong and RoASEAN. Each moment is intentional — some open new doors and create pipeline, others progress deals through deeper validation and stronger alignment across IT, HR, CRM and cross-functional teams.</p><p>This is where activity turns into impact. Let's show up sharp and keep building.</p><p style='color:var(--soft)'>— Asia Marketing Team</p>", "pipeline": {"asof": "6 May 2026", "cur": "$2.7M", "target": "$15.8M", "att": "17%"}, "events": [{"d": "5–7 May", "type": "Strategic Events", "title": "Knowledge 2026", "loc": "The Venetian Convention & Expo Center, Las Vegas", "desc": "ServiceNow's flagship annual conference — 300+ sessions, hands-on labs, AI certifications and keynotes from Jensen Huang (NVIDIA), Mindy Kaling and Idris Elba. This year's theme centres on Agentic Business, with deep dives into AI Agents and the AI Control Tower."}, {"d": "5–8 May", "type": "Buying Group", "title": "IQPC Shared Services & Outsourcing Week", "loc": "Sheraton Imperial KL, Malaysia", "desc": "Themed \"People First, Purpose Always\", this roundtable brings together finance, HR, shared services and GBS leaders placing operational efficiency, employee experience and business outcomes at the core of transformation."}, {"d": "11–16 May", "type": "Partner", "title": "Accenture CIO Workshop", "loc": "Raffles City Convention Centre, Singapore", "desc": "ServiceNow is Diamond Sponsor of the Accenture CIO Workshop with ITMA, themed \"The Next Intelligence: Humans, Agents, and Machines.\" The 11 May Singapore event features an AI Governance panel with MAS, Bank of Singapore and Accenture."}, {"d": "14 May", "type": "Buying Group", "title": "CCAS AI Summit", "loc": "ParkRoyal Beach Road, Singapore", "desc": "Themed \"Make it Real: Agentic CX Frontier\", with a ServiceNow booth, speaking slot and panel debate."}, {"d": "18 May", "type": "Industry", "title": "Public Sector Enablement Webinar", "loc": "Virtual (Singapore)", "desc": "Part two of the series — how agencies can close the gap between ambition and execution and run government operations at scale with AI."}, {"d": "19 May", "type": "Buying Group", "title": "AI in Action Workshop", "loc": "Shangri-La Makati, Philippines", "desc": "A full-day, hands-on workshop for IT practitioners — guided labs on AI Agent creation, Knowledge Graph, Skill Kit and Now Assist across ITSM, HR, CSM and Operations."}, {"d": "20 May", "type": "Buying Group", "title": "AI Executive Roundtable", "loc": "Four Seasons Hotel Kuala Lumpur", "desc": "Invitation-only roundtable with Cxociety for Malaysia's CHROs, CFOs and CIOs on AI-human collaboration, workflow reinvention and talent as a strategic multiplier."}, {"d": "21 May", "type": "Buying Group", "title": "CRM Executive Roundtable", "loc": "Parkroyal Collection Marina Bay, Singapore", "desc": "\"The CX Shift: From Investment to Impact\" — COOs, CROs and CX leaders explore what it takes to turn spending into loyalty that sticks."}, {"d": "26 May", "type": "Buying Group", "title": "AI in Action Workshop", "loc": "Renaissance Bangkok, Thailand", "desc": "A half-day, hands-on workshop on Autonomous IT and AI Control Tower, co-hosted with Enable — guided labs on deploying AI Agents and managing the full AI lifecycle with built-in governance."}, {"d": "26 May", "type": "Buying Group", "title": "CBS Executive Roundtable", "loc": "Conrad Hong Kong", "desc": "Themed \"People First, Purpose Always\" — finance, HR, shared services and GBS leaders on redesigning operating models and building human-agentic workforces."}], "keyasks": ["<strong>Buying Group Roundtables & Workshops:</strong> a packed calendar across Singapore, Hong Kong and RoASEAN this month. Your help identifying and inviting the right senior stakeholders is the difference between a good turnout and the right turnout. Reach out to your marketing contact for invite lists and registration links."], "outlook": ["3 Jun — PH: Executive Breakfast", "3–4 Jun — DXC Insurance Executive Connect", "16 Jun — ID: Google Cloud Platform × ServiceNow Launch", "16–17 Jun — CK Hutchison Cybersecurity & AI Conference", "18 Jun — HK: HR Buying Group Workshop", "24 Jun — HK: Deloitte Digital Day"]}, {"ym": "2026-04", "g": "g6", "blurb": "April issue coming soon."}, {"ym": "2026-03", "g": "g7", "blurb": "AI Summits in Hong Kong and Singapore headline the month — with the Singapore livestream a first for APAC — as K26 registrations track at 44% in Asia.", "msg": "<p>Our flagship AI Summits in Hong Kong and Singapore are almost here, and momentum is building fast. We're bringing together an outstanding lineup of customer leaders — A*STAR, DFI, HKJC, MINDEF, NTUC and Prudential — with Michael Park, SVP Global Partnerships and Channels, delivering our Singapore keynote.</p><p>For the first time we are livestreaming the Singapore Summit — the only city doing so across APAC — significantly expanding our reach. Our shared focus for March: drive attendance, lock in Executive Circle confirmations in both cities, and influence the right decision-makers.</p><p>Looking ahead, Knowledge 2026 registrations are tracking well, with Asia leading the region at 44% of target. Let's make every one of these count.</p><p style='color:var(--soft)'>— Asia Marketing Team</p>", "pipeline": {"asof": "27 Feb 2026", "cur": "$8.55M", "target": "$12.54M", "att": "68.2%"}, "events": [{"d": "4 Mar", "type": "Partner", "title": "Datapro DCS Solution Day", "loc": "Eastin Grand Hotel Phayathai, Thailand", "desc": "Datapro brings 300+ tech leaders together for a day of solution exploration. ServiceNow participates as Silver sponsor, showcasing ITSM and AI capabilities."}, {"d": "6 Mar", "type": "ABM", "title": "CAG Servis+ Roadshow", "loc": "Changi Airport Terminal 2, Singapore", "desc": "ABM program with the CAG Servis+ Team and EY to support stakeholder management and adoption — targeting 300+ CAG employees and an org-wide rollout."}, {"d": "12 Mar", "type": "Industry", "title": "Public Sector Enablement Webinar", "loc": "Virtual (Singapore)", "desc": "Series opener — how agencies can use AI-powered workflows to manage citizen needs end to end, from smarter case triage to cross-agency coordination."}, {"d": "13 Mar", "type": "Partner", "title": "NTT Data × ServiceNow × GCP Event", "loc": "NTT Office, Singapore", "desc": "Themed \"The Intelligent Workflow Revolution\" — NTT Data, ServiceNow and Google Cloud on how CSM and Google Gemini Enterprise deliver service excellence."}, {"d": "17 & 24 Mar", "type": "Strategic Events", "title": "ServiceNow AI Summit Asia", "loc": "The Mira Hong Kong (17 Mar) · Marina Bay Sands, Singapore (24 Mar)", "desc": "A half-day experience — mainstage keynotes, breakout tracks and an expo floor with demo kiosks. HK speakers: DFI, HKJC, Jardine Matheson. SG: A*STAR, MINDEF, NTUC, Prudential. The Executive Circle runs alongside both."}, {"d": "25 Mar", "type": "Partner", "title": "MFEC Inspire", "loc": "Grand Centre Point Lumphini Bangkok, Thailand", "desc": "Themed \"Empowering Tomorrow's Enterprise with AI.\" As Eco-Innovator sponsor, ServiceNow showcases the platform as the AI control tower for business reinvention."}], "keyasks": ["<strong>Executive Circle is our top priority</strong> — help us close the gap to 90. Invitations have gone out with you copied; please follow up to secure RSVPs. For additional C/C-1 nominations, reach out to Michele Chen.", "<strong>Keep pushing comp-pass nominations for K26.</strong> For details and resources, see the K26 Resource Center."], "outlook": ["Apr — Post-AI Summit Follow-up Workshops (IT, HR & CRM) across SG, HK & RoASEAN", "8 Apr — SG: Cognizant Public Sector Roundtable", "23 Apr — SG: Financial Services Leaders' Forum", "28–30 Apr — SG: MTX (Milipol)", "TBC — SG: Fujitsu Experience Roundtable", "TBC — MY: NTT Data Roundtable"]}, {"ym": "2026-02", "g": "g4", "blurb": "Back from SKO — the AI in Action Digital Summit draws 222 live attendees, AI Summits get underway, and 2026 starts strong.", "msg": "<p>Welcome back from SKO — a week that set a clear tone for 2026. The pace is fast and the ambition unmistakable, and it was a strong moment for Asia: our teams, our collaboration, and the focus that will define how we win this year.</p><p>The momentum is already showing. Days 1 and 2 of our AI in Action Digital Summit saw 222 unique live attendees from across Asia. Our flagship AI Summits in Singapore and Hong Kong are also well underway, leading with ServiceNow as the AI control tower for business reinvention — with customer speakers from DFI, HKJC, NTUC and Prudential. Running alongside is our Executive Circle for senior-level conversations.</p><p>2026 is about raising the bar and leading with AI to deliver real customer value. For those celebrating, a happy Lunar New Year — may the Year of the Horse bring bold strides ahead.</p><p style='color:var(--soft)'>— Asia Marketing Team</p>", "pipeline": {"asof": "30 Jan 2026", "cur": "$6.0M", "target": "$11.75M", "att": "51.2%"}, "events": [{"d": "4–5 Feb", "type": "ABM", "title": "Standard Chartered Bank — Leader 4 Leaders Program", "loc": "SCB Office, Singapore", "desc": "ServiceNow partners SCB on its invite-only Leaders for Leaders program for Band 4+ leaders globally — fireside chats and a collaborative workshop to deepen strategic relationships."}, {"d": "5 & 11 Feb", "type": "Buying Group", "title": "Autonomous IT & AICT Hands-on Workshop", "loc": "ServiceNow Office, Singapore · WORQ KL Sentral, Malaysia", "desc": "A hands-on workshop to explore, build and operationalise AI on the platform — guided labs on deploying AI Agents, Autonomous IT, and managing the AI lifecycle with AI Control Tower."}, {"d": "5 Feb", "type": "Strategic Events", "title": "AI in Action Summit — Day 3", "loc": "Virtual", "desc": "Day 3 of the 3-part AI leadership series — expert analysis and hands-on demos on orchestrating intelligent agents with ServiceNow as the control tower."}, {"d": "5–10 Feb", "type": "ABM", "title": "NUHS HR Executive Briefing", "loc": "National University Hospital, Singapore", "desc": "Two by-invite HR leadership sessions that build awareness, reinforce our partnership with the GCIO and seed ServiceNow's vision with HR leaders."}, {"d": "11 Feb", "type": "ABM", "title": "CAG Servis+ Roadshow", "loc": "Changi Airport Terminal 2, Singapore", "desc": "ABM program with the CAG Servis+ Team and EY — targeting 300+ CAG employees on 11 Feb and an org-wide rollout."}, {"d": "12 Feb", "type": "Partner", "title": "Fujitsu Data+AI Roundtable", "loc": "Grande Centre Point Terminal 21, Thailand", "desc": "Themed \"From Data & AI Exploration to Realization for Thai Enterprises\" — a continuation from Fujitsu ActivateNow to accelerate pipeline for Fujitsu DI PaaS, an integrated offering with ServiceNow."}], "golives": "with NCS · with Cloudpoint & EY", "digital": ["ONE Team Buying Group Campaigns — IT, CRM, EX", "Put AI to Work Campaign", "ServiceNow AI Summit Campaign", "Contact: DASO"], "keyasks": ["If your customers have received AI Summit EC invitations, please help follow up and lock in confirmations early.", "Continue driving customer attendance to our AI Summits with the HK and SG email invite templates."], "outlook": ["4 Mar — PH: Nexus Roundtable", "4 Mar — TH: Datapro Computer Systems Solution Day", "12 Mar — Public Sector Enablement Webinar", "13 Mar — TH: NTT Data × ServiceNow × GCP Event", "17 Mar — ServiceNow AI Summit Hong Kong", "24 Mar — ServiceNow AI Summit Singapore", "25 Mar — MY: ValueFlow Roundtable"]}, {"ym": "2026-01", "g": "g5", "blurb": "FY26 kickoff — AI Summits in focus for Q1, opening with DFI's Annual Leadership Forum and a Thailand FSI Executive Connect.", "msg": "<p>Happy New Year! As Bill shared, 2026 is a defining year for ServiceNow. Customers are moving with urgency, expectations are rising, and the conversations you're leading are increasingly centred on outcomes, confidence and trust.</p><p>We're starting strong in Q1 with our flagship AI Summits. This year we've taken a more focused approach — concentrating on Singapore and Hong Kong — to show up with greater impact and sharper customer stories, with a clear focus on scaling Agentic AI through the AI Control Tower. We've already begun partnering with many of you on identifying customer speakers.</p><p>We're entering the year aligned and energized — and it's the partnership between sales and marketing that brings our story to life. Here's to a strong start across Asia in 2026.</p><p style='color:var(--soft)'>— Asia Marketing Team</p>", "events": [{"d": "14 Jan", "type": "ABM", "title": "DFI Annual Leadership Forum (ALF 2026)", "loc": "Ocean Park Marriott Hotel, Hong Kong", "desc": "DFILink, Deloitte and ServiceNow showcase DFILink at ALF 2026, where senior leaders from all markets gather. A combined booth demonstrates how DFILink for Stores drives impact across markets."}, {"d": "16 Jan", "type": "Industry", "title": "Thailand FSI Executive Connect", "loc": "The Ritz Carlton Bangkok, Thailand", "desc": "C-suite leaders from Thailand's top banks at an intimate executive dinner — how banks use Agentic AI to reduce costs, improve services and strengthen risk and compliance."}], "webinars": ["13 Jan — CRM for the AI Era, Episode 3", "20 Jan — CRM for the AI Era, Episode 4", "22 Jan — AI in Action Summit Day 1: Leadership for Action", "29 Jan — AI in Action Summit Day 2: Blueprints for Action", "Contact: APAC Integrated Marketing"], "digital": ["ONE Team Buying Group Campaigns — IT, CRM, Core Business", "Put AI to Work Campaign", "ServiceNow AI Summit Campaign", "Contact: DASO"], "golives": "with Cognizant", "keyasks": ["Support needed in identifying customer speakers for the ServiceNow AI Summits in Singapore and Hong Kong — a strong way to showcase customer success and deepen senior-level conversations."], "outlook": ["5 Feb — SG: AI Builders Hands-on Workshop", "10 Feb — MY: AI Builders Hands-on Workshop", "TBC — TH: Fujitsu Data+AI Roundtable"]}];
+// monthly highlights shown at the top of the landing page
+const KEYASKS={month:'June 2026',items:[
+  {t:'Knowledge 2026 Follow-Up',ic:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1.6" fill="currentColor"/></svg>',s:'Turn K26 conversations into pipeline.',d:'Connect with customers who attended K26 to convert conversations into pipeline. Now is the time to accelerate deals sparked in Las Vegas.'},
+  {t:'Nominate Accounts for Knowledge to You',ic:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3.2"/><path d="M3.5 19c0-3 2.5-5.2 5.5-5.2s5.5 2.2 5.5 5.2"/><path d="M16 5.6a3 3 0 0 1 0 5.6"/><path d="M17.6 14c2.1.6 3.4 2.3 3.4 4.9"/></svg>',s:'Identify priority accounts & stakeholders.',d:"Details coming soon on bringing the K26 experience to Asia. Start identifying priority accounts and senior stakeholders you'd want in the room — we'll share nomination details as soon as they're available."},
+  {t:'Keep the momentum going',ic:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 16.5l5.5-5.5 4 4 8-8.5"/><path d="M16 6.5h5v5"/></svg>',s:'Drive Executive Connect registrations (SG, HK, PH).',d:'Continue driving customer registrations and attendance for our Executive Connects across Singapore, Hong Kong and the Philippines.'}
+]};
+const TEAMMSG={month:'June 2026',
+  short:"<p>Knowledge 2026 was a defining moment — nine platform announcements signalling the shift from AI ambition to AI execution. This month we build on that with exclusive executive Connects across Singapore, Hong Kong and the Philippines.</p><p>Now's the time to turn K26 momentum into pipeline. Let's keep showing up strong together.</p><p style='color:var(--soft)'>— Asia Marketing Team</p>",
+  full:"<p>Knowledge 2026 marked a defining moment for ServiceNow and our customers — nine major platform announcements, from the AI Control Tower and Autonomous Workforce to ServiceNow Otto, EmployeeWorks and the Australia release. The message was clear: the era of AI ambition is giving way to the era of AI execution, built on governance, trust and outcomes at scale.</p><p>That conviction shows in how we're showing up this month. June brings a series of exclusive executive engagements across the region — including our ServiceNow Executive Connects across Singapore, Hong Kong and the Philippines — creating space for deeper conversations on AI governance, cybersecurity and transformation.</p><p>The momentum from K26 continues to build. Now is the time to follow through and turn that engagement into pipeline acceleration. More to come soon on Knowledge to You @ Innovation Center.</p><p>June gives us another opportunity to keep those conversations moving forward. Let's keep showing up strong together.</p><p style='color:var(--soft)'>— Asia Marketing Team</p>"};
+const MONTHN={'01':'January','02':'February','03':'March','04':'April','05':'May','06':'June','07':'July','08':'August','09':'September','10':'October','11':'November','12':'December'};
+
+const revObs=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');revObs.unobserve(e.target);}});},{root:document.getElementById('content'),threshold:.12});
+function observeReveals(){document.querySelectorAll('.reveal:not(.in)').forEach(el=>revObs.observe(el));}
+
+// DRAWER (in-page detail; no redirect)
+function openDrawer(e){
+  const col=tc(e.type);const dh=document.getElementById('drawerHero');
+  dh.style.backgroundImage=bgFor(e.country,e.g);
+  dh.innerHTML='<div class="dh-ov"></div><div class="dh-txt"><span class="c-badge" style="background:'+col+';color:#fff">'+e.type+'</span><h3>'+e.title+'</h3></div>';
+  var L=(e.link&&e.link!=='#')?e.link:'';var cta;
+  if(e.links&&e.links.length){cta='<div class="dk-sessions"><div class="dk-sesh">Sessions &amp; registration</div>'+e.links.map(function(x){return '<a class="dk-slink" href="'+x.u+'" target="_blank" rel="noopener">'+x.l+' →</a>';}).join('')+'</div>';}
+  else if(e.cta==='reg'&&L)cta='<a class="dk-cta" href="'+L+'" target="_blank" rel="noopener">Registration Link →</a>';
+  else if(e.cta==='info'&&L)cta='<a class="dk-cta" href="'+L+'" target="_blank" rel="noopener">More Information →</a>';
+  else if(e.cta==='contact'){var m=ownerEmails(e.contact);cta=m?'<a class="dk-cta" href="mailto:'+m+'">Contact Owner →</a>':'<span class="dk-cta dk-cta-off">Contact Owner</span>';}
+  else cta='<span class="dk-cta dk-cta-off">Coming soon</span>';
+  document.getElementById('drawerBody').innerHTML='<div class="dk-row"><span>📅</span><strong>'+(e.dateLabel||e.date)+', '+new Date(e.date).getFullYear()+'</strong></div><div class="dk-row"><span>📍</span><strong>'+(e.venue&&e.venue!=='Virtual'?e.venue+', ':'')+e.country+'</strong></div><div class="dk-row"><span>🏷️</span><strong>'+quarterOf(e.date)+' &middot; '+e.type+'</strong></div><div class="dk-row dk-row-col"><span>👤</span><div class="dk-contacts">'+contactChips(e.contact)+'</div></div><p class="dk-desc">'+e.desc+'</p>'+cta;
+  document.getElementById('drawer').classList.add('open');document.getElementById('scrim').classList.add('show');document.getElementById('drawer').setAttribute('aria-hidden','false');
+}
+function closeDrawer(){document.getElementById('drawer').classList.remove('open');document.getElementById('scrim').classList.remove('show');document.getElementById('drawer').setAttribute('aria-hidden','true');}
+function openPanel(badge,title,bodyHTML,grad){
+  const dh=document.getElementById('drawerHero');dh.style.backgroundImage=grad||GRAD.g1;
+  dh.innerHTML='<div class="dh-ov"></div><div class="dh-txt">'+(badge?'<span class="c-badge" style="background:var(--green);color:var(--blue)">'+badge+'</span>':'')+'<h3>'+title+'</h3></div>';
+  document.getElementById('drawerBody').innerHTML=bodyHTML;
+  document.getElementById('drawer').classList.add('open');document.getElementById('scrim').classList.add('show');document.getElementById('drawer').setAttribute('aria-hidden','false');
+}
+document.getElementById('drawerX').addEventListener('click',closeDrawer);
+document.getElementById('scrim').addEventListener('click',closeDrawer);
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeDrawer();});
+
+document.getElementById('annX').addEventListener('click',()=>{document.getElementById('ann').classList.add('hide');document.documentElement.style.setProperty('--ann','0px');});
+
+// WHAT'S UPCOMING (next 21 days + timer)
+let cur=0, autoT=null, inView=true;
+const INTERVAL=10000;
+function daysTo(ds){const d=new Date(ds);d.setHours(0,0,0,0);const n=new Date();n.setHours(0,0,0,0);return Math.ceil((d-n)/86400000);}
+const upcomingSorted=events.slice().sort((a,b)=>new Date(a.date)-new Date(b.date));
+const within21=upcomingSorted.filter(e=>{const d=daysTo(e.date);return d>=0&&d<=10;});
+const HERO=within21.length?within21:upcomingSorted.slice(0,3);
+const SLIDES=[{type:'asks'},{type:'msg'}].concat(HERO.map(e=>({type:'event',e})));
+const INFO_ART='<svg class="ks-art" viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><defs><radialGradient id="ksglow" cx="50%" cy="50%" r="55%"><stop offset="0%" stop-color="#62D84E" stop-opacity=".30"/><stop offset="70%" stop-color="#62D84E" stop-opacity="0"/></radialGradient></defs><circle cx="150" cy="150" r="150" fill="url(#ksglow)"/><g><rect x="74" y="100" width="152" height="96" rx="26" fill="#fff"/><path d="M118 196 l0 32 l32 -32 z" fill="#fff"/><circle cx="120" cy="148" r="11" fill="#62D84E"/><circle cx="150" cy="148" r="11" fill="#0A4D68"/><circle cx="180" cy="148" r="11" fill="#9FB2BD"/></g></svg>';
+function slideHTML(s){
+  if(s.type==='msg')return '<div class="c-bg" style="background-image:'+JAPAN_BG+'"></div><div class="c-overlay info"></div>'+INFO_ART+'<div class="c-body"><div class="c-inner"><div class="ks-head"><span class="ks-bubble msg">\u201C</span><div><div class="c-label" style="margin:0">Message from the Team &middot; '+KEYASKS.month+'</div><div class="ks-title">From the Asia Marketing Team</div></div></div><p class="msg-text">Knowledge 2026 was a defining moment — nine platform announcements signalling the shift from AI ambition to execution. This month: exclusive executive Connects across Singapore, Hong Kong and the Philippines.</p><a href="#" class="c-cta">Read the full message →</a></div></div>';
+  if(s.type==='asks')return '<div class="c-bg" style="background-image:'+gradOnly('g7')+'"></div><div class="c-overlay info"></div>'+INFO_ART+'<div class="c-body"><div class="c-inner"><div class="ks-head"><span class="ks-bubble">?</span><div><div class="c-label" style="margin:0">Key Asks &middot; '+KEYASKS.month+'</div><div class="ks-title">This month\u2019s priorities</div></div></div><ul class="ks-list">'+KEYASKS.items.map(a=>'<li><span class="ks-ic">'+a.ic+'</span><div><strong>'+a.t+'</strong><span>'+a.s+'</span></div></li>').join('')+'</ul><a href="#" class="c-cta">See full details →</a></div></div>';
+  const e=s.e,col=tc(e.type),days=daysTo(e.date),dLabel=days<=0?'Happening now':days===1?'Tomorrow':'In '+days+' days';
+  return '<div class="c-bg" style="background-image:'+bgFor(e.country,e.g)+'"></div><div class="c-overlay"></div><div class="c-body"><div class="c-ticker"><span class="c-tdot"></span>'+dLabel+'</div><div class="c-label">What&rsquo;s upcoming &middot; next 10 days<span class="c-badge" style="background:'+col+';color:#fff">'+e.type+'</span></div><div class="c-title">'+e.title+'</div><div class="c-meta"><div class="c-mi">📅&nbsp;<strong>'+(e.dateLabel||e.date)+'</strong></div><div class="c-mi">📍&nbsp;<strong>'+(e.venue&&e.venue!=='Virtual'?e.venue+', ':'')+e.country+'</strong></div></div><p class="c-desc">'+e.desc+'</p><a href="#" class="c-cta">View details →</a></div>';
+}
+function buildSlides(){
+  const wrap=document.getElementById('cWrap'),firstBtn=document.getElementById('cPrev');
+  const asksBody='<ol style="margin:0 0 0 1.15rem;padding:0;line-height:1.6">'+KEYASKS.items.map(a=>'<li style="margin-bottom:.9rem"><strong>'+a.t+'</strong><br><span style="color:var(--soft)">'+a.d+'</span></li>').join('')+'</ol>';
+  SLIDES.forEach((s,i)=>{const slide=document.createElement('div');slide.className='c-slide'+(i===0?' cur':'')+(s.type!=='event'?' c-info':'');slide.style.transform='translateX('+(i*100)+'%)';slide.innerHTML=slideHTML(s);
+    wrap.insertBefore(slide,firstBtn);const cta=slide.querySelector('.c-cta');
+    if(s.type==='event')cta.addEventListener('click',ev=>{ev.preventDefault();openDrawer(s.e);});
+    else if(s.type==='msg')cta.addEventListener('click',ev=>{ev.preventDefault();openPanel('Message · '+KEYASKS.month,'From the Asia Marketing Team',TEAMMSG.full,GRAD.g1);});
+    else cta.addEventListener('click',ev=>{ev.preventDefault();openPanel('Key Asks · '+KEYASKS.month,'This month\u2019s key asks',asksBody,GRAD.g3);});
+  });
+  const multi=SLIDES.length>1;
+  document.getElementById('cDots').innerHTML=multi?SLIDES.map((_,i)=>'<div class="c-dot'+(i===0?' on':'')+'" data-i="'+i+'"></div>').join(''):'';
+  document.querySelectorAll('.c-dot').forEach(d=>d.addEventListener('click',()=>go(+d.dataset.i)));
+  document.getElementById('cPrev').style.display=multi?'':'none';document.getElementById('cNext').style.display=multi?'':'none';document.getElementById('cTimer').style.display=multi?'':'none';
+  document.getElementById('cPrev').addEventListener('click',()=>go(cur-1));document.getElementById('cNext').addEventListener('click',()=>go(cur+1));
+  let sx=0,md=false;wrap.addEventListener('touchstart',e=>sx=e.touches[0].clientX,{passive:true});wrap.addEventListener('touchend',e=>{const dx=e.changedTouches[0].clientX-sx;if(Math.abs(dx)>50)go(dx<0?cur+1:cur-1)});
+  wrap.addEventListener('mousedown',e=>{sx=e.clientX;md=true});wrap.addEventListener('mouseup',e=>{if(!md)return;md=false;const dx=e.clientX-sx;if(Math.abs(dx)>50)go(dx<0?cur+1:cur-1)});wrap.addEventListener('mouseleave',()=>md=false);
+  const io=new IntersectionObserver(es=>{inView=es[0].isIntersecting;if(inView&&multi){startTimer();}else{clearTimeout(autoT);}},{root:document.getElementById('content'),threshold:.25});io.observe(document.getElementById('home'));
+  update();if(multi)startTimer();
+}
+function go(n){cur=(n+SLIDES.length)%SLIDES.length;update();clearTimeout(autoT);if(inView&&SLIDES.length>1)startTimer();}
+function update(){document.querySelectorAll('.c-slide').forEach((s,i)=>{s.style.transform='translateX('+((i-cur)*100)+'%)';s.classList.toggle('cur',i===cur);});document.querySelectorAll('.c-dot').forEach((d,i)=>d.classList.toggle('on',i===cur));document.getElementById('cCount').textContent=SLIDES.length>1?(cur+1)+' / '+SLIDES.length:'';}
+function startTimer(){clearTimeout(autoT);const f=document.getElementById('cPfill');f.style.transition='none';f.style.width='0%';requestAnimationFrame(()=>requestAnimationFrame(()=>{f.style.transition='width '+INTERVAL+'ms linear';f.style.width='100%';}));autoT=setTimeout(()=>go(cur+1),INTERVAL);}
+
+// NAV
+function gotoSection(id){document.getElementById(id).scrollIntoView({behavior:'smooth',block:'start'});}
+document.querySelectorAll('.tn-tab[data-go]').forEach(tab=>tab.addEventListener('click',()=>gotoSection(tab.dataset.go)));
+document.querySelectorAll('.tn-drop-i[data-go]').forEach(a=>a.addEventListener('click',e=>{e.preventDefault();gotoSection(a.dataset.go);}));
+document.querySelectorAll('.tn-drop-i.muted').forEach(a=>a.addEventListener('click',e=>e.preventDefault()));
+document.querySelectorAll('.tn-drop-i[data-allevents]').forEach(a=>a.addEventListener('click',e=>{e.preventDefault();gotoSection('calendar');setListView();}));
+const spyMap={home:'home',calendar:'calendar',golives:'golives',photos:'photos',resources:'resources',newsletters:'photos'};
+const spy=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting){const t=spyMap[e.target.id];document.querySelectorAll('.tn-tab[data-go]').forEach(x=>x.classList.toggle('active',x.dataset.go===t));}});},{root:document.getElementById('content'),rootMargin:'-45% 0px -45% 0px',threshold:0});
+['home','calendar','golives','photos','resources','newsletters'].forEach(id=>spy.observe(document.getElementById(id)));
+
+// CALENDAR
+function keyOf(d){return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');}
+// expand an event's dateLabel into every calendar day it occupies (ranges with – and lists with , &)
+function expandDates(e){
+  const base=new Date(e.date);const y=base.getFullYear();const lbl=e.dateLabel||'';const mo=lbl.split(' ')[0];
+  const probe=new Date(mo+' 1, '+y);const monthIdx=isNaN(probe)?base.getMonth():probe.getMonth();
+  const rest=lbl.slice(mo.length).trim();let days=[];
+  rest.split(/[,&]/).forEach(p=>{p=p.trim();if(!p)return;
+    if(/[–-]/.test(p)){const parts=p.split(/[–-]/).map(s=>parseInt(s,10));if(!isNaN(parts[0])&&!isNaN(parts[1]))for(let d=parts[0];d<=parts[1];d++)days.push(d);}
+    else{const d=parseInt(p,10);if(!isNaN(d))days.push(d);}});
+  if(!days.length)days=[base.getDate()];
+  return days.map(d=>new Date(y,monthIdx,d));
+}
+const evByDate={};events.forEach(e=>{expandDates(e).forEach(dt=>{const k=keyOf(dt);(evByDate[k]=evByDate[k]||[]).push(e);});});
+const evSorted=events.slice().sort((a,b)=>new Date(a.date)-new Date(b.date));
+let calY,calM,selKey=null;
+function earliestInMonth(y,m){const inM=evSorted.filter(e=>{const d=new Date(e.date);return d.getFullYear()===y&&d.getMonth()===m;});return inM.length?keyOf(new Date(inM[0].date)):null;}
+(function(){const today=new Date();today.setHours(0,0,0,0);const up=evSorted.filter(e=>new Date(e.date)>=today);const first=up[0]||evSorted[0];const fd=new Date(first.date);calY=fd.getFullYear();calM=fd.getMonth();selKey=keyOf(fd);})();
+function renderCalendar(){
+  document.getElementById('calMonth').textContent=new Date(calY,calM,1).toLocaleString('default',{month:'long',year:'numeric'});
+  const grid=document.getElementById('calGrid');const firstDow=new Date(calY,calM,1).getDay();const dim=new Date(calY,calM+1,0).getDate();const todayKey=keyOf(new Date());
+  let html='';for(let i=0;i<firstDow;i++)html+='<div class="cal-cell blank"></div>';
+  for(let d=1;d<=dim;d++){const k=keyOf(new Date(calY,calM,d));const evs=evByDate[k];let cls='cal-cell'+(evs?' has':'')+(k===todayKey?' today':'')+(k===selKey?' sel':'');let body='<div class="cal-num">'+d+'</div>';
+    if(evs){evs.slice(0,2).forEach(ev=>{const col=tc(ev.type);body+='<div class="cal-ev"><div class="cal-chip" style="background:'+col+'1c;color:'+col+'"><span class="cdot" style="background:'+col+'"></span>'+TSHORT[ev.type]+'</div><div class="cal-titlemini">'+ev.title+'</div></div>';});if(evs.length>2)body+='<div class="cal-more">+'+(evs.length-2)+' more</div>';}
+    html+='<div class="'+cls+'" '+(evs?'data-k="'+k+'"':'')+'>'+body+'</div>';}
+  grid.innerHTML=html;grid.querySelectorAll('.cal-cell.has').forEach(c=>c.addEventListener('click',()=>{selKey=c.dataset.k;renderCalendar();renderCalDetail();}));renderCalDetail();
+}
+function renderCalDetail(){
+  const box=document.getElementById('calDetail');const active=selKey?(evByDate[selKey]||[]):[];
+  const more=evSorted.filter(e=>{const d=new Date(e.date);return d.getFullYear()===calY&&d.getMonth()===calM&&keyOf(d)!==selKey;});
+  const monthName=new Date(calY,calM,1).toLocaleString('default',{month:'long'});let html='';
+  if(active.length){const dateLabel=new Date(selKey).toLocaleString('default',{weekday:'long',day:'numeric',month:'long',year:'numeric'});
+    html+=active.map(e=>{const col=tc(e.type);return '<div class="cd-active"><div class="cd-acc" style="background:'+col+'"></div><div class="cd-date">'+dateLabel+'</div><div class="cd-tit">'+e.title+'</div><div class="cd-meta"><span class="cd-bdg" style="background:'+col+'1c;color:'+col+'">'+e.type+'</span><span class="cd-loc">📍 '+(e.venue&&e.venue!=='Virtual'?e.venue+', ':'')+e.country+'</span></div><div class="cd-desc">'+e.desc+'</div><span class="cd-cta" data-evt="'+events.indexOf(e)+'">View details →</span></div>';}).join('');
+  }else{html+='<div class="cd-empty">No event selected this month. Pick a highlighted day, or use the arrows to browse other months.</div>';}
+  if(more.length){html+='<div class="cd-listh">More in '+monthName+' ('+more.length+')</div><div class="cd-morelist">'+more.map(e=>{const col=tc(e.type);const k=keyOf(new Date(e.date));const dl=new Date(e.date).toLocaleString('default',{day:'numeric',month:'short'});return '<div class="cd-mini" data-k="'+k+'"><span class="cd-mdot" style="background:'+col+'"></span><div><div class="cd-mtit">'+e.title+'</div><div class="cd-msub">'+dl+' &middot; '+e.country+'</div></div></div>';}).join('')+'</div>';}
+  box.innerHTML=html;
+  box.querySelectorAll('.cd-mini').forEach(m=>m.addEventListener('click',()=>{const k=m.dataset.k;const d=new Date(k);calY=d.getFullYear();calM=d.getMonth();selKey=k;renderCalendar();renderCalDetail();}));
+  box.querySelectorAll('.cd-cta').forEach(b=>b.addEventListener('click',()=>openDrawer(events[+b.dataset.evt])));
+}
+document.getElementById('calPrev').addEventListener('click',()=>{calM--;if(calM<0){calM=11;calY--;}selKey=earliestInMonth(calY,calM);renderCalendar();});
+document.getElementById('calNext').addEventListener('click',()=>{calM++;if(calM>11){calM=0;calY++;}selKey=earliestInMonth(calY,calM);renderCalendar();});
+document.getElementById('calToday').addEventListener('click',()=>{const t=new Date();calY=t.getFullYear();calM=t.getMonth();selKey=earliestInMonth(calY,calM);renderCalendar();});
+function setGridView(){document.querySelectorAll('#viewTog button').forEach(x=>x.classList.toggle('on',x.dataset.v==='grid'));document.getElementById('calGridView').style.display='';document.getElementById('calListView').style.display='none';document.getElementById('calNav').style.display='flex';}
+function setListView(){document.querySelectorAll('#viewTog button').forEach(x=>x.classList.toggle('on',x.dataset.v==='list'));document.getElementById('calGridView').style.display='none';document.getElementById('calListView').style.display='';document.getElementById('calNav').style.display='none';}
+document.querySelectorAll('#viewTog button').forEach(b=>b.addEventListener('click',()=>{b.dataset.v==='grid'?setGridView():setListView();}));
+
+// LIST VIEW (Year + Q1–Q4 + Country + Type)
+const FS={y:'all',q:'all',c:'all',t:'all'};
+function evYear(e){return String(new Date(e.date).getFullYear());}
+function quarterOf(d){return 'Q'+(Math.floor(new Date(d).getMonth()/3)+1);}
+function buildListFilters(){
+  const years=['all'].concat([...new Set(events.map(evYear))].sort());
+  const countries=['all'].concat([...new Set(events.map(e=>e.country))].sort());
+  const types=['all'].concat([...new Set(events.map(e=>e.type))]);
+  renderChips('fY',years,'y',v=>v==='all'?'All':v);
+  renderChips('fQ',['all','Q1','Q2','Q3','Q4'],'q',v=>v==='all'?'All':v);
+  renderChips('fC',countries,'c',v=>v==='all'?'All':v);
+  renderChips('fT',types,'t',v=>v==='all'?'All':TSHORT[v]||v);
+  renderEvList();
+}
+function renderChips(id,vals,key,lFn){const el=document.getElementById(id);el.innerHTML=vals.map(v=>'<button class="chip'+(FS[key]===v?' on':'')+'" data-v="'+v+'" data-k="'+key+'">'+lFn(v)+'</button>').join('');el.querySelectorAll('.chip').forEach(c=>c.addEventListener('click',()=>{FS[c.dataset.k]=c.dataset.v;renderChips(id,vals,key,lFn);renderEvList();}));}
+function renderEvList(){
+  const f=events.filter(e=>(FS.y==='all'||evYear(e)===FS.y)&&(FS.q==='all'||quarterOf(e.date)===FS.q)&&(FS.c==='all'||e.country===FS.c)&&(FS.t==='all'||e.type===FS.t));
+  const byM={};f.forEach(e=>{const d=new Date(e.date);const m=d.toLocaleString('default',{month:'long',year:'numeric'});(byM[m]=byM[m]||[]).push(Object.assign({},e,{_d:d}));});
+  const list=document.getElementById('evList');list.innerHTML='';
+  if(!f.length){list.innerHTML='<div style="text-align:center;padding:3rem;color:var(--soft);font-family:var(--mono);font-size:.6rem;text-transform:uppercase;letter-spacing:.1em">No events match this filter</div>';return;}
+  Object.keys(byM).forEach(month=>{const mh=document.createElement('div');mh.className='mhd';mh.textContent=month;list.appendChild(mh);
+    byM[month].forEach(e=>{const col=tc(e.type);const row=document.createElement('div');row.className='ev-row reveal';
+      row.innerHTML='<div class="ev-acc" style="background:'+col+'"></div><div class="ev-date"><div class="ev-day" style="color:'+col+'">'+e._d.getDate()+'</div><div class="ev-mon">'+e._d.toLocaleString('default',{month:'short'})+'</div></div><div class="ev-info"><div class="ev-tit">'+e.title+'</div><div class="ev-sub"><span class="ev-loc">📍 '+(e.venue&&e.venue!=='Virtual'?e.venue+', ':'')+e.country+'</span><span class="ev-bdg" style="background:'+col+'1c;color:'+col+'">'+e.type+'</span></div></div><button class="ev-btn">View details →</button>';
+      row.querySelector('.ev-btn').addEventListener('click',ev=>{ev.stopPropagation();openDrawer(e);});row.addEventListener('click',()=>openDrawer(e));list.appendChild(row);});});
+  observeReveals();
+}
+
+// GO LIVES
+const GF={sector:'all',year:'all',month:'all'};
+const GL_COUNTRIES=[{c:'all',f:'🌏',n:'All'},{c:'Singapore',f:'🇸🇬',n:'Singapore'},{c:'Hong Kong',f:'🇭🇰',n:'Hong Kong'},{c:'Malaysia',f:'🇲🇾',n:'Malaysia'},{c:'Philippines',f:'🇵🇭',n:'Philippines'}];
+let GLC='all';
+function buildGoLives(){
+  document.getElementById('glTabs').innerHTML=GL_COUNTRIES.map(x=>'<button class="gl-tab'+(x.c===GLC?' on':'')+'" data-c="'+x.c+'"><span class="gl-flag">'+x.f+'</span>'+x.n+'</button>').join('');
+  document.querySelectorAll('#glTabs .gl-tab').forEach(b=>b.addEventListener('click',()=>{GLC=b.dataset.c;buildGoLives();}));
+  renderGoLives();
+}
+function renderGoLives(){
+  const f=goLives.filter(g=>GLC==='all'||g.mkt===GLC);
+  const grid=document.getElementById('glGrid');
+  if(!f.length){grid.innerHTML='<div class="gl-empty">No go-lives in this market yet</div>';return;}
+  grid.innerHTML=f.map(function(gl){const dl=new Date(gl.date+'-01').toLocaleString('default',{month:'long',year:'numeric'});return '<div class="gl-card lift reveal"><div class="gl-top"><div class="gl-topimg" style="background-image:'+bgFor(gl.mkt,gl.g)+'"></div><div class="gl-lb"><span class="gl-ldot"></span>Live</div><div class="gl-sect">'+gl.sector+'</div></div><div class="gl-body"><div class="gl-mkt">'+gl.mkt+'</div><div class="gl-co">'+gl.co+'</div><div class="gl-prod">'+gl.prod+'</div><div class="gl-num">'+gl.metric+'</div><div class="gl-lbl">'+gl.lbl+'</div><div class="gl-date">Go Live &middot; '+dl+'</div></div></div>';}).join('');
+  observeReveals();
+}
+
+// PHOTOS / RESOURCES
+function buildPhotos(){document.getElementById('photoGrid').innerHTML=photos.map(p=>'<div class="photo-tile reveal'+(p.wide?' wide':'')+'"><div class="photo-fill" style="background-image:'+bgFor(p.country,p.g)+'"></div><div class="phov"><div class="ph-cap">'+p.cap+'</div><div class="ph-evt">'+p.evt+'</div></div></div>').join('');observeReveals();}
+function buildResources(){
+  document.getElementById('resGrid').innerHTML=resources.map((r,i)=>'<div class="res-card reveal" data-ri="'+i+'"><span class="res-ic">'+r.ic+'</span><div class="res-tit">'+r.tit+'</div><div class="res-dsc">'+r.dsc+'</div></div>').join('');
+  document.querySelectorAll('#resGrid .res-card').forEach(c=>c.addEventListener('click',()=>openResource(resources[+c.dataset.ri])));
+  observeReveals();
+}
+function openResource(r){
+  var body;
+  if(r.type==='links')body='<div class="dk-sessions"><div class="dk-sesh">'+r.dsc+'</div>'+r.links.map(function(x){return '<a class="dk-slink" href="'+x.u+'" target="_blank" rel="noopener">'+x.l+' &rarr;</a>';}).join('')+'</div>';
+  else if(r.type==='link')body='<p>'+r.dsc+'</p><a class="dk-cta" href="'+r.url+'" target="_blank" rel="noopener">Open &rarr;</a>';
+  else body='<p>'+r.dsc+'</p><span class="dk-cta dk-cta-off">Link coming soon</span>';
+  openPanel('Resource',r.tit,body,GRAD[r.g]||GRAD.g1);
+}
+
+// NEWSLETTERS
+const NF={year:'all',month:'all'};
+function nlLabel(ym){return MONTHN[ym.slice(5,7)]+' '+ym.slice(0,4);}
+function buildNewsletterFilters(){
+  const years=['all'].concat([...new Set(newsletters.map(n=>n.ym.slice(0,4)))].sort().reverse());
+  document.getElementById('nlYear').innerHTML=years.map(y=>'<option value="'+y+'">'+(y==='all'?'All years':y)+'</option>').join('');
+  document.getElementById('nlMonth').innerHTML=['all','01','02','03','04','05','06','07','08','09','10','11','12'].map(m=>'<option value="'+m+'">'+(m==='all'?'All months':MONTHN[m].slice(0,3))+'</option>').join('');
+  document.getElementById('nlYear').addEventListener('change',e=>{NF.year=e.target.value;renderNewsletters();});
+  document.getElementById('nlMonth').addEventListener('change',e=>{NF.month=e.target.value;renderNewsletters();});
+  renderNewsletters();
+}
+function nlBanner(a,b){return '<div class="nl-banner"><span class="g">'+a+'</span>'+(b?'<span class="w">&nbsp;'+b+'</span>':'')+'</div>';}
+function nlBody(n){
+  if(!n.msg)return '<p>The full '+nlLabel(n.ym)+' issue will be added here soon.</p>';
+  let h=nlBanner('Executive','Message')+n.msg;
+  if(n.pipeline){const p=n.pipeline;h+=nlBanner('Marketing','Pipeline')+'<div class="nl-pipe"><div class="nl-pipe-big">'+p.cur+'</div><div class="nl-pipe-sub"><strong>'+p.att+'</strong> of '+p.target+' QTD target<br><span>As of '+p.asof+'</span></div></div>';}
+  if(n.events&&n.events.length){h+=nlBanner('Marketing','Events')+n.events.map(function(e){const col=tc(e.type);return '<div class="nl-ev"><div class="nl-ev-top"><span class="nl-ev-date">'+e.d+'</span><span class="nl-ev-bdg" style="background:'+col+'1c;color:'+col+'">'+e.type+'</span></div><div class="nl-ev-tit">'+e.title+'</div>'+(e.loc?'<div class="nl-ev-loc">📍 '+e.loc+'</div>':'')+(e.desc?'<div class="nl-ev-desc">'+e.desc+'</div>':'')+'</div>';}).join('');}
+  if(n.webinars&&n.webinars.length)h+=nlBanner('APAC','Webinars')+'<ul class="nl-out">'+n.webinars.map(w=>'<li>'+w+'</li>').join('')+'</ul>';
+  if(n.digital&&n.digital.length)h+=nlBanner('Digital','Marketing')+'<ul class="nl-out">'+n.digital.map(d=>'<li>'+d+'</li>').join('')+'</ul>';
+  if(n.golives)h+=nlBanner('Go','Lives')+'<p class="nl-golive">'+n.golives+'</p>';
+  if(n.keyasks&&n.keyasks.length)h+=nlBanner('Key','Asks')+'<ul class="nl-asks">'+n.keyasks.map(a=>'<li>'+a+'</li>').join('')+'</ul>';
+  if(n.outlook&&n.outlook.length)h+=nlBanner('Coming up','Next Month')+'<ul class="nl-out">'+n.outlook.map(o=>'<li>'+o+'</li>').join('')+'</ul>';
+  return h;
+}
+function openNewsletter(n){openPanel('Newsletter · '+nlLabel(n.ym),'APJ Marketing Monthly',nlBody(n),gradOnly(n.g));}
+function renderNewsletters(){
+  const f=newsletters.slice().sort((a,b)=>b.ym.localeCompare(a.ym)).filter(n=>(NF.year==='all'||n.ym.slice(0,4)===NF.year)&&(NF.month==='all'||n.ym.slice(5,7)===NF.month));
+  const feat=document.getElementById('nlFeatured');const grid=document.getElementById('nlGrid');
+  if(!f.length){feat.innerHTML='';grid.innerHTML='<div class="nl-empty">No newsletters match these filters</div>';return;}
+  const latest=f[0];
+  feat.innerHTML='<div class="nl-featured reveal" id="nlFeat" style="cursor:pointer"><div class="nl-cover" style="background-image:'+gradOnly(latest.g)+'"><span class="nl-flag">Latest issue</span><span class="mo">'+nlLabel(latest.ym)+'</span></div><div class="nl-fbody"><div class="nl-feye">Newsletter &middot; '+nlLabel(latest.ym)+'</div><div class="nl-ftit">APJ Marketing Monthly</div><p class="nl-fblurb">'+latest.blurb+'</p><span class="nl-fcta">Read this issue →</span></div></div>';
+  document.getElementById('nlFeat').addEventListener('click',()=>openNewsletter(latest));
+  const prev=f.slice(1);
+  grid.innerHTML=prev.length?prev.map((n,i)=>'<div class="nl-card reveal" data-ni="'+i+'" style="cursor:pointer"><div class="nl-cstrip" style="background-image:'+gradOnly(n.g)+'"><span class="mo">'+nlLabel(n.ym)+'</span></div><div class="nl-cbody"><div class="nl-cblurb">'+n.blurb+'</div></div></div>').join(''):'<div class="nl-empty">No earlier issues for this filter</div>';
+  document.querySelectorAll('#nlGrid .nl-card').forEach(c=>c.addEventListener('click',()=>openNewsletter(prev[+c.dataset.ni])));
+  observeReveals();
+}
+
+// INIT
+buildSlides();renderCalendar();buildListFilters();buildGoLives();buildPhotos();buildResources();buildNewsletterFilters();observeReveals();
+</script>
+</body>
+</html>
