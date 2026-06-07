@@ -5,16 +5,16 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Marcus Foo | Marketing Analytics</title>
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=JetBrains+Mono:wght@400;700&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;800&family=JetBrains+Mono:wght@400;700&display=swap');
 
     :root {
-      --bg: #050a0f;
-      --surface: #0a131c;
-      --surface-hover: #0f1c29;
-      --text-main: #e2e8f0;
-      --text-muted: #8b9bb4;
-      --cyan: #00f0ff;
-      --blue: #3b82f6;
+      --bg: #09090b;
+      --surface: #18181b;
+      --surface-hover: #27272a;
+      --text-main: #f4f4f5;
+      --text-muted: #a1a1aa;
+      --accent: #8b5cf6; /* Deep Violet */
+      --accent-secondary: #f59e0b; /* Amber/Gold */
       --font-sans: 'Inter', sans-serif;
       --font-mono: 'JetBrains Mono', monospace;
     }
@@ -29,36 +29,33 @@
       font-family: var(--font-sans);
       background-color: var(--bg);
       color: var(--text-main);
-      line-height: 1.6;
+      line-height: 1.7;
       background-image: 
-        radial-gradient(circle at 15% 50%, rgba(0, 240, 255, 0.03) 0%, transparent 50%),
-        radial-gradient(circle at 85% 30%, rgba(59, 130, 246, 0.04) 0%, transparent 50%);
+        radial-gradient(circle at 10% 20%, rgba(139, 92, 246, 0.05) 0%, transparent 40%),
+        radial-gradient(circle at 90% 80%, rgba(245, 158, 11, 0.03) 0%, transparent 40%);
     }
 
-    /* Container & Layout */
     .container {
-      max-width: 1000px;
+      max-width: 900px;
       margin: 0 auto;
       padding: 0 2rem;
     }
 
     section {
-      padding: 6rem 0;
+      padding: 5rem 0;
       border-bottom: 1px solid rgba(255, 255, 255, 0.05);
     }
 
     /* Typography */
     .mono-tag {
       font-family: var(--font-mono);
-      color: var(--cyan);
-      font-size: 0.85rem;
+      color: var(--accent-secondary);
+      font-size: 0.8rem;
       text-transform: uppercase;
       letter-spacing: 0.1em;
       margin-bottom: 1rem;
       display: inline-block;
     }
-
-    .mono-tag::before { content: "> "; }
 
     h1 {
       font-size: clamp(3rem, 6vw, 4.5rem);
@@ -71,28 +68,19 @@
     h2 {
       font-size: 2rem;
       font-weight: 600;
-      margin-bottom: 3rem;
-      display: flex;
-      align-items: center;
-      gap: 1rem;
-    }
-
-    h2::after {
-      content: "";
-      flex-grow: 1;
-      height: 1px;
-      background: linear-gradient(90deg, rgba(255,255,255,0.1), transparent);
+      margin-bottom: 2.5rem;
+      color: var(--text-main);
     }
 
     p {
       color: var(--text-muted);
       font-size: 1.1rem;
-      max-width: 600px;
+      margin-bottom: 1.5rem;
     }
 
-    /* Hero Section */
+    /* Hero */
     .hero {
-      min-height: 90vh;
+      min-height: 80vh;
       display: flex;
       flex-direction: column;
       justify-content: center;
@@ -100,45 +88,35 @@
       border-bottom: none;
     }
 
-    .status-indicator {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.5rem;
-      font-family: var(--font-mono);
-      font-size: 0.8rem;
-      background: rgba(0, 240, 255, 0.1);
-      border: 1px solid rgba(0, 240, 255, 0.2);
-      padding: 0.4rem 1rem;
-      border-radius: 99px;
-      color: var(--cyan);
-      margin-bottom: 2rem;
-      width: max-content;
+    .hero p {
+      max-width: 600px;
+      font-size: 1.25rem;
     }
 
-    .dot {
-      width: 6px;
-      height: 6px;
-      background-color: var(--cyan);
-      border-radius: 50%;
-      box-shadow: 0 0 10px var(--cyan);
-      animation: pulse 2s infinite;
+    /* About Section */
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 2rem;
+    }
+    
+    .about-text p {
+      max-width: 100%;
     }
 
-    @keyframes pulse {
-      0% { opacity: 1; }
-      50% { opacity: 0.4; }
-      100% { opacity: 1; }
+    .highlight {
+      color: var(--accent);
+      font-weight: 500;
     }
 
     /* Vertical Timeline */
     .timeline {
-      position: relative;
-      border-left: 2px solid rgba(255, 255, 255, 0.05);
-      margin-left: 1rem;
-      padding-left: 2.5rem;
       display: flex;
       flex-direction: column;
       gap: 3rem;
+      border-left: 1px solid rgba(255, 255, 255, 0.1);
+      padding-left: 2rem;
+      margin-left: 0.5rem;
     }
 
     .timeline-item {
@@ -148,25 +126,25 @@
     .timeline-item::before {
       content: "";
       position: absolute;
-      left: -2.9rem;
-      top: 0.3rem;
-      width: 14px;
-      height: 14px;
-      background: var(--surface);
-      border: 2px solid var(--cyan);
+      left: -2.35rem;
+      top: 0.4rem;
+      width: 10px;
+      height: 10px;
+      background: var(--bg);
+      border: 2px solid var(--accent);
       border-radius: 50%;
       transition: all 0.3s ease;
     }
 
     .timeline-item:hover::before {
-      background: var(--cyan);
-      box-shadow: 0 0 15px var(--cyan);
+      background: var(--accent);
+      box-shadow: 0 0 12px var(--accent);
     }
 
     .time-meta {
       font-family: var(--font-mono);
       font-size: 0.85rem;
-      color: var(--blue);
+      color: var(--accent-secondary);
       margin-bottom: 0.5rem;
     }
 
@@ -180,9 +158,10 @@
       font-size: 0.95rem;
       color: var(--text-muted);
       margin-bottom: 1rem;
+      font-weight: 500;
     }
 
-    /* Grid Layouts for Projects & Photos */
+    /* Case Studies Grid */
     .grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -193,81 +172,44 @@
       background: var(--surface);
       border: 1px solid rgba(255, 255, 255, 0.05);
       border-radius: 8px;
-      padding: 2rem;
+      padding: 2.5rem 2rem;
       transition: all 0.3s ease;
-      cursor: crosshair;
     }
 
     .card:hover {
       background: var(--surface-hover);
-      border-color: rgba(0, 240, 255, 0.3);
+      border-color: rgba(139, 92, 246, 0.4);
       transform: translateY(-3px);
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
     }
 
     .card-metric {
-      font-size: 2.5rem;
-      font-weight: 800;
-      color: var(--cyan);
-      margin-bottom: 0.5rem;
-      line-height: 1;
-    }
-
-    /* Photo Gallery */
-    .photo-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 1rem;
-    }
-
-    .photo-card {
-      aspect-ratio: 1;
-      background: var(--surface);
-      border: 1px solid rgba(255, 255, 255, 0.05);
-      border-radius: 8px;
-      display: flex;
-      align-items: flex-end;
-      padding: 1rem;
-      position: relative;
-      overflow: hidden;
-      transition: all 0.3s;
-    }
-
-    .photo-card:hover {
-      border-color: rgba(59, 130, 246, 0.4);
-    }
-
-    .photo-label {
       font-family: var(--font-mono);
-      font-size: 0.75rem;
-      color: #fff;
-      z-index: 2;
-    }
-
-    .photo-loc {
-      color: var(--text-muted);
-      font-size: 0.7rem;
-      display: block;
-      margin-top: 0.2rem;
+      font-size: 0.85rem;
+      color: var(--accent-secondary);
+      margin-bottom: 1rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
     }
 
     /* Footer */
     footer {
-      padding: 3rem 0;
-      text-align: center;
+      padding: 4rem 0;
+      text-align: left;
       font-family: var(--font-mono);
       font-size: 0.85rem;
       color: var(--text-muted);
+      display: flex;
+      gap: 2rem;
     }
 
     a {
-      color: var(--cyan);
+      color: var(--text-main);
       text-decoration: none;
-      transition: opacity 0.2s;
+      transition: color 0.2s;
     }
 
     a:hover {
-      opacity: 0.7;
+      color: var(--accent-secondary);
     }
   </style>
 </head>
@@ -276,93 +218,76 @@
   <div class="container">
     
     <section class="hero">
-      <div class="status-indicator">
-        <span class="dot"></span> STATUS: B2C Digital Marketing
-      </div>
-      <span class="mono-tag">sys.init()</span>
+      <span class="mono-tag">Portfolio</span>
       <h1>Marcus Foo</h1>
-      <p>Marketing Analytics undergraduate specializing in building seamless Direct-to-Consumer (DTC) digital experiences, B2C pipelines, and site optimization.</p>
+      <p>Data-driven marketer specializing in building seamless Direct-to-Consumer (DTC) digital experiences, owned media strategies, and site optimization.</p>
     </section>
 
-    <section>
-      <span class="mono-tag">cat experience.log</span>
-      <h2>Professional & Academic</h2>
+    <section id="about">
+      <span class="mono-tag">01. Background</span>
+      <h2>About Me</h2>
+      <div class="about-grid">
+        <div class="about-text">
+          <p>I am currently a 3rd-year Business Management undergraduate at <span class="highlight">Singapore Management University (SMU)</span>, specializing in Marketing Analytics. My foundational background includes a Diploma in Tourism from Ngee Ann Polytechnic, which sparked my initial interest in understanding consumer behavior and authentic experiences.</p>
+          <p>Professionally, I am focused on the transition from traditional B2B models to <span class="highlight">B2C digital marketing</span>. Having started my career analyzing audience insights within the ad-tech sector, I have pivoted toward optimizing DTC pipelines, ensuring that the final digital interface a customer interacts with is as seamless and conversion-focused as possible.</p>
+          <p>Beyond marketing, I maintain a strong academic interest in international relations, domestic public opinion, and the analysis of Chinese political systems—disciplines that heavily inform my approach to macro-level market research and data analysis.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="experience">
+      <span class="mono-tag">02. Experience</span>
+      <h2>Work & Education</h2>
       
       <div class="timeline">
         <div class="timeline-item">
           <div class="time-meta">MAR 2026 - PRESENT</div>
-          <div class="timeline-title">Digital Marketing Intern</div>
-          <div class="timeline-venue">ServiceNow &bull; Singapore</div>
-          <p>Regional digital marketing focusing on B2C pipelines, audience engagement, and campaign analytics.</p>
-        </div>
-
-        <div class="timeline-item">
-          <div class="time-meta">2023 - PRESENT</div>
-          <div class="timeline-title">BSc Business Management</div>
-          <div class="timeline-venue">Singapore Management University (SMU)</div>
-          <p>3rd-year undergraduate specializing in Marketing Analytics. Sustained academic engagement with the analysis of Chinese political systems and domestic public opinion.</p>
+          <div class="timeline-title">Regional Digital Marketing Intern</div>
+          <div class="timeline-venue">ServiceNow</div>
+          <p>Driving regional digital marketing initiatives with a core focus on expanding B2C pipelines, executing targeted campaigns, and leveraging marketing analytics to refine audience engagement strategies.</p>
         </div>
 
         <div class="timeline-item">
           <div class="time-meta">COMPLETED</div>
           <div class="timeline-title">Sales Enablement & Audience Insights Intern</div>
-          <div class="timeline-venue">Comcast FreeWheel &bull; APAC Region</div>
-          <p>Supported the Asia-Pacific region within the ad-tech sector, driving B2B sales enablement and translating audience data into actionable insights.</p>
+          <div class="timeline-venue">Comcast FreeWheel</div>
+          <p>Operated within the APAC ad-tech sector, translating complex Big Data into actionable audience insights to support B2B sales enablement and drive regional growth.</p>
         </div>
 
         <div class="timeline-item">
-          <div class="time-meta">COMPLETED</div>
-          <div class="timeline-title">Diploma in Tourism</div>
-          <div class="timeline-venue">Ngee Ann Polytechnic</div>
-          <p>Foundation in business and tourism management, fostering a deep appreciation for authentic travel and cultural experiences.</p>
+          <div class="time-meta">2023 - PRESENT</div>
+          <div class="timeline-title">BSc Business Management</div>
+          <div class="timeline-venue">Singapore Management University</div>
+          <p>Undergraduate specialization in Marketing Analytics. Coursework emphasizes quantitative analysis, strategic brand management, and consumer behavior metrics.</p>
         </div>
       </div>
     </section>
 
-    <section>
-      <span class="mono-tag">ls ./case_studies</span>
+    <section id="projects">
+      <span class="mono-tag">03. Case Studies</span>
       <h2>Strategic Projects</h2>
 
       <div class="grid">
         <div class="card">
-          <div class="card-metric">DTC</div>
-          <div class="timeline-title">La Turmix</div>
-          <div class="timeline-venue">Madrid, Spain &bull; Artisan Boutique</div>
-          <p>Developed a comprehensive digital strategy focusing on retail identity integration and seamless customer interfaces.</p>
+          <div class="card-metric">DTC Digital Strategy</div>
+          <div class="timeline-title">La Turmix Artisan Boutique</div>
+          <div class="timeline-venue">Madrid, Spain</div>
+          <p>Developed a comprehensive digital strategy to modernize a traditional artisan retail identity. Focused on integrating digital interfaces that preserve the boutique's authentic brand while driving direct-to-consumer online conversions.</p>
         </div>
 
         <div class="card">
-          <div class="card-metric">DATA</div>
-          <div class="timeline-title">SMU Research Group</div>
-          <div class="timeline-venue">Academic Project</div>
-          <p>Collaborated on complex Big Data analysis and business analytics methodologies for academic publication.</p>
-        </div>
-      </div>
-    </section>
-
-    <section>
-      <span class="mono-tag">./render_gallery.sh</span>
-      <h2>Outdoors & Travel</h2>
-      <p style="margin-bottom: 2rem;">Documenting non-touristy explorations, authentic travel, and architectural highlights.</p>
-
-      <div class="photo-grid">
-        <div class="photo-card" style="background: linear-gradient(to top, rgba(0,0,0,0.8), transparent), #1a202c;">
-          <div class="photo-label">Basque Country Hike<span class="photo-loc">Spain</span></div>
-        </div>
-        <div class="photo-card" style="background: linear-gradient(to top, rgba(0,0,0,0.8), transparent), #1a202c;">
-          <div class="photo-label">Chefchaouen Blues<span class="photo-loc">Morocco</span></div>
-        </div>
-        <div class="photo-card" style="background: linear-gradient(to top, rgba(0,0,0,0.8), transparent), #1a202c;">
-          <div class="photo-label">Meteora Monasteries<span class="photo-loc">Greece</span></div>
-        </div>
-        <div class="photo-card" style="background: linear-gradient(to top, rgba(0,0,0,0.8), transparent), #1a202c;">
-          <div class="photo-label">Anne Frank House<span class="photo-loc">Amsterdam</span></div>
+          <div class="card-metric">Big Data Analytics</div>
+          <div class="timeline-title">SMU Academic Research Group</div>
+          <div class="timeline-venue">Business Analytics</div>
+          <p>Collaborated closely with a cohort of researchers to distribute deliverables for a joint academic paper. Applied rigorous business analytics methodologies to process and interpret large-scale datasets for a final presentation.</p>
         </div>
       </div>
     </section>
 
     <footer>
-      <p>&copy; 2026 Marcus Foo | <a href="#">LinkedIn</a> | <a href="#">Resume</a></p>
+      <a href="#">Email Me</a>
+      <a href="#">LinkedIn</a>
+      <a href="#">Resume (PDF)</a>
     </footer>
 
   </div>
