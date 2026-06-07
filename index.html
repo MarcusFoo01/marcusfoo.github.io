@@ -119,4 +119,313 @@ body{overflow:hidden}
 .gl-ldot{width:5px;height:5px;border-radius:50%;background:var(--green-d);animation:pulse 2s infinite}
 .gl-sect{position:absolute;bottom:.6rem;left:.8rem;z-index:1;font-family:var(--mono);font-size:.5rem;text-transform:uppercase;letter-spacing:.08em;color:#fff;background:rgba(3,45,66,.6);padding:.2rem .55rem;border-radius:9999px}
 .gl-body{padding:1.2rem}
-.gl-mkt{font-family:var(--mono);font-size:.5rem;text-transform:uppercase;letter-spacing:.
+.gl-mkt{font-family:var(--mono);font-size:.5rem;text-transform:uppercase;letter-spacing:.1em;color:var(--soft);margin-bottom:.35rem}
+.gl-co{font-size:1.125rem;font-weight:700;margin-bottom:.2rem}
+.gl-prod{font-size:.8125rem;color:var(--t-strat);margin-bottom:.875rem;font-weight:500}
+.gl-num{font-size:1.8rem;font-weight:800;color:var(--green-d);letter-spacing:-.04em;line-height:1.1;margin-bottom:.4rem;transition:transform .25s}
+.gl-card:hover .gl-num{transform:scale(1.05)}
+.gl-lbl{font-size:.8125rem;color:var(--soft);font-weight:400;margin-bottom:.875rem; line-height:1.4;}
+
+/* PHOTOS */
+.photo-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:.75rem}
+.photo-tile{aspect-ratio:1;border-radius:.85rem;overflow:hidden;position:relative;cursor:pointer;box-shadow:var(--shadow);transition:transform .25s,box-shadow .25s}
+.photo-tile.wide{grid-column:span 2;aspect-ratio:2}
+.photo-tile:hover{transform:translateY(-3px);box-shadow:var(--shadow-lg)}
+.photo-fill{width:100%;height:100%;background-size:cover;background-position:center;transition:transform .45s ease}
+.photo-tile:hover .photo-fill{transform:scale(1.06)}
+.phov{position:absolute;inset:0;background:linear-gradient(to top,rgba(3,28,42,.8),rgba(3,28,42,.04) 60%);display:flex;flex-direction:column;justify-content:flex-end;padding:1rem}
+.ph-cap{font-size:.85rem;font-weight:700;color:#fff;margin-bottom:.2rem;transform:translateY(5px);transition:transform .25s}
+.photo-tile:hover .ph-cap{transform:translateY(0)}
+.ph-evt{font-family:var(--mono);font-size:.5rem;text-transform:uppercase;letter-spacing:.1em;color:rgba(255,255,255,.72)}
+
+/* RESOURCES (DARK) */
+.dark-sec{background:linear-gradient(165deg,#063043 0%,#06161E 100%);border-top:1px solid rgba(255,255,255,.08)}
+.dark-sec .pg-eye{color:var(--green)}
+.dark-sec .pg-eye::before{background:var(--green)}
+.dark-sec .pg-h{color:#fff}
+.dark-sec .pg-sub{color:rgba(255,255,255,.62)}
+.res-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:1rem}
+.res-card{background:#fff;border:1px solid rgba(255,255,255,.6);border-radius:1rem;padding:1.6rem 1.3rem;cursor:default;display:block;box-shadow:0 10px 30px rgba(0,0,0,.28);transition:transform .22s ease,box-shadow .22s ease}
+.res-card:hover{transform:translateY(-5px);box-shadow:0 22px 46px rgba(0,0,0,.4)}
+.res-ic{font-size:1.85rem;margin-bottom:.9rem;display:block;transition:transform .22s ease}
+.res-card:hover .res-ic{transform:translateY(-2px) scale(1.06)}
+.res-tit{font-size:.9375rem;font-weight:700;color:var(--ink);margin-bottom:.375rem}
+.res-dsc{font-size:.8125rem;font-weight:400;color:var(--soft);line-height:1.45}
+
+footer{padding:2.25rem 2rem;text-align:center;font-size:.7rem;color:rgba(11,34,48,.5);font-weight:300;border-top:1px solid var(--line)}
+
+@media(max-width:900px){
+  .exp-layout{grid-template-columns:1fr;} 
+  .exp-tab.active{transform:translateY(-4px);}
+  .photo-grid{grid-template-columns:repeat(2,1fr)}
+  .c-body{padding:2rem 1.5rem}
+  .pg{padding:2.25rem 1.5rem 2.5rem}
+  .ann-msg{max-width:55vw}
+}
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="ann" id="ann">
+    <span class="ann-tag">Availability</span>
+    <span class="ann-msg">Currently seeking B2C digital marketing opportunities &middot; May to Aug 2026.</span>
+    <button class="ann-x" id="annX" aria-label="Dismiss">&times;</button>
+  </div>
+  <nav class="topnav">
+    <div class="tn-logo">
+      <strong>MF.</strong>
+      <span class="tn-pill" style="margin-left: 0.5rem;">Portfolio</span>
+    </div>
+    <div class="tn-tabs" id="tnTabs">
+      <button class="tn-tab active" data-go="home">Home</button>
+      <button class="tn-tab" data-go="experience">Experience</button>
+      <button class="tn-tab" data-go="golives">Case Studies</button>
+      <button class="tn-tab" data-go="photos">Photography</button>
+      <button class="tn-tab" data-go="resources">Skills</button>
+    </div>
+  </nav>
+</header>
+
+<main class="content" id="content">
+
+  <section class="hero" id="home">
+    <div class="c-wrap" id="cWrap">
+      <button class="c-arrow prev" id="cPrev">&lsaquo;</button>
+      <button class="c-arrow next" id="cNext">&rsaquo;</button>
+      <div class="c-timer" id="cTimer"><span class="c-timer-ring"></span><span>Auto 10s</span></div>
+      <div class="c-count" id="cCount"></div>
+      <div class="c-dots" id="cDots"></div>
+      <div class="scroll-hint">Scroll for experience<span>&darr;</span></div>
+      <div class="c-prog"><div class="c-pfill" id="cPfill"></div></div>
+    </div>
+  </section>
+
+  <section id="experience" class="band-base">
+    <div class="pg">
+      <div class="pg-eye">Career Journey</div>
+      <div class="pg-h">Professional Experience</div>
+      <div class="pg-sub">My professional background across the ad-tech, real estate, higher education, and aviation sectors. Select a company to view my responsibilities and achievements.</div>
+      
+      <div class="exp-layout">
+        <div class="exp-tabs">
+          <button class="exp-tab active" data-target="pane-freewheel">
+            <span class="exp-logo">🦚</span>
+            NBCUniversal (FreeWheel)
+          </button>
+          <button class="exp-tab" data-target="pane-capitaland">
+            <span class="exp-logo">🏢</span>
+            CapitaLand
+          </button>
+          <button class="exp-tab" data-target="pane-suss">
+            <span class="exp-logo">🎓</span>
+            SUSS
+          </button>
+          <button class="exp-tab" data-target="pane-changi">
+            <span class="exp-logo">✈️</span>
+            Changi Airport Group
+          </button>
+        </div>
+
+        <div class="exp-content">
+          <div class="ep-accent"></div>
+          
+          <div class="exp-pane active" id="pane-freewheel">
+            <div class="ep-head">
+              <div>
+                <h3 class="ep-role">APAC Marketing Intern</h3>
+                <div class="ep-co">NBCUniversal, FreeWheel &middot; Singapore</div>
+              </div>
+              <div class="ep-date">June 2025 - Jan 2026</div>
+            </div>
+            <ul class="ep-bullets">
+              <li>Built GTM-aligned sales enablement decks and regional market briefs by partnering with APAC sales leads, transforming SSP and Power BI analytics into narrative to quantify growth trends.</li>
+              <li>Led the development of 5 GWI-powered insights decks for Comcast Advertising EMEA's GTM, using crosstab analysis to support successful pitches.</li>
+              <li>Evaluated audience data regulations across 7 APAC markets to assess compliance with FreeWheel's GDPR data practices.</li>
+              <li>Delivered seven APAC insight reports on consumer viewing trends, surfacing high-opportunity segments in Sports & Entertainment.</li>
+            </ul>
+          </div>
+
+          <div class="exp-pane" id="pane-capitaland">
+            <div class="ep-head">
+              <div>
+                <h3 class="ep-role">Marketing Intern</h3>
+                <div class="ep-co">CapitaLand &middot; Singapore</div>
+              </div>
+              <div class="ep-date">Dec 2024 - Jan 2025</div>
+            </div>
+            <ul class="ep-bullets">
+              <li>Conducted market and competitor analysis on TikTok video trends, proposing key insights on target audience to inform 2025 social media strategies.</li>
+              <li>Oversaw social media product features across 200+ mall tenants, vetting copy and visuals to strengthen brand visibility and consistency.</li>
+              <li>Spearheaded Junction 8's student engagement campaign, securing sponsored content and partnerships with 50 retail tenants to drive Gen-Z acquisition.</li>
+            </ul>
+          </div>
+
+          <div class="exp-pane" id="pane-suss">
+            <div class="ep-head">
+              <div>
+                <h3 class="ep-role">Engagement & Ecosystem Assistant</h3>
+                <div class="ep-co">Singapore University of Social Sciences &middot; Singapore</div>
+              </div>
+              <div class="ep-date">Nov 2023 - Aug 2024</div>
+            </div>
+            <ul class="ep-bullets">
+              <li>Designed full range of employer engagement and branding content, reached an audience of 2000 SUSS Associates through digital communication channels.</li>
+              <li>Supported planning and execution of three employee events across five months; specialised in digital comms and logistics sourcing.</li>
+              <li>Conducted comprehensive market research to develop a Power BI dashboard; mapped faculty and student data across 6 local universities.</li>
+            </ul>
+          </div>
+
+          <div class="exp-pane" id="pane-changi">
+            <div class="ep-head">
+              <div>
+                <h3 class="ep-role">Learning & Development Intern</h3>
+                <div class="ep-co">Changi Airport Group &middot; Singapore</div>
+              </div>
+              <div class="ep-date">Mar 2020 - Oct 2020</div>
+            </div>
+            <ul class="ep-bullets">
+              <li>Increased internal user adoption of the ONE Changi App. Drove awareness on App benefits, executed App training, and led technical troubleshooting.</li>
+              <li>Performed functional and cosmetic analysis on other ONE Changi digital platforms; proposed strategies to improve the overall user experience.</li>
+              <li>Executed digitalisation of ONE Changi Learning Services, completed project within 2 weeks ahead of stipulated 1-month deadline.</li>
+            </ul>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="golive-sec" id="golives">
+    <div class="pg" style="width:100%">
+      <div class="gl-intro">
+        <div class="pg-eye">Featured Work</div>
+        <h2>Strategic <span>Projects</span></h2>
+        <p>A selection of academic research, digital strategy, community management, and marketing campaign projects from my portfolio.</p>
+      </div>
+      <div class="gl-grid" id="glGrid"></div>
+    </div>
+  </section>
+
+  <section id="photos" class="band-light">
+    <div class="pg">
+      <div class="sec-head">
+        <div>
+          <div class="pg-eye">Outdoors &amp; Travel</div>
+          <div class="pg-h">Authentic Experiences</div>
+          <div class="pg-sub" style="margin-bottom:0">Non-touristy explorations, hiking routes, and architectural photography across Morocco, Spain, Greece, and beyond.</div>
+        </div>
+      </div>
+      <div class="photo-grid" id="photoGrid"></div>
+    </div>
+  </section>
+
+  <section id="resources" class="dark-sec">
+    <div class="pg">
+      <div class="pg-eye">Toolkit</div>
+      <div class="pg-h">Software & Skills</div>
+      <div class="pg-sub">The analytics platforms, design tools, and frameworks I use to execute digital marketing strategies.</div>
+      <div class="res-grid" id="resGrid"></div>
+    </div>
+  </section>
+
+  <footer>&copy; 2026 Marcus Foo &nbsp;&middot;&nbsp; Marketing Analytics Portfolio</footer>
+
+</main>
+
+<script>
+// Keep original colors and gradients intact
+const TC={'Experience':'#1B6FB0','Education':'#B0457B','Projects':'#2E9E4F'};
+const tc=t=>TC[t]||'#1B6FB0';
+const GRAD={g1:'linear-gradient(135deg,#07111a,#0a2540,#0f4c75,#1a6fa8)',g2:'linear-gradient(135deg,#0f0c29,#1a1060,#4a1a8c,#7b2d8b)',g3:'linear-gradient(135deg,#0a1a0f,#0d3320,#1a5c3a,#2d8653)',g4:'linear-gradient(135deg,#1a0a0a,#3d1515,#7b2020,#a83030)',g5:'linear-gradient(135deg,#0a1520,#0f2a3d,#1a5070,#2090b0)',g6:'linear-gradient(135deg,#1a0f00,#3d2800,#7b5500,#b08020)',g7:'linear-gradient(135deg,#0f0f1a,#1a1060,#2d20a0,#4040cc)',g8:'linear-gradient(135deg,#00151a,#003d3d,#007b7b,#00b0b0)'};
+function gradOnly(g){return GRAD[g]||GRAD.g1;}
+
+// Populating Case Studies (Go Lives)
+const goLives=[
+  {co:'STB MICE Research',mkt:'Academic Research',prod:'Data Collection',metric:'Industry Analysis',lbl:'Proposed strategies to help virtual and hybrid conventions recover post-COVID.',sector:'Research Project',g:'g1'},
+  {co:'Ninja Slushi',mkt:'Comcast Advertising',prod:'Ad Campaign',metric:'GWI Insights',lbl:'Ad campaign designed to build brand awareness through interactive product experiences.',sector:'Campaign',g:'g8'},
+  {co:'Project H2',mkt:'Community Event',prod:'Tanjong Pagar',metric:'Events Mgmt',lbl:'Led 26 students over 4 months to execute a community event, managing 10 key sponsors.',sector:'Project Director',g:'g3'},
+  {co:'Full On Fudge Co.',mkt:'Boutique Bakery',prod:'Social Media',metric:'Content Creation',lbl:'Managed product marketing and content creation, driving pre-orders and engagement.',sector:'Co-founder',g:'g4'}
+];
+
+// Populating Photos
+const photos=[
+  {cap:'Basque Country Hike',evt:'Nature & Trails',g:'g1',wide:true},
+  {cap:'Chefchaouen Blues',evt:'Self-guided Trip',g:'g2'},
+  {cap:'Marrakech Markets',evt:'Authentic Travel',g:'g7'},
+  {cap:'Anne Frank House',evt:'12hr Layover',g:'g6'},
+  {cap:'Tangier Coast',evt:'Self-guided Trip',g:'g4'},
+  {cap:'Meteora Monasteries',evt:'Photography',g:'g5',wide:true},
+  {cap:'Granada Architecture',evt:'Historical Landmarks',g:'g8'},
+  {cap:'Funchal Landscapes',evt:'Hiking Trails',g:'g7'}
+];
+
+// Populating Skills
+const resources=[
+  {ic:'📊',tit:'Data & Analytics',dsc:'Google Analytics, Power BI, MS Excel (Pivot), GWI-Insights generation.',g:'g1'},
+  {ic:'🎨',tit:'Design & Creative',dsc:'Photoshop, Canva, Video Production, Brand Consistency.',g:'g3'},
+  {ic:'📈',tit:'Marketing & Strategy',dsc:'GTM Planning, Social Media Management, Cross-screen Advertising.',g:'g7'},
+  {ic:'💻',tit:'Enterprise Software',dsc:'SAP, Salesforce, ONE Changi App.',g:'g8'}
+];
+
+const revObs=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');revObs.unobserve(e.target);}});},{root:document.getElementById('content'),threshold:.12});
+function observeReveals(){document.querySelectorAll('.reveal:not(.in)').forEach(el=>revObs.observe(el));}
+
+document.getElementById('annX').addEventListener('click',()=>{document.getElementById('ann').classList.add('hide');document.documentElement.style.setProperty('--ann','0px');});
+
+// Hero Slider Variables & Logic
+let cur=0, autoT=null, inView=true;
+const INTERVAL=10000;
+const SLIDES=[
+  {type:'hero', title:'Marcus Foo', badge:'Marketing Analytics', meta:'BSc Business Management &middot; SMU', desc:'Specializing in B2C digital marketing, I aim to blend analytical insights with creativity to build seamless Direct-to-Consumer experiences.', g:'g1'},
+  {type:'hero', title:'Strategic Experience', badge:'Internships', meta:'FreeWheel &middot; CapitaLand', desc:'From B2B ad-tech sales enablement to regional digital marketing and Gen-Z acquisition, I turn data into actionable audience insights.', g:'g2'},
+  {type:'hero', title:'Data & Culture', badge:'Academics', meta:'Diploma in Tourism &middot; Ngee Ann Poly', desc:'A foundation in business and events management, fostering a deep appreciation for authentic experiences and community engagement.', g:'g3'}
+];
+
+function slideHTML(s){
+  return '<div class="c-bg" style="background-image:'+gradOnly(s.g)+'"></div><div class="c-overlay"></div><div class="c-body"><div class="c-ticker"><span class="c-tdot"></span>Portfolio</div><div class="c-label">Introduction<span class="c-badge" style="background:var(--green);color:var(--blue)">'+s.badge+'</span></div><div class="c-title">'+s.title+'</div><div class="c-meta"><div class="c-mi"><strong>'+s.meta+'</strong></div></div><p class="c-desc">'+s.desc+'</p></div>';
+}
+function buildSlides(){
+  const wrap=document.getElementById('cWrap'),firstBtn=document.getElementById('cPrev');
+  SLIDES.forEach((s,i)=>{const slide=document.createElement('div');slide.className='c-slide'+(i===0?' cur':'');slide.style.transform='translateX('+(i*100)+'%)';slide.innerHTML=slideHTML(s); wrap.insertBefore(slide,firstBtn);});
+  document.getElementById('cDots').innerHTML=SLIDES.map((_,i)=>'<div class="c-dot'+(i===0?' on':'')+'" data-i="'+i+'"></div>').join('');
+  document.querySelectorAll('.c-dot').forEach(d=>d.addEventListener('click',()=>go(+d.dataset.i)));
+  document.getElementById('cPrev').addEventListener('click',()=>go(cur-1));document.getElementById('cNext').addEventListener('click',()=>go(cur+1));
+  update();startTimer();
+}
+function go(n){cur=(n+SLIDES.length)%SLIDES.length;update();clearTimeout(autoT);startTimer();}
+function update(){document.querySelectorAll('.c-slide').forEach((s,i)=>{s.style.transform='translateX('+((i-cur)*100)+'%)';s.classList.toggle('cur',i===cur);});document.querySelectorAll('.c-dot').forEach((d,i)=>d.classList.toggle('on',i===cur));document.getElementById('cCount').textContent=(cur+1)+' / '+SLIDES.length;}
+function startTimer(){clearTimeout(autoT);const f=document.getElementById('cPfill');f.style.transition='none';f.style.width='0%';requestAnimationFrame(()=>requestAnimationFrame(()=>{f.style.transition='width '+INTERVAL+'ms linear';f.style.width='100%';}));autoT=setTimeout(()=>go(cur+1),INTERVAL);}
+
+// Navigation Scrolling
+function gotoSection(id){document.getElementById(id).scrollIntoView({behavior:'smooth',block:'start'});}
+document.querySelectorAll('.tn-tab[data-go]').forEach(tab=>tab.addEventListener('click',()=>gotoSection(tab.dataset.go)));
+const spyMap={home:'home',experience:'experience',golives:'golives',photos:'photos',resources:'resources'};
+const spy=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting){const t=spyMap[e.target.id];document.querySelectorAll('.tn-tab[data-go]').forEach(x=>x.classList.toggle('active',x.dataset.go===t));}});},{root:document.getElementById('content'),rootMargin:'-45% 0px -45% 0px',threshold:0});
+['home','experience','golives','photos','resources'].forEach(id=>spy.observe(document.getElementById(id)));
+
+// Tab Switching Logic for Experience Section
+const tabBtns = document.querySelectorAll('.exp-tab');
+const panes = document.querySelectorAll('.exp-pane');
+tabBtns.forEach(btn => {
+  btn.addEventListener('click', () => {
+    tabBtns.forEach(b => b.classList.remove('active'));
+    panes.forEach(p => p.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById(btn.dataset.target).classList.add('active');
+  });
+});
+
+// Render Arrays into HTML
+function renderGoLives(){
+  const grid=document.getElementById('glGrid');
+  grid.innerHTML=goLives.map(function(gl){return '<div class="gl-card lift reveal"><div class="gl-top"><div class="gl-topimg" style="background-image:'+gradOnly(gl.g)+'"></div><div class="gl-lb"><span class="gl-ldot"></span>Project</div><div class="gl-sect">'+gl.sector+'</div></div><div class="gl-body"><div class="gl-mkt">'+gl.mkt+'</div><div class="gl-co">'+gl.co+'</div><div class="gl-prod">'+gl.prod+'</div><div class="gl-num">'+gl.metric+'</div><div class="gl-lbl">'+gl.lbl+'</div></div></div>';}).join('');
+}
+function buildPhotos(){document.getElementById('photoGrid').innerHTML=photos.map(p=>'<div class="photo-tile reveal'+(p.wide?' wide':'')+'"><div class="photo-fill" style="background-image:'+gradOnly(p.g)+'"></div><div class="phov"><div class="ph-cap">'+p.cap+'</div><div class="ph-evt">'+p.evt+'</div></div></div>').join('');}
+function buildResources(){document.getElementById('resGrid').innerHTML=resources.map((r,i)=>'<div class="res-card reveal"><span class="res-ic">'+r.ic+'</span><div class="res-tit">'+r.tit+'</div><div class="res-dsc">'+r.dsc+'</div></div>').join('');}
+
+// Initialize Everything
+buildSlides();renderGoLives();buildPhotos();buildResources();observeReveals();
+</script>
+</body>
+</html>
