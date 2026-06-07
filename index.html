@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Marcus Foo | Marketing Analytics</title>
+  <title>Marcus Foo | Marketing Analytics Portfolio</title>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;800&family=JetBrains+Mono:wght@400;700&display=swap');
 
@@ -13,37 +13,99 @@
       --surface-hover: #27272a;
       --text-main: #f4f4f5;
       --text-muted: #a1a1aa;
-      --accent: #8b5cf6; /* Deep Violet */
-      --accent-secondary: #f59e0b; /* Amber/Gold */
+      --accent: #8b5cf6; 
+      --accent-secondary: #f59e0b; 
       --font-sans: 'Inter', sans-serif;
       --font-mono: 'JetBrains Mono', monospace;
     }
 
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
 
     body {
       font-family: var(--font-sans);
       background-color: var(--bg);
       color: var(--text-main);
       line-height: 1.7;
+      overflow-x: hidden;
       background-image: 
         radial-gradient(circle at 10% 20%, rgba(139, 92, 246, 0.05) 0%, transparent 40%),
         radial-gradient(circle at 90% 80%, rgba(245, 158, 11, 0.03) 0%, transparent 40%);
     }
 
+    /* Sticky Navigation */
+    nav {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      background: rgba(9, 9, 11, 0.85);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+      z-index: 1000;
+      padding: 1rem 0;
+      transition: all 0.3s ease;
+    }
+
+    .nav-container {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 0 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .nav-logo {
+      font-weight: 800;
+      font-size: 1.2rem;
+      color: var(--text-main);
+      text-decoration: none;
+      letter-spacing: -0.02em;
+    }
+
+    .nav-logo span { color: var(--accent); }
+
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+    }
+
+    .nav-links a {
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 0.9rem;
+      font-weight: 500;
+      transition: color 0.3s;
+    }
+
+    .nav-links a:hover { color: var(--text-main); }
+
     .container {
-      max-width: 900px;
+      max-width: 1000px;
       margin: 0 auto;
       padding: 0 2rem;
     }
 
     section {
-      padding: 5rem 0;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+      padding: 7rem 0 4rem;
+      min-height: 80vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    /* Scroll Animations */
+    .fade-in {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.7s ease-out, transform 0.7s ease-out;
+    }
+
+    .fade-in.visible {
+      opacity: 1;
+      transform: translateY(0);
     }
 
     /* Typography */
@@ -66,48 +128,26 @@
     }
 
     h2 {
-      font-size: 2rem;
+      font-size: 2.2rem;
       font-weight: 600;
       margin-bottom: 2.5rem;
-      color: var(--text-main);
-    }
-
-    p {
-      color: var(--text-muted);
-      font-size: 1.1rem;
-      margin-bottom: 1.5rem;
-    }
-
-    /* Hero */
-    .hero {
-      min-height: 80vh;
       display: flex;
-      flex-direction: column;
-      justify-content: center;
-      padding-top: 2rem;
-      border-bottom: none;
+      align-items: center;
+      gap: 1rem;
     }
 
-    .hero p {
-      max-width: 600px;
-      font-size: 1.25rem;
+    h2::after {
+      content: "";
+      flex-grow: 1;
+      height: 1px;
+      background: rgba(255, 255, 255, 0.1);
     }
 
-    /* About Section */
-    .about-grid {
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 2rem;
-    }
-    
-    .about-text p {
-      max-width: 100%;
-    }
+    p { color: var(--text-muted); font-size: 1.1rem; margin-bottom: 1.5rem; }
 
-    .highlight {
-      color: var(--accent);
-      font-weight: 500;
-    }
+    /* Hero / Intro */
+    .hero p { max-width: 700px; font-size: 1.25rem; }
+    .highlight { color: var(--accent); font-weight: 500; }
 
     /* Vertical Timeline */
     .timeline {
@@ -119,10 +159,7 @@
       margin-left: 0.5rem;
     }
 
-    .timeline-item {
-      position: relative;
-    }
-
+    .timeline-item { position: relative; }
     .timeline-item::before {
       content: "";
       position: absolute;
@@ -135,161 +172,258 @@
       border-radius: 50%;
       transition: all 0.3s ease;
     }
+    .timeline-item:hover::before { background: var(--accent); box-shadow: 0 0 12px var(--accent); }
+    .time-meta { font-family: var(--font-mono); font-size: 0.85rem; color: var(--accent-secondary); margin-bottom: 0.5rem; }
+    .timeline-title { font-size: 1.4rem; font-weight: 600; color: #fff; }
+    .timeline-venue { font-size: 1rem; color: var(--accent); margin-bottom: 1rem; font-weight: 500; }
 
-    .timeline-item:hover::before {
-      background: var(--accent);
-      box-shadow: 0 0 12px var(--accent);
+    /* Expand/Collapse Logic */
+    .full-desc {
+      max-height: 0;
+      overflow: hidden;
+      opacity: 0;
+      transition: max-height 0.5s ease-in-out, opacity 0.5s ease-in-out, margin-top 0.3s ease;
     }
 
-    .time-meta {
+    .full-desc.expanded {
+      max-height: 1000px;
+      opacity: 1;
+      margin-top: 1rem;
+    }
+
+    .learn-more-btn {
+      background: transparent;
+      border: 1px solid rgba(139, 92, 246, 0.5);
+      color: var(--accent);
+      padding: 0.5rem 1rem;
       font-family: var(--font-mono);
-      font-size: 0.85rem;
-      color: var(--accent-secondary);
-      margin-bottom: 0.5rem;
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      margin-top: 0.5rem;
     }
 
-    .timeline-title {
-      font-size: 1.3rem;
-      font-weight: 600;
+    .learn-more-btn:hover {
+      background: rgba(139, 92, 246, 0.1);
+      border-color: var(--accent);
       color: #fff;
     }
 
-    .timeline-venue {
-      font-size: 0.95rem;
-      color: var(--text-muted);
-      margin-bottom: 1rem;
-      font-weight: 500;
-    }
-
-    /* Case Studies Grid */
+    /* Projects Grid */
     .grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-      gap: 1.5rem;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 2rem;
     }
 
     .card {
       background: var(--surface);
       border: 1px solid rgba(255, 255, 255, 0.05);
-      border-radius: 8px;
-      padding: 2.5rem 2rem;
+      border-radius: 12px;
+      padding: 2rem;
       transition: all 0.3s ease;
     }
 
     .card:hover {
       background: var(--surface-hover);
       border-color: rgba(139, 92, 246, 0.4);
-      transform: translateY(-3px);
+      transform: translateY(-5px);
     }
 
-    .card-metric {
-      font-family: var(--font-mono);
-      font-size: 0.85rem;
-      color: var(--accent-secondary);
-      margin-bottom: 1rem;
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-    }
+    .card-metric { font-family: var(--font-mono); font-size: 0.8rem; color: var(--accent-secondary); margin-bottom: 0.5rem; text-transform: uppercase; }
+    .card h3 { font-size: 1.25rem; font-weight: 600; margin-bottom: 0.5rem; color: #fff; }
 
-    /* Footer */
-    footer {
-      padding: 4rem 0;
-      text-align: left;
-      font-family: var(--font-mono);
-      font-size: 0.85rem;
-      color: var(--text-muted);
-      display: flex;
-      gap: 2rem;
-    }
+    footer { padding: 4rem 0; text-align: center; font-family: var(--font-mono); font-size: 0.85rem; border-top: 1px solid rgba(255,255,255,0.05); margin-top: 4rem;}
+    footer a { color: var(--text-main); text-decoration: none; margin: 0 1rem; transition: color 0.2s; }
+    footer a:hover { color: var(--accent-secondary); }
 
-    a {
-      color: var(--text-main);
-      text-decoration: none;
-      transition: color 0.2s;
-    }
-
-    a:hover {
-      color: var(--accent-secondary);
+    @media (max-width: 768px) {
+      .nav-links { display: none; }
     }
   </style>
 </head>
 <body>
 
+  <nav id="navbar">
+    <div class="nav-container">
+      <a href="#intro" class="nav-logo">Marcus<span>.Foo</span></a>
+      <div class="nav-links">
+        <a href="#intro">About</a>
+        <a href="#experience">Experience</a>
+        <a href="#education">Education</a>
+        <a href="#projects">Projects</a>
+      </div>
+    </div>
+  </nav>
+
   <div class="container">
     
-    <section class="hero">
-      <span class="mono-tag">Portfolio</span>
-      <h1>Marcus Foo</h1>
-      <p>Data-driven marketer specializing in building seamless Direct-to-Consumer (DTC) digital experiences, owned media strategies, and site optimization.</p>
+    <section id="intro" class="fade-in">
+      <span class="mono-tag">01. Profile</span>
+      <h1>Foo Jia Hao Marcus</h1>
+      <p>I am a Year 3 Business student at <span class="highlight">Singapore Management University</span>[cite: 69], majoring in Marketing Analytics. I am passionate about crafting meaningful experiences for individuals and communities, embracing new challenges with enthusiasm[cite: 71].</p>
+      <p>I aim to blend analytical insights with creativity to contribute to impactful projects[cite: 72]. My professional portfolio spans from programmatic advertising and Power BI dashboarding to robust O2O retail marketing strategies across the APAC region.</p>
     </section>
 
-    <section id="about">
-      <span class="mono-tag">01. Background</span>
-      <h2>About Me</h2>
-      <div class="about-grid">
-        <div class="about-text">
-          <p>I am currently a 3rd-year Business Management undergraduate at <span class="highlight">Singapore Management University (SMU)</span>, specializing in Marketing Analytics. My foundational background includes a Diploma in Tourism from Ngee Ann Polytechnic, which sparked my initial interest in understanding consumer behavior and authentic experiences.</p>
-          <p>Professionally, I am focused on the transition from traditional B2B models to <span class="highlight">B2C digital marketing</span>. Having started my career analyzing audience insights within the ad-tech sector, I have pivoted toward optimizing DTC pipelines, ensuring that the final digital interface a customer interacts with is as seamless and conversion-focused as possible.</p>
-          <p>Beyond marketing, I maintain a strong academic interest in international relations, domestic public opinion, and the analysis of Chinese political systems—disciplines that heavily inform my approach to macro-level market research and data analysis.</p>
-        </div>
-      </div>
-    </section>
-
-    <section id="experience">
-      <span class="mono-tag">02. Experience</span>
-      <h2>Work & Education</h2>
+    <section id="experience" class="fade-in">
+      <span class="mono-tag">02. Career</span>
+      <h2>Work Experience</h2>
       
       <div class="timeline">
         <div class="timeline-item">
-          <div class="time-meta">MAR 2026 - PRESENT</div>
-          <div class="timeline-title">Regional Digital Marketing Intern</div>
-          <div class="timeline-venue">ServiceNow</div>
-          <p>Driving regional digital marketing initiatives with a core focus on expanding B2C pipelines, executing targeted campaigns, and leveraging marketing analytics to refine audience engagement strategies.</p>
+          <div class="time-meta">JUN 2025 - JAN 2026</div>
+          <div class="timeline-title">APAC Marketing Intern</div>
+          <div class="timeline-venue">NBCUniversal, FreeWheel [cite: 11, 12]</div>
+          <div class="desc-container">
+            <p class="short-desc">Interned under FreeWheel, a global Comcast premium CTV and video ad-tech platform. Built GTM-aligned sales enablement decks and regional market briefs by partnering with APAC sales leads[cite: 15, 17].</p>
+            <div class="full-desc">
+              <p>Led the development of 5 GWI-powered insights decks for Comcast Advertising EMEA's GTM, using crosstab analysis to support successful pitches for clients like Accor Hotels and AirWallex[cite: 17]. Evaluated audience data regulations across 7 APAC markets to assess compliance with GDPR practices, and delivered seven APAC insight reports on consumer viewing trends[cite: 20].</p>
+            </div>
+            <button class="learn-more-btn" onclick="toggleDesc(this)">Learn More</button>
+          </div>
         </div>
 
         <div class="timeline-item">
-          <div class="time-meta">COMPLETED</div>
-          <div class="timeline-title">Sales Enablement & Audience Insights Intern</div>
-          <div class="timeline-venue">Comcast FreeWheel</div>
-          <p>Operated within the APAC ad-tech sector, translating complex Big Data into actionable audience insights to support B2B sales enablement and drive regional growth.</p>
+          <div class="time-meta">DEC 2024 - JAN 2025</div>
+          <div class="timeline-title">Marketing Intern</div>
+          <div class="timeline-venue">CapitaLand [cite: 21, 22]</div>
+          <div class="desc-container">
+            <p class="short-desc">Conducted market and competitor analysis on TikTok video trends, proposing key insights on target audiences to inform 2025 social media strategies[cite: 26].</p>
+            <div class="full-desc">
+              <p>Oversaw social media product features across 200+ mall tenants, vetting copy and visuals to strengthen brand visibility. Spearheaded Junction 8's student engagement campaign, securing sponsored content and partnerships with 50 retail tenants to drive Gen-Z acquisition[cite: 27].</p>
+            </div>
+            <button class="learn-more-btn" onclick="toggleDesc(this)">Learn More</button>
+          </div>
         </div>
 
         <div class="timeline-item">
-          <div class="time-meta">2023 - PRESENT</div>
-          <div class="timeline-title">BSc Business Management</div>
-          <div class="timeline-venue">Singapore Management University</div>
-          <p>Undergraduate specialization in Marketing Analytics. Coursework emphasizes quantitative analysis, strategic brand management, and consumer behavior metrics.</p>
+          <div class="time-meta">NOV 2023 - AUG 2024</div>
+          <div class="timeline-title">Engagement and Ecosystem Assistant</div>
+          <div class="timeline-venue">Singapore University of Social Sciences (SUSS) [cite: 28, 29]</div>
+          <div class="desc-container">
+            <p class="short-desc">Designed a full range of employer engagement and branding content, reaching an audience of 2000 SUSS Associates through digital communication channels[cite: 33].</p>
+            <div class="full-desc">
+              <p>Conducted comprehensive market research to develop a Power BI dashboard. Mapped faculty and student data across 6 local universities using DAX queries and interactive visuals to support SUSS' data-driven employer branding strategies[cite: 35, 36].</p>
+            </div>
+            <button class="learn-more-btn" onclick="toggleDesc(this)">Learn More</button>
+          </div>
+        </div>
+
+        <div class="timeline-item">
+          <div class="time-meta">MAR 2020 - OCT 2020</div>
+          <div class="timeline-title">Learning & Development Intern</div>
+          <div class="timeline-venue">Changi Airport Group (Airport Operations) [cite: 37, 38]</div>
+          <div class="desc-container">
+            <p class="short-desc">Increased internal user adoption of the ONE Changi App by driving awareness on app benefits and executing app training and onboarding webinars[cite: 42].</p>
+            <div class="full-desc">
+              <p>Performed functional and cosmetic analysis on ONE Changi digital platforms, proposing strategies to improve the user experience for an audience of 50,000+. Executed the digitalization of ONE Changi Learning Services and curated e-learning courses reaching 10,000+ frontline staff[cite: 43, 44, 46].</p>
+            </div>
+            <button class="learn-more-btn" onclick="toggleDesc(this)">Learn More</button>
+          </div>
         </div>
       </div>
     </section>
 
-    <section id="projects">
-      <span class="mono-tag">03. Case Studies</span>
-      <h2>Strategic Projects</h2>
+    <section id="education" class="fade-in">
+      <span class="mono-tag">03. Academic</span>
+      <h2>Education</h2>
+      
+      <div class="timeline">
+        <div class="timeline-item">
+          <div class="time-meta">AUG 2023 - PRESENT</div>
+          <div class="timeline-title">Bachelor of Business Management</div>
+          <div class="timeline-venue">Singapore Management University [cite: 3, 4]</div>
+          <p>Major in Marketing Analytics. Achieved Magna Cum Laude (High Distinction) and was placed on the Dean's List for AY2023/2024[cite: 4, 5].</p>
+        </div>
+
+        <div class="timeline-item">
+          <div class="time-meta">JAN 2018 - DEC 2021</div>
+          <div class="timeline-title">Diploma in Tourism & Resort Management</div>
+          <div class="timeline-venue">Ngee Ann Polytechnic, School of Business & Accountancy [cite: 7, 8]</div>
+          <p>Areas Covered: Business Communication, Tourism Marketing, Digital Marketing, Events Management, and Strategy Management[cite: 80].</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="projects" class="fade-in">
+      <span class="mono-tag">04. Beyond the Desk</span>
+      <h2>Special Projects</h2>
 
       <div class="grid">
         <div class="card">
-          <div class="card-metric">DTC Digital Strategy</div>
-          <div class="timeline-title">La Turmix Artisan Boutique</div>
-          <div class="timeline-venue">Madrid, Spain</div>
-          <p>Developed a comprehensive digital strategy to modernize a traditional artisan retail identity. Focused on integrating digital interfaces that preserve the boutique's authentic brand while driving direct-to-consumer online conversions.</p>
+          <div class="card-metric">Industry Research</div>
+          <h3>Singapore Tourism Board (STB)</h3>
+          <div class="desc-container">
+            <p class="short-desc">Performed industry analysis for STB, analyzing data from 13 leading event organizers to identify emerging trends[cite: 52].</p>
+            <div class="full-desc">
+              <p>Proposed 3 strategies to help virtual and hybrid conventions recover in the post-COVID landscape. The paper was shortlisted by STB to represent Singapore at the Asia-Pacific ApacCHIRE Youth Conference[cite: 52, 53].</p>
+            </div>
+            <button class="learn-more-btn" onclick="toggleDesc(this)">Learn More</button>
+          </div>
         </div>
 
         <div class="card">
-          <div class="card-metric">Big Data Analytics</div>
-          <div class="timeline-title">SMU Academic Research Group</div>
-          <div class="timeline-venue">Business Analytics</div>
-          <p>Collaborated closely with a cohort of researchers to distribute deliverables for a joint academic paper. Applied rigorous business analytics methodologies to process and interpret large-scale datasets for a final presentation.</p>
+          <div class="card-metric">Community Events</div>
+          <h3>Project H2 - Health X Heritage</h3>
+          <div class="desc-container">
+            <p class="short-desc">Project Director for a community engagement event graced by Member of Parliament Dr. Indranee Rajah[cite: 54, 57].</p>
+            <div class="full-desc">
+              <p>Led 26 students over 4 months to execute the event. Managed 10 key sponsors, including the Health Promotion Board and Marigold, ultimately achieving 95% positive feedback in the post-event survey[cite: 57, 58].</p>
+            </div>
+            <button class="learn-more-btn" onclick="toggleDesc(this)">Learn More</button>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-metric">Digital Marketing & Video</div>
+          <h3>Freelance & Social Media</h3>
+          <div class="desc-container">
+            <p class="short-desc">Co-founded and drove marketing for Full on Fudge, and acted as a Content Creation Assistant for brands like Joc Bakery and Earth Guidance Star Charts[cite: 612, 613, 644, 661].</p>
+            <div class="full-desc">
+              <p>Executed digital marketing projects and video production for RE:CARE ("revive, restore, radiate") and Scoot, expanding my hands-on portfolio in DTC marketing and visual design[cite: 673, 678, 685].</p>
+            </div>
+            <button class="learn-more-btn" onclick="toggleDesc(this)">Learn More</button>
+          </div>
         </div>
       </div>
     </section>
 
     <footer>
-      <a href="#">Email Me</a>
-      <a href="#">LinkedIn</a>
-      <a href="#">Resume (PDF)</a>
+      <a href="mailto:marcusfjh01@gmail.com">marcusfjh01@gmail.com</a>
+      <a href="https://www.linkedin.com/in/marcusfjh" target="_blank">LinkedIn</a>
     </footer>
 
   </div>
+
+  <script>
+    // Fade-In Scroll Animation
+    document.addEventListener("DOMContentLoaded", function() {
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+          }
+        });
+      }, { threshold: 0.15 });
+
+      document.querySelectorAll('.fade-in').forEach((element) => {
+        observer.observe(element);
+      });
+    });
+
+    // Learn More Button Logic
+    function toggleDesc(btn) {
+      const fullDesc = btn.previousElementSibling;
+      if (fullDesc.classList.contains('expanded')) {
+        fullDesc.classList.remove('expanded');
+        btn.textContent = "Learn More";
+      } else {
+        fullDesc.classList.add('expanded');
+        btn.textContent = "Show Less";
+      }
+    }
+  </script>
 </body>
 </html>
