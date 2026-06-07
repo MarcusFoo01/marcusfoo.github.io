@@ -11,46 +11,48 @@
   --bg:#DBE2EA;--card:#FFFFFF;--ink:#0B2230;--soft:#5C6B76;--line:rgba(3,45,66,.11);
   --green:#62D84E;--green-d:#3FA72F;--blue:#032D42;--blue-2:#0A4D68;
   --font:'Outfit',system-ui,sans-serif;--mono:'DM Mono',monospace;
-  --nav:58px;--maxw:1240px;
-  --shadow:0 2px 10px rgba(11,34,48,.07);--shadow-lg:0 16px 38px rgba(11,34,48,.14);
+  --nav:58px;--maxw:1240px;--shadow:0 2px 10px rgba(11,34,48,.07);--shadow-lg:0 16px 38px rgba(11,34,48,.14);
+  --hero-grad: linear-gradient(135deg,#07111a,#0a2540,#0f4c75,#1a6fa8);
 }
 html,body{height:100%;font-family:var(--font);background:var(--bg);color:var(--ink)}
-body{overflow:hidden}
-.topbar{position:fixed;top:0;left:0;right:0;z-index:300}
-.topnav{height:var(--nav);background:var(--blue);display:flex;align-items:center;padding:0 1.75rem;border-bottom:1px solid rgba(255,255,255,.08)}
+.topbar{position:fixed;top:0;left:0;right:0;z-index:300;background:var(--blue);border-bottom:1px solid rgba(255,255,255,.08)}
+.topnav{height:var(--nav);display:flex;align-items:center;padding:0 1.75rem;max-width:var(--maxw);margin:0 auto}
 .tn-logo{color:#fff;font-weight:800;font-size:1.2rem;}
-.tn-tabs{display:flex;gap:1rem;margin-left:2rem;}
-.tn-tab{background:none;border:none;color:rgba(255,255,255,.7);font-weight:500;cursor:pointer;font-family:var(--font);}
+.tn-tabs{display:flex;gap:1.5rem;margin-left:2rem;}
+.tn-tab{background:none;border:none;color:rgba(255,255,255,.7);font-weight:500;cursor:pointer;font-family:var(--font);font-size:.9rem;transition:color .2s}
 .tn-tab.active{color:var(--green)}
 .content{margin-top:var(--nav);height:calc(100vh - var(--nav));overflow-y:auto;scroll-behavior:smooth}
 .pg{max-width:var(--maxw);margin:0 auto;padding:4rem 2rem}
+.pg-h{font-size:2.5rem;font-weight:800;margin-bottom:1.5rem;}
 
-/* HERO */
-.hero{background:linear-gradient(135deg,#07111a,#0a2540);color:#fff;padding:6rem 2rem;display:flex;align-items:center;}
+/* HERO - STATIC */
+.hero{background:var(--hero-grad);color:#fff;padding:6rem 2rem;display:flex;align-items:center;}
 .profile-layout{display:flex;gap:4rem;max-width:1000px;margin:0 auto;align-items:center;}
-.profile-pic{width:240px;height:240px;border-radius:12px;background:#ccc;border:4px solid rgba(255,255,255,0.1);flex-shrink:0;}
+.profile-pic{width:240px;height:240px;border-radius:12px;background:#ccc;flex-shrink:0;box-shadow:var(--shadow-lg);}
 .c-title{font-size:4rem;font-weight:900;margin-bottom:1rem;}
-.c-desc{font-size:1.1rem;color:rgba(255,255,255,.8);line-height:1.6;margin-bottom:2rem;}
+.c-desc{font-size:1.1rem;color:rgba(255,255,255,.8);line-height:1.7;margin-bottom:2rem;max-width:600px;}
 .contact-links{display:flex;gap:1rem;}
-.contact-links a{color:#fff;background:rgba(255,255,255,.1);padding:0.7rem 1.2rem;border-radius:8px;text-decoration:none;font-size:0.9rem;}
+.contact-links a{color:#fff;background:rgba(255,255,255,.1);padding:0.7rem 1.2rem;border-radius:8px;text-decoration:none;font-size:0.9rem;border:1px solid rgba(255,255,255,.1)}
 
 /* STORYTELLING EXPERIENCE */
-.exp-container{max-width:1000px;margin:3rem auto;padding:0 2rem;}
+.exp-container{max-width:900px;margin:3rem auto;padding:0 2rem;}
 .exp-module{background:var(--card);border-radius:16px;padding:3rem;margin-bottom:2rem;box-shadow:var(--shadow);border:1px solid var(--line);}
 .exp-hero-header{display:flex;align-items:center;gap:1.5rem;margin-bottom:2rem;}
 .company-logo{width:64px;height:64px;border-radius:12px;object-fit:contain;background:#f8f9fa;padding:8px;}
 .role-title{font-size:1.8rem;font-weight:800;color:var(--ink);}
 .role-meta{font-family:var(--mono);font-size:0.85rem;color:var(--soft);text-transform:uppercase;margin-top:0.3rem;}
-.story-text{font-size:1.1rem;line-height:1.7;color:var(--ink);margin-bottom:2rem;}
-.media-placeholder{width:100%;height:300px;background:#f1f5f9;border-radius:12px;display:flex;align-items:center;justify-content:center;color:var(--soft);margin-bottom:2rem;border:2px dashed var(--line);}
+.story-text{font-size:1.1rem;line-height:1.7;color:var(--ink);margin-bottom:2rem;font-weight:300;}
+.media-placeholder{width:100%;height:300px;background:#f1f5f9;border-radius:12px;display:flex;align-items:center;justify-content:center;color:var(--soft);margin-bottom:2rem;border:2px dashed var(--line);font-family:var(--mono)}
 .expertise-tags{display:flex;gap:0.75rem;}
 .tag{background:#eff6ff;color:#1e40af;padding:0.4rem 1rem;border-radius:6px;font-size:0.85rem;font-weight:600;}
 
 /* ABOUT ME */
-.about-grid{display:grid;grid-template-columns:1fr 1fr;gap:3rem;padding:4rem 2rem;}
-.interest-item{margin-bottom:2rem;}
+.about-grid{display:grid;grid-template-columns:1fr 1fr;gap:3rem;padding:4rem 2rem;max-width:var(--maxw);margin:0 auto;}
 .interest-title{font-size:1.3rem;font-weight:800;margin-bottom:0.5rem;}
-.collage-placeholder{background:#f1f5f9;border-radius:12px;min-height:400px;display:flex;align-items:center;justify-content:center;}
+.interest-desc{margin-bottom:2rem;color:var(--soft);line-height:1.6;}
+.collage-placeholder{background:#f1f5f9;border:2px dashed var(--line);border-radius:12px;display:flex;align-items:center;justify-content:center;font-family:var(--mono);color:var(--soft);}
+
+@media(max-width:900px){.profile-layout{flex-direction:column;text-align:center}.about-grid{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
@@ -70,9 +72,10 @@ body{overflow:hidden}
 
   <section class="hero" id="home">
     <div class="profile-layout">
-      <div class="profile-pic"></div> <div class="profile-text">
+      <div class="profile-pic"></div>
+      <div class="profile-text">
         <h1 class="c-title">Hi, I'm Marcus.</h1>
-        <p class="c-desc">[Placeholder: Intro subtext goes here about your future career aspirations and tech-marketing expertise.]</p>
+        <p class="c-desc">Tech-Marketing Specialist focused on scaling digital pipelines. Bridging the gap between enterprise software capabilities and real-world outcomes through data-driven storytelling.</p>
         <div class="contact-links">
           <a href="mailto:marcusfjh01@gmail.com">📧 Email</a>
           <a href="tel:+6586178325">📱 Call</a>
@@ -87,22 +90,22 @@ body{overflow:hidden}
       <h2 class="pg-h">About Me</h2>
       <div class="interest-item">
         <div class="interest-title">Authentic Travel</div>
-        <div class="interest-desc">Placeholder text for travel interests.</div>
+        <div class="interest-desc">I seek out non-touristy locations and specialized local culinary items. My recent self-guided trips include navigating the markets of Marrakech and the streets of Chefchaouen.</div>
       </div>
       <div class="interest-item">
         <div class="interest-title">Cultural Immersion</div>
-        <div class="interest-desc">Placeholder text for cultural interests.</div>
+        <div class="interest-desc">A deep academic and personal interest in understanding local histories and systems, from exploring the Anne Frank House in Amsterdam to studying international relations.</div>
       </div>
       <div class="interest-item">
         <div class="interest-title">Outdoor Adventures</div>
-        <div class="interest-desc">Placeholder text for outdoor interests.</div>
+        <div class="interest-desc">Active hiker and outdoor photographer, frequently planning routes to specific natural landscapes across the Basque Country and Meteora.</div>
       </div>
     </div>
     <div class="collage-placeholder">Photo Collage Placeholder</div>
   </section>
 
   <section id="experience" class="exp-container">
-    <h2 class="pg-h" style="text-align:center; margin-bottom: 3rem;">Professional Experience</h2>
+    <h2 class="pg-h" style="text-align:center;">Professional Experience</h2>
     
     <div class="exp-module">
       <div class="exp-hero-header">
@@ -112,9 +115,9 @@ body{overflow:hidden}
           <div class="role-meta">March 2026 - Present</div>
         </div>
       </div>
-      <p class="story-text">[Insert ServiceNow narrative here: Focus on B2C digital pipelines and how you handle regional campaigns.]</p>
+      <p class="story-text">Focusing on regional GTM strategies. I scale demand generation by ensuring our digital marketing pipelines align perfectly with enterprise-level product roadmaps, ensuring every campaign is measured for maximum conversion.</p>
       <div class="media-placeholder">Place Photo/Deck Link Here</div>
-      <div class="expertise-tags"><span class="tag">Digital Pipelines</span><span class="tag">Regional Campaigns</span></div>
+      <div class="expertise-tags"><span class="tag">Demand Gen</span><span class="tag">Digital Pipelines</span><span class="tag">Regional GTM</span></div>
     </div>
 
     <div class="exp-module">
@@ -125,9 +128,9 @@ body{overflow:hidden}
           <div class="role-meta">June 2025 - Jan 2026</div>
         </div>
       </div>
-      <p class="story-text">[Insert FreeWheel narrative here: Focus on ad-tech, data storytelling, and bridging the gap for sales teams.]</p>
+      <p class="story-text">Bridging the gap in ad-tech. I transformed complex SSP and Power BI analytics into actionable narratives, helping stakeholders visualize market opportunities across seven APAC countries.</p>
       <div class="media-placeholder">Place Photo/Deck Link Here</div>
-      <div class="expertise-tags"><span class="tag">Ad-Tech</span><span class="tag">Data Storytelling</span></div>
+      <div class="expertise-tags"><span class="tag">Ad-Tech</span><span class="tag">Market Research</span><span class="tag">Data Storytelling</span></div>
     </div>
   </section>
 
