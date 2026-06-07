@@ -10,465 +10,127 @@
 :root{
   --bg:#DBE2EA;--card:#FFFFFF;--ink:#0B2230;--soft:#5C6B76;--line:rgba(3,45,66,.11);
   --green:#62D84E;--green-d:#3FA72F;--blue:#032D42;--blue-2:#0A4D68;
-  --t-strat:#1B6FB0;--t-work:#2E9E4F;--t-web:#9B4DCA;--t-abm:#C4820E;
   --font:'Outfit',system-ui,sans-serif;--mono:'DM Mono',monospace;
   --nav:58px;--maxw:1240px;
-  --shadow:0 2px 10px rgba(11,34,48,.07);--shadow-lg:0 16px 38px rgba(11,34,48,.14);--z:.9;
-  
-  /* Gradients for slides */
-  --g1: linear-gradient(135deg,#07111a,#0a2540,#0f4c75,#1a6fa8);
-  --g3: linear-gradient(135deg,#0a1a0f,#0d3320,#1a5c3a,#2d8653);
+  --shadow:0 2px 10px rgba(11,34,48,.07);--shadow-lg:0 16px 38px rgba(11,34,48,.14);
 }
 html,body{height:100%;font-family:var(--font);background:var(--bg);color:var(--ink)}
-html{zoom:var(--z)}
 body{overflow:hidden}
 .topbar{position:fixed;top:0;left:0;right:0;z-index:300}
-.topnav{height:var(--nav);background:var(--blue);display:flex;align-items:center;gap:1.5rem;padding:0 1.75rem;border-bottom:1px solid rgba(255,255,255,.08)}
-.tn-logo{flex-shrink:0;display:flex;align-items:center;gap:.7rem;color:#fff;font-weight:800;font-size:1.2rem;letter-spacing:-0.5px;}
-.tn-pill{font-family:var(--mono);font-size:.5rem;text-transform:uppercase;letter-spacing:.12em;background:var(--green);color:var(--blue);padding:.2rem .55rem;border-radius:9999px;font-weight:700}
-.tn-tabs{display:flex;gap:.1rem;height:100%;margin-left:.5rem;flex:1}
-.tn-tab{height:100%;display:flex;align-items:center;gap:.3rem;padding:0 1rem;border:none;background:transparent;color:rgba(255,255,255,.7);font-family:var(--font);font-size:.85rem;font-weight:500;cursor:pointer;position:relative;white-space:nowrap;transition:color .18s}
-.tn-tab:hover{color:#fff}
+.topnav{height:var(--nav);background:var(--blue);display:flex;align-items:center;padding:0 1.75rem;border-bottom:1px solid rgba(255,255,255,.08)}
+.tn-logo{color:#fff;font-weight:800;font-size:1.2rem;}
+.tn-tabs{display:flex;gap:1rem;margin-left:2rem;}
+.tn-tab{background:none;border:none;color:rgba(255,255,255,.7);font-weight:500;cursor:pointer;font-family:var(--font);}
 .tn-tab.active{color:var(--green)}
-.tn-tab.active::after{content:'';position:absolute;bottom:0;left:1rem;right:1rem;height:3px;background:var(--green);border-radius:3px 3px 0 0}
-.content{margin-top:var(--nav);height:calc(100vh / var(--z) - var(--nav));overflow-y:auto;scroll-behavior:smooth;scroll-snap-type:y proximity;transition:margin-top .3s ease,height .3s ease}
-.pg{max-width:var(--maxw);margin:0 auto;padding:3rem 2.75rem 3.5rem}
-.pg-eye{font-family:var(--mono);font-size:.625rem;text-transform:uppercase;letter-spacing:.16em;color:var(--green-d);margin-bottom:.5rem;display:flex;align-items:center;gap:.6rem}
-.pg-eye::before{content:'';width:22px;height:2px;background:var(--green-d);border-radius:2px}
-.pg-h{font-size:2.1rem;font-weight:800;letter-spacing:-.025em;margin-bottom:.4rem;color:var(--ink)}
-.pg-sub{font-size:.9375rem;font-weight:400;color:var(--soft);margin-bottom:1.5rem;max-width:640px}
-.sec-head{display:flex;align-items:flex-end;justify-content:space-between;gap:1rem;margin-bottom:1.5rem;flex-wrap:wrap}
-.band-light{background:#E7ECF3;border-top:1px solid var(--line)}
-.band-base{border-top:1px solid var(--line)}
+.content{margin-top:var(--nav);height:calc(100vh - var(--nav));overflow-y:auto;scroll-behavior:smooth}
+.pg{max-width:var(--maxw);margin:0 auto;padding:4rem 2rem}
 
-/* HERO & SLIDER */
-.hero{position:relative;height:66vh;min-height:460px;overflow:hidden;scroll-snap-align:start}
-.c-wrap{position:relative;width:100%;height:100%;overflow:hidden}
-.c-slide{position:absolute;top:0;left:0;width:100%;height:100%;display:flex;align-items:center;transition:transform .72s cubic-bezier(.4,0,.2,1);will-change:transform}
-.c-bg{position:absolute;inset:0;background-size:cover;background-position:center;transform:scale(1.05);transition:transform 30s ease}
-.c-slide.cur .c-bg{transform:scale(1)}
-.c-overlay{position:absolute;inset:0;background:linear-gradient(105deg,rgba(3,28,42,.94) 0%,rgba(3,28,42,.7) 40%,rgba(3,28,42,.25) 72%,rgba(3,28,42,.05) 100%)}
-.c-body{position:relative;z-index:1;padding:2.75rem 4.5rem;max-width:1100px;color:#fff;width:100%}
+/* HERO */
+.hero{background:linear-gradient(135deg,#07111a,#0a2540);color:#fff;padding:6rem 2rem;display:flex;align-items:center;}
+.profile-layout{display:flex;gap:4rem;max-width:1000px;margin:0 auto;align-items:center;}
+.profile-pic{width:240px;height:240px;border-radius:12px;background:#ccc;border:4px solid rgba(255,255,255,0.1);flex-shrink:0;}
+.c-title{font-size:4rem;font-weight:900;margin-bottom:1rem;}
+.c-desc{font-size:1.1rem;color:rgba(255,255,255,.8);line-height:1.6;margin-bottom:2rem;}
+.contact-links{display:flex;gap:1rem;}
+.contact-links a{color:#fff;background:rgba(255,255,255,.1);padding:0.7rem 1.2rem;border-radius:8px;text-decoration:none;font-size:0.9rem;}
 
-/* Custom Slide Content */
-.profile-layout { display: flex; align-items: center; gap: 3.5rem; flex-wrap: wrap; }
-.profile-pic { width: 220px; height: 220px; border-radius: 50%; background: #ccc url('https://via.placeholder.com/220') center/cover; border: 4px solid rgba(255,255,255,0.15); flex-shrink: 0; box-shadow: var(--shadow-lg); }
-.c-title {font-size:clamp(3rem,5vw,4.5rem);font-weight:800;line-height:.96;letter-spacing:-.035em;margin-bottom:1.1rem;text-shadow:0 2px 24px rgba(0,0,0,.3)}
-.c-desc {color:rgba(255,255,255,.8);font-size:1.1rem;font-weight:300;max-width:600px;line-height:1.6;margin-bottom:1.6rem}
+/* STORYTELLING EXPERIENCE */
+.exp-container{max-width:1000px;margin:3rem auto;padding:0 2rem;}
+.exp-module{background:var(--card);border-radius:16px;padding:3rem;margin-bottom:2rem;box-shadow:var(--shadow);border:1px solid var(--line);}
+.exp-hero-header{display:flex;align-items:center;gap:1.5rem;margin-bottom:2rem;}
+.company-logo{width:64px;height:64px;border-radius:12px;object-fit:contain;background:#f8f9fa;padding:8px;}
+.role-title{font-size:1.8rem;font-weight:800;color:var(--ink);}
+.role-meta{font-family:var(--mono);font-size:0.85rem;color:var(--soft);text-transform:uppercase;margin-top:0.3rem;}
+.story-text{font-size:1.1rem;line-height:1.7;color:var(--ink);margin-bottom:2rem;}
+.media-placeholder{width:100%;height:300px;background:#f1f5f9;border-radius:12px;display:flex;align-items:center;justify-content:center;color:var(--soft);margin-bottom:2rem;border:2px dashed var(--line);}
+.expertise-tags{display:flex;gap:0.75rem;}
+.tag{background:#eff6ff;color:#1e40af;padding:0.4rem 1rem;border-radius:6px;font-size:0.85rem;font-weight:600;}
 
-/* Contact Links */
-.contact-links { display: flex; gap: 1rem; flex-wrap: wrap; }
-.contact-links a { color: #fff; text-decoration: none; display: flex; align-items: center; gap: 0.5rem; font-size: 0.9rem; font-weight: 500; background: rgba(255,255,255,0.1); padding: 0.6rem 1.2rem; border-radius: 9999px; transition: background 0.2s, color 0.2s; border: 1px solid rgba(255,255,255,0.1); }
-.contact-links a:hover { background: var(--green); color: var(--blue); border-color: var(--green); }
-.ic { font-size: 1.1rem; }
-
-.c-arrow{position:absolute;top:calc(50% - 12px);transform:translateY(-50%);width:44px;height:44px;border-radius:50%;border:1px solid rgba(255,255,255,.25);background:rgba(0,0,0,.3);backdrop-filter:blur(10px);color:#fff;font-size:1.35rem;cursor:pointer;display:flex;align-items:center;justify-content:center;z-index:20;transition:all .2s}
-.c-arrow:hover{background:var(--green);border-color:var(--green);color:var(--blue)}
-.c-arrow.prev{left:1.6rem}.c-arrow.next{right:1.6rem}
-.c-prog{position:absolute;bottom:0;left:0;right:0;height:3px;background:rgba(255,255,255,.16);z-index:20}
-.c-pfill{height:100%;background:var(--green);width:0%}
-.c-dots{position:absolute;bottom:1.5rem;right:2.4rem;display:flex;gap:6px;z-index:20;align-items:center}
-.c-dot{width:7px;height:7px;border-radius:50%;background:rgba(255,255,255,.4);cursor:pointer;transition:all .3s}
-.c-dot.on{background:var(--green);width:22px;border-radius:4px}
-.c-count{position:absolute;top:1.4rem;right:1.6rem;font-family:var(--mono);font-size:.7rem;color:rgba(255,255,255,.6);z-index:20}
-.c-timer{position:absolute;top:1.4rem;left:1.8rem;z-index:20;font-family:var(--mono);font-size:.6rem;text-transform:uppercase;letter-spacing:.1em;color:rgba(255,255,255,.65);display:flex;align-items:center;gap:.45rem}
-.c-timer-ring{width:13px;height:13px;border-radius:50%;border:2px solid rgba(255,255,255,.3);border-top-color:var(--green);animation:spin 1.05s linear infinite}
-@keyframes spin{to{transform:rotate(360deg)}}
-.scroll-hint{position:absolute;bottom:1.3rem;left:50%;transform:translateX(-50%);z-index:20;font-family:var(--mono);font-size:.55rem;text-transform:uppercase;letter-spacing:.12em;color:rgba(255,255,255,.7);display:flex;flex-direction:column;align-items:center;gap:.3rem;pointer-events:none;animation:bob 2.4s infinite}
-@keyframes bob{0%,100%{transform:translate(-50%,0)}50%{transform:translate(-50%,6px)}}
-.reveal{opacity:0;transform:translateY(18px);transition:opacity .55s ease,transform .55s cubic-bezier(.2,.8,.2,1)}
-.reveal.in{opacity:1;transform:none}
-.lift{transition:transform .25s ease,box-shadow .25s ease,border-color .25s ease}
-.lift:hover{transform:translateY(-3px);box-shadow:var(--shadow-lg);border-color:rgba(3,45,66,.16)}
-
-/* TABBED EXPERIENCE SECTION */
-.exp-layout { display: grid; grid-template-columns: 260px 1fr; gap: 2.5rem; margin-top: 2rem; align-items: start; }
-.exp-tabs { display: flex; flex-direction: column; gap: 0.6rem; }
-.exp-tab { display: flex; align-items: center; gap: 1rem; padding: 1rem 1.25rem; background: var(--card); border: 1px solid var(--line); border-radius: 0.85rem; cursor: pointer; transition: all 0.25s; box-shadow: var(--shadow); font-weight: 600; color: var(--soft); text-align: left; font-family: var(--font); font-size: 0.95rem; }
-.exp-tab:hover { transform: translateX(4px); box-shadow: var(--shadow-lg); border-color: var(--blue-2); color: var(--ink); }
-.exp-tab.active { background: var(--blue); color: #fff; border-color: var(--blue); transform: translateX(8px); box-shadow: var(--shadow-lg); }
-.exp-logo { font-size: 1.4rem; background: rgba(255,255,255,0.15); width: 42px; height: 42px; display: flex; align-items: center; justify-content: center; border-radius: 8px; flex-shrink: 0; box-shadow: inset 0 2px 4px rgba(0,0,0,0.1); }
-.exp-tab:not(.active) .exp-logo { background: var(--bg); box-shadow: none; }
-.exp-content { background: var(--card); border: 1px solid var(--line); border-radius: 1rem; padding: 2.5rem; box-shadow: var(--shadow-lg); position: relative; overflow: hidden; min-height: 400px; }
-.exp-pane { display: none; animation: slideIn 0.35s ease forwards; opacity: 0; }
-.exp-pane.active { display: block; }
-@keyframes slideIn { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
-.ep-head { border-bottom: 1px solid var(--line); padding-bottom: 1.2rem; margin-bottom: 1.5rem; display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 1rem; }
-.ep-role { font-size: 1.9rem; font-weight: 800; color: var(--ink); line-height: 1.1; margin-bottom: 0.5rem; letter-spacing: -0.02em; }
-.ep-co { font-size: 1.1rem; color: var(--soft); font-weight: 500; display: flex; align-items: center; gap: 0.6rem; }
-.ep-date { font-family: var(--mono); font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.1em; background: rgba(98, 216, 78, 0.15); color: var(--green-d); padding: 0.45rem 0.9rem; border-radius: 9999px; font-weight: 700; white-space: nowrap; }
-.ep-bullets { display: flex; flex-direction: column; gap: 1.1rem; list-style: none; }
-.ep-bullets li { position: relative; padding-left: 1.6rem; font-size: 1.05rem; color: var(--ink); line-height: 1.65; font-weight: 400; }
-.ep-bullets li::before { content: '▹'; position: absolute; left: 0; top: 2px; color: var(--green-d); font-size: 1.3rem; font-weight: 800; }
-.ep-accent { position: absolute; top: 0; left: 0; right: 0; height: 4px; background: linear-gradient(90deg, var(--blue-2), var(--green-d)); }
-
-/* GO LIVES (Projects) */
-.golive-sec{min-height:100vh;scroll-snap-align:start;background:linear-gradient(180deg,#EFF3F8 0%,#E1E8F0 100%);display:flex;flex-direction:column;justify-content:center;border-top:1px solid var(--line)}
-.gl-intro{text-align:center;max-width:660px;margin:0 auto 2.25rem;padding-top:1rem}
-.gl-intro .pg-eye{margin-bottom:.5rem;justify-content:center}
-.gl-intro h2{font-size:clamp(2rem,3.5vw,2.85rem);font-weight:800;letter-spacing:-.03em;line-height:1.02;margin-bottom:.75rem}
-.gl-intro h2 span{color:var(--green-d)}
-.gl-intro p{font-size:1rem;color:var(--soft);font-weight:300;line-height:1.55}
-.gl-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:1rem;max-width:var(--maxw);margin:0 auto;width:100%}
-.gl-card{background:#fff;border:1px solid var(--line);border-radius:1rem;overflow:hidden;cursor:pointer;box-shadow:var(--shadow)}
-.gl-top{height:108px;position:relative;overflow:hidden}
-.gl-top::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,rgba(3,28,42,.05),rgba(3,28,42,.5))}
-.gl-topimg{position:absolute;inset:0;background-size:cover;background-position:center;transition:transform .5s ease}
-.gl-card:hover .gl-topimg{transform:scale(1.06)}
-.gl-lb{position:absolute;top:.7rem;left:.8rem;z-index:1;background:rgba(255,255,255,.94);color:var(--green-d);font-family:var(--mono);font-size:.5rem;text-transform:uppercase;letter-spacing:.1em;padding:.2rem .6rem .2rem .5rem;border-radius:9999px;display:flex;align-items:center;gap:.4rem;font-weight:700}
-.gl-ldot{width:5px;height:5px;border-radius:50%;background:var(--green-d);animation:pulse 2s infinite}
-.gl-sect{position:absolute;bottom:.6rem;left:.8rem;z-index:1;font-family:var(--mono);font-size:.5rem;text-transform:uppercase;letter-spacing:.08em;color:#fff;background:rgba(3,45,66,.6);padding:.2rem .55rem;border-radius:9999px}
-.gl-body{padding:1.2rem}
-.gl-mkt{font-family:var(--mono);font-size:.5rem;text-transform:uppercase;letter-spacing:.1em;color:var(--soft);margin-bottom:.35rem}
-.gl-co{font-size:1.125rem;font-weight:700;margin-bottom:.2rem}
-.gl-prod{font-size:.8125rem;color:var(--t-strat);margin-bottom:.875rem;font-weight:500}
-.gl-num{font-size:1.8rem;font-weight:800;color:var(--green-d);letter-spacing:-.04em;line-height:1.1;margin-bottom:.4rem;transition:transform .25s}
-.gl-card:hover .gl-num{transform:scale(1.05)}
-.gl-lbl{font-size:.8125rem;color:var(--soft);font-weight:400;margin-bottom:.875rem; line-height:1.4;}
-
-/* PHOTOS */
-.photo-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:.75rem}
-.photo-tile{aspect-ratio:1;border-radius:.85rem;overflow:hidden;position:relative;cursor:pointer;box-shadow:var(--shadow);transition:transform .25s,box-shadow .25s}
-.photo-tile.wide{grid-column:span 2;aspect-ratio:2}
-.photo-tile:hover{transform:translateY(-3px);box-shadow:var(--shadow-lg)}
-.photo-fill{width:100%;height:100%;background-size:cover;background-position:center;transition:transform .45s ease}
-.photo-tile:hover .photo-fill{transform:scale(1.06)}
-.phov{position:absolute;inset:0;background:linear-gradient(to top,rgba(3,28,42,.8),rgba(3,28,42,.04) 60%);display:flex;flex-direction:column;justify-content:flex-end;padding:1rem}
-.ph-cap{font-size:.85rem;font-weight:700;color:#fff;margin-bottom:.2rem;transform:translateY(5px);transition:transform .25s}
-.photo-tile:hover .ph-cap{transform:translateY(0)}
-.ph-evt{font-family:var(--mono);font-size:.5rem;text-transform:uppercase;letter-spacing:.1em;color:rgba(255,255,255,.72)}
-
-/* RESOURCES (DARK) */
-.dark-sec{background:linear-gradient(165deg,#063043 0%,#06161E 100%);border-top:1px solid rgba(255,255,255,.08)}
-.dark-sec .pg-eye{color:var(--green)}
-.dark-sec .pg-eye::before{background:var(--green)}
-.dark-sec .pg-h{color:#fff}
-.dark-sec .pg-sub{color:rgba(255,255,255,.62)}
-.res-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:1rem}
-.res-card{background:#fff;border:1px solid rgba(255,255,255,.6);border-radius:1rem;padding:1.6rem 1.3rem;cursor:default;display:block;box-shadow:0 10px 30px rgba(0,0,0,.28);transition:transform .22s ease,box-shadow .22s ease}
-.res-card:hover{transform:translateY(-5px);box-shadow:0 22px 46px rgba(0,0,0,.4)}
-.res-ic{font-size:1.85rem;margin-bottom:.9rem;display:block;transition:transform .22s ease}
-.res-card:hover .res-ic{transform:translateY(-2px) scale(1.06)}
-.res-tit{font-size:.9375rem;font-weight:700;color:var(--ink);margin-bottom:.375rem}
-.res-dsc{font-size:.8125rem;font-weight:400;color:var(--soft);line-height:1.45}
-
-footer{padding:2.25rem 2rem;text-align:center;font-size:.7rem;color:rgba(11,34,48,.5);font-weight:300;border-top:1px solid var(--line)}
-
-@media(max-width:900px){
-  .exp-layout{grid-template-columns:1fr;} 
-  .exp-tab.active{transform:translateY(-4px);}
-  .profile-layout{justify-content:center; text-align:center; gap: 2rem;}
-  .contact-links{justify-content:center;}
-  .photo-grid{grid-template-columns:repeat(2,1fr)}
-  .c-body{padding:2rem 1.5rem}
-  .pg{padding:2.25rem 1.5rem 2.5rem}
-}
+/* ABOUT ME */
+.about-grid{display:grid;grid-template-columns:1fr 1fr;gap:3rem;padding:4rem 2rem;}
+.interest-item{margin-bottom:2rem;}
+.interest-title{font-size:1.3rem;font-weight:800;margin-bottom:0.5rem;}
+.collage-placeholder{background:#f1f5f9;border-radius:12px;min-height:400px;display:flex;align-items:center;justify-content:center;}
 </style>
 </head>
 <body>
 
 <header class="topbar">
   <nav class="topnav">
-    <div class="tn-logo">
-      <strong>MF.</strong>
-      <span class="tn-pill" style="margin-left: 0.5rem;">Portfolio</span>
-    </div>
-    <div class="tn-tabs" id="tnTabs">
-      <button class="tn-tab active" data-go="home">Home</button>
-      <button class="tn-tab" data-go="experience">Experience</button>
-      <button class="tn-tab" data-go="golives">Case Studies</button>
-      <button class="tn-tab" data-go="photos">Photography</button>
-      <button class="tn-tab" data-go="resources">Skills</button>
+    <div class="tn-logo">MF.</div>
+    <div class="tn-tabs">
+      <button class="tn-tab active" onclick="document.getElementById('home').scrollIntoView()">Home</button>
+      <button class="tn-tab" onclick="document.getElementById('about').scrollIntoView()">About</button>
+      <button class="tn-tab" onclick="document.getElementById('experience').scrollIntoView()">Experience</button>
     </div>
   </nav>
 </header>
 
-<main class="content" id="content">
+<main class="content">
 
   <section class="hero" id="home">
-    <div class="c-wrap" id="cWrap">
-      <button class="c-arrow prev" id="cPrev">&lsaquo;</button>
-      <button class="c-arrow next" id="cNext">&rsaquo;</button>
-      <div class="c-timer" id="cTimer"><span class="c-timer-ring"></span><span>Auto 30s</span></div>
-      <div class="c-count" id="cCount"></div>
-      <div class="c-dots" id="cDots"></div>
-      <div class="scroll-hint">Scroll for experience<span>&darr;</span></div>
-      <div class="c-prog"><div class="c-pfill" id="cPfill"></div></div>
-
-      <div class="c-slide cur">
-        <div class="c-bg" style="background-image: var(--g1)"></div>
-        <div class="c-overlay"></div>
-        <div class="c-body">
-          <div class="profile-layout">
-            <div class="profile-pic"></div>
-            <div class="profile-text">
-              <h1 class="c-title">Hi, I'm Marcus.</h1>
-              <p class="c-desc">[Placeholder Introduction: I am a Year 3 Business student at Singapore Management University, majoring in Marketing Analytics. I blend analytical insights with creativity to build meaningful Direct-to-Consumer experiences.]</p>
-              <div class="contact-links">
-                <a href="mailto:marcusfjh01@gmail.com"><span class="ic">📧</span> marcusfjh01@gmail.com</a>
-                <a href="tel:+6586178325"><span class="ic">📱</span> (65) 86178325</a>
-                <a href="https://www.linkedin.com/in/marcusfjh" target="_blank"><span class="ic">💼</span> linkedin.com/in/marcusfjh</a>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="c-slide">
-        <div class="c-bg" style="background-image: var(--g3)"></div>
-        <div class="c-overlay"></div>
-        <div class="c-body">
-          <h1 class="c-title">My Interests</h1>
-          <p class="c-desc">[Placeholder Introduction for your interests. You can provide the text and the specific layout design you want for this pane, and I will implement it here.]</p>
-        </div>
-      </div>
-
-    </div>
-  </section>
-
-  <section id="experience" class="band-base">
-    <div class="pg">
-      <div class="pg-eye">Career Journey</div>
-      <div class="pg-h">Professional Experience</div>
-      <div class="pg-sub">My professional background across the ad-tech, real estate, higher education, and aviation sectors. Select a company to view my responsibilities and achievements.</div>
-      
-      <div class="exp-layout">
-        <div class="exp-tabs">
-          <button class="exp-tab active" data-target="pane-freewheel">
-            <span class="exp-logo">🦚</span>
-            NBCUniversal (FreeWheel)
-          </button>
-          <button class="exp-tab" data-target="pane-capitaland">
-            <span class="exp-logo">🏢</span>
-            CapitaLand
-          </button>
-          <button class="exp-tab" data-target="pane-suss">
-            <span class="exp-logo">🎓</span>
-            SUSS
-          </button>
-          <button class="exp-tab" data-target="pane-changi">
-            <span class="exp-logo">✈️</span>
-            Changi Airport Group
-          </button>
-        </div>
-
-        <div class="exp-content">
-          <div class="ep-accent"></div>
-          
-          <div class="exp-pane active" id="pane-freewheel">
-            <div class="ep-head">
-              <div>
-                <h3 class="ep-role">APAC Marketing Intern</h3>
-                <div class="ep-co">NBCUniversal, FreeWheel &middot; Singapore</div>
-              </div>
-              <div class="ep-date">June 2025 - Jan 2026</div>
-            </div>
-            <ul class="ep-bullets">
-              <li>Built GTM-aligned sales enablement decks and regional market briefs by partnering with APAC sales leads, transforming SSP and Power BI analytics into narrative to quantify growth trends.</li>
-              <li>Led the development of 5 GWI-powered insights decks for Comcast Advertising EMEA's GTM, using crosstab analysis to support successful pitches.</li>
-              <li>Evaluated audience data regulations across 7 APAC markets to assess compliance with FreeWheel's GDPR data practices.</li>
-              <li>Delivered seven APAC insight reports on consumer viewing trends, surfacing high-opportunity segments in Sports & Entertainment.</li>
-            </ul>
-          </div>
-
-          <div class="exp-pane" id="pane-capitaland">
-            <div class="ep-head">
-              <div>
-                <h3 class="ep-role">Marketing Intern</h3>
-                <div class="ep-co">CapitaLand &middot; Singapore</div>
-              </div>
-              <div class="ep-date">Dec 2024 - Jan 2025</div>
-            </div>
-            <ul class="ep-bullets">
-              <li>Conducted market and competitor analysis on TikTok video trends, proposing key insights on target audience to inform 2025 social media strategies.</li>
-              <li>Oversaw social media product features across 200+ mall tenants, vetting copy and visuals to strengthen brand visibility and consistency.</li>
-              <li>Spearheaded Junction 8's student engagement campaign, securing sponsored content and partnerships with 50 retail tenants to drive Gen-Z acquisition.</li>
-            </ul>
-          </div>
-
-          <div class="exp-pane" id="pane-suss">
-            <div class="ep-head">
-              <div>
-                <h3 class="ep-role">Engagement & Ecosystem Assistant</h3>
-                <div class="ep-co">Singapore University of Social Sciences &middot; Singapore</div>
-              </div>
-              <div class="ep-date">Nov 2023 - Aug 2024</div>
-            </div>
-            <ul class="ep-bullets">
-              <li>Designed full range of employer engagement and branding content, reached an audience of 2000 SUSS Associates through digital communication channels.</li>
-              <li>Supported planning and execution of three employee events across five months; specialised in digital comms and logistics sourcing.</li>
-              <li>Conducted comprehensive market research to develop a Power BI dashboard; mapped faculty and student data across 6 local universities.</li>
-            </ul>
-          </div>
-
-          <div class="exp-pane" id="pane-changi">
-            <div class="ep-head">
-              <div>
-                <h3 class="ep-role">Learning & Development Intern</h3>
-                <div class="ep-co">Changi Airport Group &middot; Singapore</div>
-              </div>
-              <div class="ep-date">Mar 2020 - Oct 2020</div>
-            </div>
-            <ul class="ep-bullets">
-              <li>Increased internal user adoption of the ONE Changi App. Drove awareness on App benefits, executed App training, and led technical troubleshooting.</li>
-              <li>Performed functional and cosmetic analysis on other ONE Changi digital platforms; proposed strategies to improve the overall user experience.</li>
-              <li>Executed digitalisation of ONE Changi Learning Services, completed project within 2 weeks ahead of stipulated 1-month deadline.</li>
-            </ul>
-          </div>
-
+    <div class="profile-layout">
+      <div class="profile-pic"></div> <div class="profile-text">
+        <h1 class="c-title">Hi, I'm Marcus.</h1>
+        <p class="c-desc">[Placeholder: Intro subtext goes here about your future career aspirations and tech-marketing expertise.]</p>
+        <div class="contact-links">
+          <a href="mailto:marcusfjh01@gmail.com">📧 Email</a>
+          <a href="tel:+6586178325">📱 Call</a>
+          <a href="https://www.linkedin.com/in/marcusfjh">💼 LinkedIn</a>
         </div>
       </div>
     </div>
   </section>
 
-  <section class="golive-sec" id="golives">
-    <div class="pg" style="width:100%">
-      <div class="gl-intro">
-        <div class="pg-eye">Featured Work</div>
-        <h2>Strategic <span>Projects</span></h2>
-        <p>A selection of academic research, digital strategy, community management, and marketing campaign projects from my portfolio.</p>
+  <section id="about" class="about-grid">
+    <div class="about-content">
+      <h2 class="pg-h">About Me</h2>
+      <div class="interest-item">
+        <div class="interest-title">Authentic Travel</div>
+        <div class="interest-desc">Placeholder text for travel interests.</div>
       </div>
-      <div class="gl-grid" id="glGrid"></div>
+      <div class="interest-item">
+        <div class="interest-title">Cultural Immersion</div>
+        <div class="interest-desc">Placeholder text for cultural interests.</div>
+      </div>
+      <div class="interest-item">
+        <div class="interest-title">Outdoor Adventures</div>
+        <div class="interest-desc">Placeholder text for outdoor interests.</div>
+      </div>
     </div>
+    <div class="collage-placeholder">Photo Collage Placeholder</div>
   </section>
 
-  <section id="photos" class="band-light">
-    <div class="pg">
-      <div class="sec-head">
+  <section id="experience" class="exp-container">
+    <h2 class="pg-h" style="text-align:center; margin-bottom: 3rem;">Professional Experience</h2>
+    
+    <div class="exp-module">
+      <div class="exp-hero-header">
+        <img src="https://logo.clearbit.com/servicenow.com" class="company-logo" alt="ServiceNow">
         <div>
-          <div class="pg-eye">Outdoors &amp; Travel</div>
-          <div class="pg-h">Authentic Experiences</div>
-          <div class="pg-sub" style="margin-bottom:0">Non-touristy explorations, hiking routes, and architectural photography across Morocco, Spain, Greece, and beyond.</div>
+          <h3 class="role-title">Regional Digital Marketing Intern</h3>
+          <div class="role-meta">March 2026 - Present</div>
         </div>
       </div>
-      <div class="photo-grid" id="photoGrid"></div>
+      <p class="story-text">[Insert ServiceNow narrative here: Focus on B2C digital pipelines and how you handle regional campaigns.]</p>
+      <div class="media-placeholder">Place Photo/Deck Link Here</div>
+      <div class="expertise-tags"><span class="tag">Digital Pipelines</span><span class="tag">Regional Campaigns</span></div>
+    </div>
+
+    <div class="exp-module">
+      <div class="exp-hero-header">
+        <img src="https://logo.clearbit.com/freewheel.com" class="company-logo" alt="FreeWheel">
+        <div>
+          <h3 class="role-title">APAC Marketing Intern</h3>
+          <div class="role-meta">June 2025 - Jan 2026</div>
+        </div>
+      </div>
+      <p class="story-text">[Insert FreeWheel narrative here: Focus on ad-tech, data storytelling, and bridging the gap for sales teams.]</p>
+      <div class="media-placeholder">Place Photo/Deck Link Here</div>
+      <div class="expertise-tags"><span class="tag">Ad-Tech</span><span class="tag">Data Storytelling</span></div>
     </div>
   </section>
-
-  <section id="resources" class="dark-sec">
-    <div class="pg">
-      <div class="pg-eye">Toolkit</div>
-      <div class="pg-h">Software & Skills</div>
-      <div class="pg-sub">The analytics platforms, design tools, and frameworks I use to execute digital marketing strategies.</div>
-      <div class="res-grid" id="resGrid"></div>
-    </div>
-  </section>
-
-  <footer>&copy; 2026 Marcus Foo &nbsp;&middot;&nbsp; Marketing Analytics Portfolio</footer>
 
 </main>
-
-<script>
-const GRAD={g1:'linear-gradient(135deg,#07111a,#0a2540,#0f4c75,#1a6fa8)',g2:'linear-gradient(135deg,#0f0c29,#1a1060,#4a1a8c,#7b2d8b)',g3:'linear-gradient(135deg,#0a1a0f,#0d3320,#1a5c3a,#2d8653)',g4:'linear-gradient(135deg,#1a0a0a,#3d1515,#7b2020,#a83030)',g5:'linear-gradient(135deg,#0a1520,#0f2a3d,#1a5070,#2090b0)',g6:'linear-gradient(135deg,#1a0f00,#3d2800,#7b5500,#b08020)',g7:'linear-gradient(135deg,#0f0f1a,#1a1060,#2d20a0,#4040cc)',g8:'linear-gradient(135deg,#00151a,#003d3d,#007b7b,#00b0b0)'};
-function gradOnly(g){return GRAD[g]||GRAD.g1;}
-
-// Populating Case Studies (Go Lives)
-const goLives=[
-  {co:'STB MICE Research',mkt:'Academic Research',prod:'Data Collection',metric:'Industry Analysis',lbl:'Proposed strategies to help virtual and hybrid conventions recover post-COVID.',sector:'Research Project',g:'g1'},
-  {co:'Ninja Slushi',mkt:'Comcast Advertising',prod:'Ad Campaign',metric:'GWI Insights',lbl:'Ad campaign designed to build brand awareness through interactive product experiences.',sector:'Campaign',g:'g8'},
-  {co:'Project H2',mkt:'Community Event',prod:'Tanjong Pagar',metric:'Events Mgmt',lbl:'Led 26 students over 4 months to execute a community event, managing 10 key sponsors.',sector:'Project Director',g:'g3'},
-  {co:'Full On Fudge Co.',mkt:'Boutique Bakery',prod:'Social Media',metric:'Content Creation',lbl:'Managed product marketing and content creation, driving pre-orders and engagement.',sector:'Co-founder',g:'g4'}
-];
-
-// Populating Photos
-const photos=[
-  {cap:'Basque Country Hike',evt:'Nature & Trails',g:'g1',wide:true},
-  {cap:'Chefchaouen Blues',evt:'Self-guided Trip',g:'g2'},
-  {cap:'Marrakech Markets',evt:'Authentic Travel',g:'g7'},
-  {cap:'Anne Frank House',evt:'12hr Layover',g:'g6'},
-  {cap:'Tangier Coast',evt:'Self-guided Trip',g:'g4'},
-  {cap:'Meteora Monasteries',evt:'Photography',g:'g5',wide:true},
-  {cap:'Granada Architecture',evt:'Historical Landmarks',g:'g8'},
-  {cap:'Funchal Landscapes',evt:'Hiking Trails',g:'g7'}
-];
-
-// Populating Skills
-const resources=[
-  {ic:'📊',tit:'Data & Analytics',dsc:'Google Analytics, Power BI, MS Excel (Pivot), GWI-Insights generation.',g:'g1'},
-  {ic:'🎨',tit:'Design & Creative',dsc:'Photoshop, Canva, Video Production, Brand Consistency.',g:'g3'},
-  {ic:'📈',tit:'Marketing & Strategy',dsc:'GTM Planning, Social Media Management, Cross-screen Advertising.',g:'g7'},
-  {ic:'💻',tit:'Enterprise Software',dsc:'SAP, Salesforce, ONE Changi App.',g:'g8'}
-];
-
-const revObs=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');revObs.unobserve(e.target);}});},{root:document.getElementById('content'),threshold:.12});
-function observeReveals(){document.querySelectorAll('.reveal:not(.in)').forEach(el=>revObs.observe(el));}
-
-// Hero Slider Variables & Logic
-let cur=0, autoT=null;
-const INTERVAL = 30000; // 30 seconds
-
-const slides = document.querySelectorAll('.c-slide');
-function setupSlider(){
-  const dotsWrap = document.getElementById('cDots');
-  dotsWrap.innerHTML = Array.from(slides).map((_,i) => `<div class="c-dot${i===0?' on':''}" data-i="${i}"></div>`).join('');
-  document.querySelectorAll('.c-dot').forEach(d=>d.addEventListener('click',()=>go(+d.dataset.i)));
-  document.getElementById('cPrev').addEventListener('click',()=>go(cur-1));
-  document.getElementById('cNext').addEventListener('click',()=>go(cur+1));
-  update();
-  startTimer();
-}
-
-function go(n){
-  cur=(n+slides.length)%slides.length;
-  update();
-  clearTimeout(autoT);
-  startTimer();
-}
-
-function update(){
-  slides.forEach((s,i)=>{
-    s.style.transform='translateX('+((i-cur)*100)+'%)';
-    s.classList.toggle('cur',i===cur);
-  });
-  document.querySelectorAll('.c-dot').forEach((d,i)=>d.classList.toggle('on',i===cur));
-  document.getElementById('cCount').textContent=(cur+1)+' / '+slides.length;
-}
-
-function startTimer(){
-  clearTimeout(autoT);
-  const f=document.getElementById('cPfill');
-  f.style.transition='none';
-  f.style.width='0%';
-  requestAnimationFrame(()=>requestAnimationFrame(()=>{
-    f.style.transition='width '+INTERVAL+'ms linear';
-    f.style.width='100%';
-  }));
-  autoT=setTimeout(()=>go(cur+1),INTERVAL);
-}
-
-// Navigation Scrolling
-function gotoSection(id){document.getElementById(id).scrollIntoView({behavior:'smooth',block:'start'});}
-document.querySelectorAll('.tn-tab[data-go]').forEach(tab=>tab.addEventListener('click',()=>gotoSection(tab.dataset.go)));
-const spyMap={home:'home',experience:'experience',golives:'golives',photos:'photos',resources:'resources'};
-const spy=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting){const t=spyMap[e.target.id];document.querySelectorAll('.tn-tab[data-go]').forEach(x=>x.classList.toggle('active',x.dataset.go===t));}});},{root:document.getElementById('content'),rootMargin:'-45% 0px -45% 0px',threshold:0});
-['home','experience','golives','photos','resources'].forEach(id=>spy.observe(document.getElementById(id)));
-
-// Tab Switching Logic for Experience Section
-const tabBtns = document.querySelectorAll('.exp-tab');
-const panes = document.querySelectorAll('.exp-pane');
-tabBtns.forEach(btn => {
-  btn.addEventListener('click', () => {
-    tabBtns.forEach(b => b.classList.remove('active'));
-    panes.forEach(p => p.classList.remove('active'));
-    btn.classList.add('active');
-    document.getElementById(btn.dataset.target).classList.add('active');
-  });
-});
-
-// Render Arrays into HTML
-function renderGoLives(){
-  const grid=document.getElementById('glGrid');
-  grid.innerHTML=goLives.map(function(gl){return '<div class="gl-card lift reveal"><div class="gl-top"><div class="gl-topimg" style="background-image:'+gradOnly(gl.g)+'"></div><div class="gl-lb"><span class="gl-ldot"></span>Project</div><div class="gl-sect">'+gl.sector+'</div></div><div class="gl-body"><div class="gl-mkt">'+gl.mkt+'</div><div class="gl-co">'+gl.co+'</div><div class="gl-prod">'+gl.prod+'</div><div class="gl-num">'+gl.metric+'</div><div class="gl-lbl">'+gl.lbl+'</div></div></div>';}).join('');
-}
-function buildPhotos(){document.getElementById('photoGrid').innerHTML=photos.map(p=>'<div class="photo-tile reveal'+(p.wide?' wide':'')+'"><div class="photo-fill" style="background-image:'+gradOnly(p.g)+'"></div><div class="phov"><div class="ph-cap">'+p.cap+'</div><div class="ph-evt">'+p.evt+'</div></div></div>').join('');}
-function buildResources(){document.getElementById('resGrid').innerHTML=resources.map((r,i)=>'<div class="res-card reveal"><span class="res-ic">'+r.ic+'</span><div class="res-tit">'+r.tit+'</div><div class="res-dsc">'+r.dsc+'</div></div>').join('');}
-
-// Initialize Everything
-setupSlider();
-renderGoLives();
-buildPhotos();
-buildResources();
-observeReveals();
-</script>
 </body>
 </html>
